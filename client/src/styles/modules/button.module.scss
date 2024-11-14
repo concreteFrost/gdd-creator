@@ -1,0 +1,10 @@
+@use "../mixins/button_mixins.scss" as button_mixins;
+@use "../variables.scss" as *;
+
+.create_btn {
+  @include button_mixins.button($btn-primary-color);
+}
+
+.cancel_btn {
+  @include button_mixins.button($btn-neutral-color);
+}

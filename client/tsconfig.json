@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["node", "jest"],
+    "allowJs": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "paths": {
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@store/*": ["store/*"],
+      "@services/*": ["services/*"],
+      "@views/*": ["views/*"],
+      "@styles/*": ["styles/*"],
+      "@_types/*": ["types/*"],
+      "@hooks/*": ["hooks/*"]
+    }
+  },
+  "include": ["src/**/*", "webpack.config.ts"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,68 @@
+@use "../variables.scss" as *;
+
+@mixin form_container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: $form-background;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+// Миксин для заголовка формы
+@mixin form_title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  // color: darken($form-background, 20%);
+  text-align: center;
+}
+
+// Миксин для группы полей формы
+@mixin form_group {
+  margin-bottom: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    // color: darken($input-border, 30%);
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-family: inherit;
+    line-height: 1.2;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 0;
+    transition: border-color 0.3s ease;
+    &:focus {
+      border-color: $input-focus;
+      outline: none;
+      box-shadow: 0 0 4px rgba($input-focus, 0.2);
+    }
+  }
+}
+
+@mixin form_footer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+// Миксин для отображения ошибки валидации
+@mixin form_error {
+  font-size: 1rem;
+  color: $error-color;
+  margin-top: 0.25rem;
+}

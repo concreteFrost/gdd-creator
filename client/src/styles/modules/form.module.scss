@@ -1,0 +1,22 @@
+@use "../mixins/form_mixins.scss" as *;
+
+// Пример использования миксинов в контейнере формы
+.submit_form {
+  @include form-container;
+
+  h2 {
+    @include form-title;
+  }
+
+  .form_group {
+    @include form-group;
+
+    &.error {
+      @include form-error;
+    }
+  }
+
+  .form_footer {
+    @include form_footer;
+  }
+}
