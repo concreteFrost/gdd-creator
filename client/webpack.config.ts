@@ -9,6 +9,7 @@ const devServer: DevServerConfiguration = {
   port: 9000,
   open: true,
   hot: true,
+  historyApiFallback: true,
 };
 
 const config: Configuration = {
@@ -17,6 +18,7 @@ const config: Configuration = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
+    publicPath: "/",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".css", ".scss"],
@@ -28,6 +30,7 @@ const config: Configuration = {
       "@views": path.resolve(__dirname, "src/views/"),
       "@styles": path.resolve(__dirname, "src/styles/"),
       "@_types": path.resolve(__dirname, "src/types/"),
+      "@pages": path.resolve(__dirname, "src/pages/"),
       "@hooks": path.resolve(__dirname, "src/hooks/"),
     },
   },

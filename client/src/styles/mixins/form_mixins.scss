@@ -1,7 +1,7 @@
 @use "../variables.scss" as *;
 
-@mixin form_container {
-  max-width: 400px;
+@mixin form_container($max_width) {
+  max-width: $max_width;
   margin: 2rem auto;
   padding: 2rem;
   background-color: $form-background;

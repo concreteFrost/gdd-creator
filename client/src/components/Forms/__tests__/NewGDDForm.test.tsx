@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import NewGDDForm from "./NewGDDForm";
+import NewGDDForm from "../NewGDDForm";
 import { GamePlatform, GameView, GDD } from "@_types/gddTypes";
 
 const showModal = jest.fn();

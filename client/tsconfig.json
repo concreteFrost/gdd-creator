@@ -20,6 +20,7 @@
       "@components/*": ["components/*"],
       "@store/*": ["store/*"],
       "@services/*": ["services/*"],
+      "@pages/*": ["pages/*"],
       "@views/*": ["views/*"],
       "@styles/*": ["styles/*"],
       "@_types/*": ["types/*"],

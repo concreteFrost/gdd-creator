@@ -1,8 +1,8 @@
 @use "../mixins/form_mixins.scss" as *;
 
 // Пример использования миксинов в контейнере формы
-.submit_form {
-  @include form-container;
+@mixin generic_form($max_width) {
+  @include form-container($max_width);
 
   h2 {
     @include form-title;
@@ -19,4 +19,12 @@
   .form_footer {
     @include form_footer;
   }
+}
+
+.submit_form {
+  @include generic_form(400px);
+}
+
+.general_info_form {
+  @include generic_form(auto);
 }
