@@ -2,8 +2,26 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import * as gddStyle from "./GDDView.module.scss";
 import { Route, Routes } from "react-router-dom";
 import GeneralInfo from "@views/GeneralInfo";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@store/store";
+import { ActiveModal, ModalState, showModal } from "@store/slices/modalSlice";
+import InfoModal from "@components/Modal/InfoModal";
 
 function GDDView() {
+  const { id } = useSelector((state: RootState) => state.gddSlice);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (id === "") {
+      const payload: ModalState = {
+        text: "GDD was not found",
+        activeModal: ActiveModal.Redirect,
+      };
+      dispatch(showModal(payload));
+      return;
+    }
+  }, []);
   return (
     <div className={gddStyle.container}>
       <Sidebar></Sidebar>

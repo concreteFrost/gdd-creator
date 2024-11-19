@@ -4,13 +4,18 @@ import * as button_styles from "@styles/modules/button.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { GameView, GamePlatform, GDD } from "@_types/gddTypes";
 import useClearOnTime from "@hooks/useClearOnTime";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { editGeneralInfo } from "@store/slices/gddSlice";
+import { ActiveModal, showModal } from "@store/slices/modalSlice";
+import { FormEvent } from "react";
 
 function GeneralInfoForm() {
   const gdd = useSelector((state: RootState) => state.gddSlice);
   const [formData, setFormData] = useState<GDD>(gdd);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  useClearOnTime({ setText: setErrorMessage, text: errorMessage });
+  const [submitMessage, setSubmitMessage] = useState<string>("");
+  const dispatch = useDispatch();
+
+  useClearOnTime({ setText: setSubmitMessage, text: submitMessage });
 
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -24,8 +29,21 @@ function GeneralInfoForm() {
     });
   }
 
+  function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (formData.title.length <= 0) {
+      setSubmitMessage("Title is required");
+      return;
+    }
+
+    dispatch(editGeneralInfo(formData));
+
+    dispatch(showModal({ activeModal: ActiveModal.Info, text: "Success" }));
+  }
+
   return (
-    <form className={form_style.general_info_form}>
+    <form className={form_style.general_info_form} onSubmit={handleFormSubmit}>
       <div className={form_style.form_group}>
         <label htmlFor="title">Title*</label>
         <input
@@ -80,9 +98,9 @@ function GeneralInfoForm() {
         </select>
       </div>
 
-      {errorMessage.length > 0 ? (
+      {submitMessage.length > 0 ? (
         <div className={`${form_style.form_group} ${form_style.error}`}>
-          {errorMessage}
+          {submitMessage}
         </div>
       ) : null}
 

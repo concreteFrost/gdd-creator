@@ -1,15 +1,14 @@
-import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NewGDDForm from "../NewGDDForm";
 import { GamePlatform, GameView, GDD } from "@_types/gddTypes";
 
-const showModal = jest.fn();
+const mockedFunction = jest.fn();
 
 describe("NewGDDForm component", () => {
   beforeEach(() => {
     render(
-      <NewGDDForm setModalisOpen={showModal} modalIsOpen={true}></NewGDDForm>
+      <NewGDDForm isVisible={true} setVisible={mockedFunction}></NewGDDForm>
     );
   });
   it("should render component", () => {
@@ -22,11 +21,11 @@ describe("NewGDDForm component", () => {
 
     await fireEvent.click(closebtn);
 
-    expect(showModal).toHaveBeenCalledTimes(1);
-    expect(showModal).toHaveBeenCalledWith(false);
+    expect(mockedFunction).toHaveBeenCalledTimes(1);
+    expect(mockedFunction).toHaveBeenCalledWith(false);
   });
   it("should change title", async () => {
-    const title = screen.getByLabelText("Title") as HTMLInputElement;
+    const title = screen.getByLabelText("Title*") as HTMLInputElement;
 
     await userEvent.type(title, "New Game");
 

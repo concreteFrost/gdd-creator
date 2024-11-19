@@ -1,0 +1,5 @@
+@use "../mixins/form_mixins.scss" as *;
+
+.modal_container {
+  @include form-container(100);
+}

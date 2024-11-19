@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import CreateButton from "@components/Buttons/CreateButton/CreateButton";
-import * as s from "./NewGDDView.modal.scss";
 import NewGDDForm from "@components/Forms/NewGDDForm";
 
 export default function NewGDDView() {
-  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const [isFormVisible, setFormVisible] = useState<boolean>(false);
 
-  const showNewGDDModal = () => setModalIsOpen(true);
+  function setVisible() {
+    setFormVisible(true);
+  }
 
   return (
     <div>
       <NewGDDForm
-        modalIsOpen={modalIsOpen}
-        setModalisOpen={setModalIsOpen}
+        isVisible={isFormVisible}
+        setVisible={setFormVisible}
       ></NewGDDForm>
-      <CreateButton action={showNewGDDModal} title="CREATE"></CreateButton>
+      <CreateButton action={setVisible} title="CREATE"></CreateButton>
     </div>
   );
 }

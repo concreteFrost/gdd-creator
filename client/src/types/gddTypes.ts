@@ -25,21 +25,25 @@ export interface GDD {
   id: string;
   title: string;
   genre: string;
-  mechanics: GameMechanic[]; // List of game mechanics
   gameplay: GamePlay | null; // Game play details
-  locations: Location[]; // Locations in the game
-  characters: Character[]; // Main characters in the game
   view: GameView; // Visual style of the game (e.g., 2D, 3D)
   platform: GamePlatform; // Platforms the game is targeting (e.g., PC, Mobile)
 }
 
 // Game Mechanics Interface
 export interface GameMechanic {
+  id: string;
   name: string; // Name of the mechanic (e.g., Jump, Combat)
   description: string; // Explanation of how it works in the game
-  type: string; // Type of mechanic (e.g., Action, Puzzle)
+  typeId: string; // Type of mechanic (e.g., Action, Puzzle)
   interactions: string[]; // List of other mechanics this interacts with
   examples: string[]; // Examples in games that use similar mechanics
+  gddId: string;
+}
+
+export interface MechanicType {
+  id: string;
+  type: string;
 }
 
 // Gameplay Interface

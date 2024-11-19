@@ -1,8 +1,9 @@
-import "@styles/style";
+import "@styles/style.scss";
 import GDDView from "@pages/GDDView/GDDView";
 import NewGDDView from "@pages/NewGDDView/NewGDDView";
 import NotFoundPage from "@pages/NotFound";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import ModalManager from "@components/Modal/ModalManager";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
+      <ModalManager></ModalManager>
     </div>
   );
 }

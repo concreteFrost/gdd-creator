@@ -24,7 +24,8 @@
       "@views/*": ["views/*"],
       "@styles/*": ["styles/*"],
       "@_types/*": ["types/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@mocks/*": ["mocks/*"]
     }
   },
   "include": ["src/**/*", "webpack.config.ts"],

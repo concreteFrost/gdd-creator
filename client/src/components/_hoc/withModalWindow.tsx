@@ -1,24 +1,30 @@
-import React, { Component, ComponentType } from "react";
+import React, { ComponentType } from "react";
 import Modal from "react-modal";
-
-interface NewGDDModalProps {
-  modalIsOpen: boolean;
-  setModalisOpen: (isOpen: boolean) => void; // Добавляем setModalisOpen в тип пропсов
-}
+import { RootState } from "@store/store";
+import { useSelector } from "react-redux";
+import { ActiveModal } from "@store/slices/modalSlice";
 
 export default function withModalWindow<T extends object>(
-  Component: ComponentType<T & NewGDDModalProps>
+  WrappedComponent: ComponentType<T>
 ) {
-  return (props: T & NewGDDModalProps) => {
+  return (props: T) => {
+    const { activeModal } = useSelector((state: RootState) => state.modalSlice);
     return (
       <Modal
-        isOpen={props.modalIsOpen}
+        isOpen={activeModal !== ActiveModal.None}
         ariaHideApp={false}
         style={{
-          content: { border: "none", background: "none" },
+          content: {
+            border: "none",
+            background: "none",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          },
         }}
       >
-        <Component {...props} />
+        <WrappedComponent {...props} />
       </Modal>
     );
   };

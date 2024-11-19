@@ -1,6 +1,14 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
-import gddSlice from "./slices/gddSlice";
+import persistedReducer from "./persistConfig";
+import {
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist/es/constants";
 
 const logger = createLogger({
   level: "info",
@@ -13,14 +21,19 @@ const logger = createLogger({
 });
 
 const store = configureStore({
-  reducer: {
-    gddSlice: gddSlice,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) => {
+    const middleware = getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER], // Исключаем действия redux-persist
+      },
+    });
+
     if (process.env.NODE_ENV === "development") {
-      return getDefaultMiddleware().concat(logger);
+      return middleware.concat(logger); // Добавляем logger только в dev-режиме
     }
-    return getDefaultMiddleware();
+
+    return middleware;
   },
 });
 
