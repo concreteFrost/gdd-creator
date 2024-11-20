@@ -1,0 +1,47 @@
+.examples_container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 16px;
+      background-color: #e3e3e3;
+      font-size: 14px;
+      color: #333;
+      font-weight: 700;
+      margin-right: 10px;
+      transition: background-color 0.2s, box-shadow 0.2s;
+
+      &:hover {
+        background-color: #d6d6d6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      }
+
+      .delete_button {
+        margin-left: 8px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: #888;
+        transition: color 0.2s;
+
+        &:hover {
+          color: #ff4d4d;
+        }
+      }
+    }
+  }
+}

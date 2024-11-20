@@ -34,7 +34,7 @@ const mechanicsSlice = createSlice({
       );
     },
     addMechanicType: (state, action: PayloadAction<MechanicType>) => {
-      state.types.push({ ...action.payload, id: uuidv4() });
+      state.types.push({ ...action.payload });
     },
     deleteMechanicType: (state, action: PayloadAction<string>) => {
       state.types = state.types.filter(

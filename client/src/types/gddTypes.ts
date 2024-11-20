@@ -37,8 +37,13 @@ export interface GameMechanic {
   description: string; // Explanation of how it works in the game
   typeId: string; // Type of mechanic (e.g., Action, Puzzle)
   interactions: string[]; // List of other mechanics this interacts with
-  examples: string[]; // Examples in games that use similar mechanics
+  examples: MechanicExample[]; // Examples in games that use similar mechanics
   gddId: string;
+}
+
+export interface MechanicExample {
+  id: string;
+  example: string;
 }
 
 export interface MechanicType {
