@@ -66,3 +66,55 @@
   color: $error-color;
   margin-top: 0.25rem;
 }
+
+// Форматирование списков в форме
+@mixin form_list($list-gap: 10px, $padding: 0, $bg: white) {
+  list-style: none;
+  padding: $padding;
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  background-color: $bg;
+  border-radius: 5px;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.5rem 1rem;
+
+    &:nth-child(odd) {
+      background-color: $list-odd;
+    }
+
+    &:nth-child(even) {
+      background-color: none;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    span {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    button {
+      background-color: #ff6b6b;
+      border: none;
+      border-radius: 4px;
+      padding: 0.25rem 0.5rem;
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        // background-color: darken(#ff6b6b, 10%);
+      }
+    }
+  }
+}

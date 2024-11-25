@@ -41,6 +41,8 @@ export interface GameMechanic {
   gddId: string;
 }
 
+export type NewMechnicForm = Omit<GameMechanic, "id">;
+
 export interface MechanicExample {
   id: string;
   example: string;

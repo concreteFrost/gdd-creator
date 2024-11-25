@@ -1,15 +1,12 @@
-import { initialState } from "../gddSlice";
 import {
   addMechanic,
   editMechanic,
   deleteMechanic,
-  addMechanicType,
-  editMechanicType,
-  deleteMechanicType,
   MechanicsState,
 } from "../mechanicsSlice";
 import mechanicsSlice, { initialMechanics } from "../mechanicsSlice";
-import { GameMechanic, MechanicType } from "@_types/gddTypes";
+import { GameMechanic } from "@_types/gddTypes";
+import { deleteMechanicType } from "../mechanicsTypeSlice";
 
 const mockMechanic: GameMechanic = {
   id: "",
@@ -21,10 +18,10 @@ const mockMechanic: GameMechanic = {
   gddId: "",
 };
 
-const mockType: MechanicType = {
-  id: "123",
-  type: "some type",
-};
+// const mockType: MechanicType = {
+//   id: "123",
+//   type: "some type",
+// };
 
 describe("mechanics slice", () => {
   let slice: MechanicsState;
@@ -53,36 +50,10 @@ describe("mechanics slice", () => {
     const onEdit = mechanicsSlice(slice, editMechanic(toEdit));
     expect(onEdit.mechanics[0].name).toBe("Kurwa");
   });
-  it("should add mechanics type", () => {
-    const onAdd = mechanicsSlice(initialMechanics, addMechanicType(mockType));
-    expect(onAdd.types[0].type).toBe("some type");
-    expect(onAdd.types[0].id).toBeDefined();
-  });
-  it("should edit mechanics types", () => {
-    const onAdd = mechanicsSlice(initialMechanics, addMechanicType(mockType));
-    const toEdit = {
-      ...onAdd.types[0],
-      type: "another type",
-    };
+  it("should set typeId to 'unknown' for mechanics with deleted type", () => {
+    const deleteAction = deleteMechanicType("123");
+    const newState = mechanicsSlice(slice, deleteAction);
 
-    const onEdit = mechanicsSlice(onAdd, editMechanicType(toEdit));
-    expect(onEdit.types[0].type).toBe("another type");
-  });
-  it("should delete mechanics types", () => {
-    const onTypeAdd = mechanicsSlice(
-      initialMechanics,
-      addMechanicType(mockType)
-    );
-    const onMechanicAdd = mechanicsSlice(
-      onTypeAdd,
-      addMechanic({ ...mockMechanic, typeId: onTypeAdd.types[0].id })
-    );
-
-    const onDelete = mechanicsSlice(
-      onMechanicAdd,
-      deleteMechanicType(onMechanicAdd.types[0].id)
-    );
-    expect(onDelete.types.length).toBe(0);
-    expect(onDelete.mechanics[0].typeId).toBe("unknown");
+    expect(newState.mechanics[0].typeId).toBe("unknown");
   });
 });

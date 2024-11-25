@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import InfoModal from "./InfoModal";
 import RedirectModal from "./RedirectModal";
 import withModalWindow from "@components/_hoc/withModalWindow";
+import MechanicsTypeModal from "./MechanicsTypeModal";
 
 function ModalManager() {
   const { activeModal } = useSelector((state: RootState) => state.modalSlice);

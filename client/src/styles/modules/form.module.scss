@@ -1,4 +1,5 @@
 @use "../mixins/form_mixins.scss" as *;
+@use "../variables.scss" as *;
 
 // Пример использования миксинов в контейнере формы
 @mixin generic_form($max_width) {
@@ -23,11 +24,12 @@
 
 .submit_form {
   @include generic_form(400px);
+
+  ul {
+    @include form_list($list-gap: 20px, $padding: 0px, $bg: rgb(216, 216, 216));
+  }
 }
 
 .general_info_form {
   @include generic_form(auto);
-}
-
-.some_class {
 }
