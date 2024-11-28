@@ -70,6 +70,7 @@ function MechanicsTypeModal({
         <h2>Types</h2>
         <div className={form_styles.form_group}>
           <input
+            data-testid="types-modal-input-test"
             placeholder="new"
             id="new_type"
             name="new_type"

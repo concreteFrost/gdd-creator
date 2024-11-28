@@ -1,0 +1,38 @@
+@use "../variables.scss" as *;
+
+// Миксин для фона ячеек таблицы
+.table {
+  width: 1000px;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 14px;
+  color: $btn-dark-color;
+}
+
+// Заголовки таблицы
+.table th {
+  background-color: $btn-neutral-color;
+  color: rgb(26, 25, 25);
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid $btn-neutral-color;
+
+  width: 100px;
+}
+
+// Ячейки таблицы
+.table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid $btn-neutral-color;
+
+  width: 100px;
+
+  //   @include table-cell-background(1); // Пример для нечётных строк
+}
+
+// Строки таблицы на ховер
+.table tr:hover {
+  background-color: $btn-primary-color;
+  color: white;
+}

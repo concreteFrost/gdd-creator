@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NewMechnicForm } from "@_types/gddTypes";
 import { FormEvent } from "react";
 import "react-quill-new/dist/quill.snow.css";
-import MechanicsForm from "./MechanicsForm/MechanicsForm";
+import MechanicsForm from "./MechanicsForm";
 import { useState } from "react";
 import { RootState } from "@store/store";
 import { showModal } from "@store/slices/modalSlice";

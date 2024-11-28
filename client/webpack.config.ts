@@ -33,6 +33,7 @@ const config: Configuration = {
       "@pages": path.resolve(__dirname, "src/pages/"),
       "@hooks": path.resolve(__dirname, "src/hooks/"),
       "@mocks": path.resolve(__dirname, "src/mocks/"),
+      "@utils": path.resolve(__dirname, "src/utils/"),
     },
   },
   module: {

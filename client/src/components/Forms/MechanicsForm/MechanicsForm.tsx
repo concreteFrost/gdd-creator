@@ -79,6 +79,7 @@ export default function MechanicsForm({
         <div className={form_style.form_group}>
           <label htmlFor="title">Name*</label>
           <input
+            data-testid="test-title"
             type="text"
             id="title"
             name="title"
@@ -88,7 +89,7 @@ export default function MechanicsForm({
         </div>
 
         <div className={form_style.form_group}>
-          <label htmlFor="description">Type*</label>
+          <label htmlFor="type">Type*</label>
           <div
             style={{
               display: "grid",
@@ -117,6 +118,7 @@ export default function MechanicsForm({
             ) : null}
 
             <button
+              data-testid="test-edit-types-btn"
               className={button_styles.create_btn}
               style={{ width: "150px" }}
               type="button"
@@ -130,6 +132,7 @@ export default function MechanicsForm({
         <div className={form_style.form_group}>
           <label htmlFor="description">Examples</label>
           <input
+            data-testid="test-example-input"
             type="text"
             style={{ marginBottom: 10 }}
             ref={inputRef}

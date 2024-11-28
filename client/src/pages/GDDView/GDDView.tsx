@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@store/store";
 import { ActiveModal, ModalState, showModal } from "@store/slices/modalSlice";
-import InfoModal from "@components/Modal/InfoModal";
 import MechanicsView from "@views/MechanicsView";
 
 function GDDView() {
@@ -28,7 +27,7 @@ function GDDView() {
       <Sidebar></Sidebar>
       <Routes>
         <Route path="info" element={<GeneralInfo></GeneralInfo>} />
-        <Route path="mechanics" element={<MechanicsView />} />
+        <Route path="mechanics/*" element={<MechanicsView />} />
         <Route path="gameplay" element={<GeneralInfo></GeneralInfo>} />
         <Route path="locations" element={<GeneralInfo></GeneralInfo>} />
         <Route path="characters" element={<GeneralInfo></GeneralInfo>} />

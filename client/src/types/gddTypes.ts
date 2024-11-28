@@ -53,6 +53,11 @@ export interface MechanicType {
   type: string;
 }
 
+export interface GroupedMechanics {
+  type: MechanicType;
+  mechanics: GameMechanic[];
+}
+
 // Gameplay Interface
 export interface GamePlay {
   story: string; // Brief story or narrative of the game

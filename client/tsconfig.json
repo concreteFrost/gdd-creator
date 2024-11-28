@@ -25,7 +25,8 @@
       "@styles/*": ["styles/*"],
       "@_types/*": ["types/*"],
       "@hooks/*": ["hooks/*"],
-      "@mocks/*": ["mocks/*"]
+      "@mocks/*": ["mocks/*"],
+      "@utils/*": ["utils/*"]
     }
   },
   "include": ["src/**/*", "webpack.config.ts"],

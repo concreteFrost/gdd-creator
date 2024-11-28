@@ -14,7 +14,7 @@ const config: Config = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testMatch: ["**/tests/**/*.test.tsx", "**/?(*.)+(spec|test).ts?(x)"],
   moduleNameMapper: {
-    "\\.scss$": "jest-transform-stub", // Mock SCSS imports
+    "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js",
     "(.+)\\.js": "$1",
     "^@_types/(.*)$": "<rootDir>/types/$1",
     "^@components/(.*)$": "<rootDir>/components/$1",
@@ -24,6 +24,7 @@ const config: Config = {
     "^@pages/(.*)$": "<rootDir>/pages/$1",
     "^@views/(.*)$": "<rootDir>/views/$1",
     "^@mocks/(.*)$": "<rootDir>/mocks/$1",
+    "^@utils/(.*)$": "<rootDir>/utils/$1",
   },
   extensionsToTreatAsEsm: [".ts", ".tsx", ".scss", ".css"],
 };
