@@ -5,6 +5,8 @@
   background-color: $sidebar-bg-color;
   color: $sidebar-text-color;
   padding: 20px;
+  position: fixed;
+  width: 230px;
   border-right: 1px solid $sidebar-border-color;
   display: flex;
   flex-direction: column; // Ensures content stacks vertically
@@ -28,9 +30,15 @@
       padding-left: 0;
       cursor: pointer;
       transition: background-color 0.3s ease, color 0.3s ease;
+      position: relative;
+    }
 
+    span {
+      width: 150px;
       &:hover {
         background-color: $sidebar-hover-bg;
+        padding: 10px;
+        border-radius: 5px;
         color: $sidebar-text-color;
       }
 
@@ -39,6 +47,9 @@
         color: $sidebar-bg-color;
         font-weight: bold;
       }
+
+      transition: padding 0.3s ease-in-out;
+      transition: background-color 0.3s ease-in-out;
     }
   }
 

@@ -1,2 +1,8 @@
-.quill_container {
+.ql-container {
+  min-height: 200px; // Set your desired minimum height
+  background-color: white;
+}
+
+.ql-editor {
+  min-height: 200px; // Optional: Ensure the content area matches
 }

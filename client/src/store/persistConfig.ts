@@ -5,11 +5,17 @@ import gddSlice from "./slices/gddSlice";
 import mechanicsSlice from "./slices/mechanicsSlice";
 import modalSlice from "./slices/modalSlice";
 import mechanicsTypeSlice from "./slices/mechanicsTypeSlice";
+import gameplaySlice from "./slices/gameplaySlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["gddSlice", "mechanicsSlice", "mechanicsTypeSlice"],
+  whitelist: [
+    "gddSlice",
+    "mechanicsSlice",
+    "mechanicsTypeSlice",
+    "gameplaySlice",
+  ],
 };
 
 const appReducer = combineReducers({
@@ -17,6 +23,7 @@ const appReducer = combineReducers({
   mechanicsSlice,
   modalSlice,
   mechanicsTypeSlice,
+  gameplaySlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, appReducer);

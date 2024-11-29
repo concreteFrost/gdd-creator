@@ -14,8 +14,6 @@ import { useMemo, useState } from "react";
 export default function MechanicsList() {
   const navigate = useNavigate();
 
-  const [input, setInput] = useState<string>("");
-
   // Получаем список механик из Redux состояния
   const { mechanics } = useSelector((state: RootState) => state.mechanicsSlice);
   const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
@@ -39,33 +37,18 @@ export default function MechanicsList() {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        position: "relative",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
-    >
-      <input value={input} onChange={(e) => setInput(e.target.value)}></input>
-      <ul style={{ listStyle: "none" }}>
-        {groupedMechanics.length > 0
-          ? groupedMechanics.map((gr: GroupedMechanics) => (
-              <li key={gr.type.id}>
-                <MechanicsTable group={gr}></MechanicsTable>
-              </li>
-            ))
-          : null}
+    <div style={{ overflowX: "hidden", width: "100%" }}>
+      <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
+        {groupedMechanics.length > 0 ? (
+          groupedMechanics.map((gr: GroupedMechanics) => (
+            <li key={gr.type.id}>
+              <MechanicsTable group={gr}></MechanicsTable>
+            </li>
+          ))
+        ) : (
+          <span>Currently this list is empty</span>
+        )}
       </ul>
-      <div style={{ position: "fixed", bottom: 50, right: 20 }}>
-        <CreateButton
-          title="Add"
-          action={() => {
-            navigate("new");
-          }}
-        />
-      </div>
     </div>
   );
 }

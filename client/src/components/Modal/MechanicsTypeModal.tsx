@@ -60,6 +60,7 @@ function MechanicsTypeModal({
           background: "none",
           position: "absolute",
           overflow: "hidden",
+          height: "100vh",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",

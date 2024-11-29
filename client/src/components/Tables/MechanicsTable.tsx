@@ -14,20 +14,21 @@ function MechanicsTable({ group }: MechanicsTableProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log("rendering children");
-
   if (group.mechanics.length === 0) return;
 
   return (
     <>
-      <div className="mechanics-section">
-        <h3>{group.type.type.toUpperCase()}</h3> {/* Название типа механик */}
+      <div style={{ marginBottom: 40 }}>
+        <h3 style={{ paddingLeft: "10px", marginBottom: "30px" }}>
+          {group.type.type.toUpperCase()}
+        </h3>{" "}
+        {/* Название типа механик */}
         {/* Если есть механики для этого типа, отображаем таблицу */}
         <table className={table_style.table}>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Actions</th>
+              <th>NAME</th>
+              <th>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
@@ -38,14 +39,14 @@ function MechanicsTable({ group }: MechanicsTableProps) {
                   style={{
                     display: "flex",
                     width: "auto",
-                    justifyContent: "flex-end",
+                    justifyContent: "flex-start",
                     flexDirection: "row",
                     gap: 5,
                   }}
                 >
                   <button
                     className={button_style.create_btn}
-                    // onClick={() => navigate(`edit/${mechanic.id}`)}
+                    onClick={() => navigate(`${mechanic.id}`)}
                   >
                     Edit
                   </button>

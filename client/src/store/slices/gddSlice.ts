@@ -6,7 +6,6 @@ export const initialState: GDD = {
   id: "",
   title: "",
   genre: "",
-  gameplay: null, // Game play details
   view: GameView.FirstPerson, // Visual style of the game (e.g., 2D, 3D)
   platform: GamePlatform.PC, // Platforms the game is targeting (e.g., PC, Mobile)
 };

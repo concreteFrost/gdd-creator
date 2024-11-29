@@ -25,7 +25,6 @@ export interface GDD {
   id: string;
   title: string;
   genre: string;
-  gameplay: GamePlay | null; // Game play details
   view: GameView; // Visual style of the game (e.g., 2D, 3D)
   platform: GamePlatform; // Platforms the game is targeting (e.g., PC, Mobile)
 }
@@ -60,6 +59,8 @@ export interface GroupedMechanics {
 
 // Gameplay Interface
 export interface GamePlay {
+  id: string;
+  gddId: string;
   story: string; // Brief story or narrative of the game
   objectives: string[]; // Game objectives (e.g., main quests, side missions)
   progression: string[]; // How the player progresses (e.g., leveling up, unlocking areas)
@@ -75,6 +76,8 @@ export interface Location {
   environment: string; // Environment (e.g., city, forest, dungeon)
   characters: Character[]; // Characters associated with the location
   items: string[]; // List of items found in the location
+  mainImage: string;
+  additionalImages: string[];
 }
 
 // Character Interface
@@ -84,4 +87,6 @@ export interface Character {
   backstory: string; // Character's background story
   abilities: string[]; // Abilities or special skills
   traits: string[]; // Personality traits (e.g., brave, cautious)
+  mainImage: string;
+  additionalImages: string[];
 }

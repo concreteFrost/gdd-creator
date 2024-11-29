@@ -75,57 +75,62 @@ export default function MechanicsForm({
 
   return (
     <>
-      <form className={form_style.general_info_form} onSubmit={submitForm}>
-        <div className={form_style.form_group}>
-          <label htmlFor="title">Name*</label>
-          <input
-            data-testid="test-title"
-            type="text"
-            id="title"
-            name="title"
-            value={formData.name}
-            onChange={(e) => handleInputChange(e.target.value, "name")}
-          />
-        </div>
+      <form className={form_style.mechanic_form} onSubmit={submitForm}>
+        <div
+          style={{ display: "grid", gridTemplateColumns: "6fr 6fr", gap: 20 }}
+        >
+          <div className={form_style.form_group} style={{ width: "100%" }}>
+            <label htmlFor="title">Name*</label>
+            <input
+              data-testid="test-title"
+              type="text"
+              id="title"
+              name="title"
+              value={formData.name}
+              onChange={(e) => handleInputChange(e.target.value, "name")}
+            />
+          </div>
 
-        <div className={form_style.form_group}>
-          <label htmlFor="type">Type*</label>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "5fr 7fr",
-              gap: 10,
-              alignItems: "center",
-              alignContent: "center",
-            }}
-          >
-            {types.length > 0 ? (
-              <select
-                value={formData.typeId}
-                onChange={(e: any) => {
-                  handleInputChange(e.target.value, "typeId");
-                }}
-              >
-                <option value={"undefined"} disabled>
-                  Select Type
-                </option>
-                {types.map((type: MechanicType) => (
-                  <option key={type.id} value={type.id}>
-                    {type.type}
-                  </option>
-                ))}
-              </select>
-            ) : null}
-
-            <button
-              data-testid="test-edit-types-btn"
-              className={button_styles.create_btn}
-              style={{ width: "150px" }}
-              type="button"
-              onClick={() => setTypeModalVisibe(true)}
+          <div className={form_style.form_group} style={{ width: "100%" }}>
+            <label htmlFor="type">Type*</label>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "7fr 5fr",
+                gap: 10,
+                alignItems: "center",
+                alignContent: "center",
+              }}
             >
-              EDIT TYPES
-            </button>
+              {types.length > 0 ? (
+                <select
+                  data-testid="test-type-select"
+                  value={formData.typeId}
+                  onChange={(e: any) => {
+                    handleInputChange(e.target.value, "typeId");
+                  }}
+                >
+                  <option value={"undefined"} disabled>
+                    Select Type
+                  </option>
+                  {types.map((type: MechanicType) => (
+                    <option key={type.id} value={type.id}>
+                      {type.type}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
+
+              <button
+                data-testid="test-edit-types-btn"
+                className={button_styles.create_btn}
+                style={{ width: "150px" }}
+                type="button"
+                onClick={() => setTypeModalVisibe(true)}
+              >
+                EDIT TYPES
+              </button>
+            </div>
           </div>
         </div>
 
@@ -174,7 +179,11 @@ export default function MechanicsForm({
         ) : null}
 
         <div className={form_style.form_footer}>
-          <button type="submit" className={button_styles.create_btn}>
+          <button
+            type="submit"
+            className={button_styles.create_btn}
+            data-testid="test-submit-form"
+          >
             Save
           </button>
         </div>

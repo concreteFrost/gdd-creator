@@ -3,8 +3,14 @@ import React from "react";
 
 function GeneralInfo() {
   return (
-    <div style={{ padding: 20 }}>
-      <h3>General info</h3>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "12fr",
+        padding: 0,
+        margin: 0,
+      }}
+    >
       <GeneralInfoForm></GeneralInfoForm>
     </div>
   );

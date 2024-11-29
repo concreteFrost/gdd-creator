@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import MechanicsForm from "../MechanicsForm/MechanicsForm";
+import MechanicsForm from "../MechanicsForm";
 import { NewMechnicForm } from "@_types/gddTypes";
 import * as reactRedux from "react-redux";
 import { initialTypes } from "@store/slices/mechanicsTypeSlice";

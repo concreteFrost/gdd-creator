@@ -1,34 +1,7 @@
 import { useState } from "react";
 import * as sidebarStyle from "@styles/modules/sidebar.module.scss";
+import * as buttonStyle from "@styles/modules/button.module.scss";
 import { useNavigate } from "react-router-dom";
-
-interface SidebarItem {
-  name: string;
-  route: string;
-}
-
-const items: SidebarItem[] = [
-  {
-    name: "General Info",
-    route: "info",
-  },
-  {
-    name: "Mechanics",
-    route: "mechanics",
-  },
-  {
-    name: "Gameplay",
-    route: "gameplay",
-  },
-  {
-    name: "Locations",
-    route: "locations",
-  },
-  {
-    name: "Characters",
-    route: "characters",
-  },
-];
 
 export default function Sidebar() {
   const [activeItem, setActiveItem] = useState("General Info");
@@ -43,18 +16,58 @@ export default function Sidebar() {
     <div className={sidebarStyle.sidebar}>
       <h3>Components</h3>
       <ul>
-        {Object.entries(items).map(([obj, value]) => (
-          <li
-            key={value.name}
-            className={activeItem === value.name ? "active" : ""}
-            onClick={() => {
-              setActiveItem(value.name);
-              handleNavigate(value.route);
+        <li>
+          <span onClick={() => handleNavigate("info")}>Overview</span>
+        </li>
+
+        <li>
+          <span onClick={() => handleNavigate("gameplay")}>Gameplay</span>
+        </li>
+        <li>
+          <span onClick={() => handleNavigate("mechanics")}>Mechanics</span>
+          <button
+            onClick={() => handleNavigate("mechanics/new")}
+            className={buttonStyle.create_btn}
+            style={{
+              padding: "5px 10px",
+              position: "absolute",
+              right: "5px",
+              top: "8px",
             }}
           >
-            {value.name}
-          </li>
-        ))}
+            +
+          </button>
+        </li>
+        <li>
+          <span onClick={() => handleNavigate("locations")}>Locations</span>
+          <button
+            onClick={() => handleNavigate("mechanics/new")}
+            className={buttonStyle.create_btn}
+            style={{
+              padding: "5px 10px",
+              position: "absolute",
+              right: "5px",
+              top: "8px",
+            }}
+          >
+            +
+          </button>
+        </li>
+        <li>
+          <span onClick={() => handleNavigate("characters")}>Characters </span>
+          <button
+            onClick={() => handleNavigate("mechanics/new")}
+            className={buttonStyle.create_btn}
+            style={{
+              padding: "5px 10px",
+              position: "absolute",
+              right: "5px",
+              top: "8px",
+            }}
+          >
+            +
+          </button>
+        </li>
       </ul>
     </div>
   );

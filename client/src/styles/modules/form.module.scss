@@ -24,12 +24,23 @@
 
 .submit_form {
   @include generic_form(400px);
-
+  margin: 2rem auto;
   ul {
     @include form_list($list-gap: 20px, $padding: 0px, $bg: rgb(216, 216, 216));
   }
 }
 
 .general_info_form {
-  @include generic_form(auto);
+  @include generic_form(700px);
+  margin: 2rem auto;
+}
+
+.mechanic_form {
+  @include generic_form(900px);
+  margin: 2rem auto;
+}
+
+.gameplay_form {
+  @include generic_form(700px);
+  margin: 2rem auto;
 }

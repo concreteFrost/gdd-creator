@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NewMechnicForm } from "@_types/gddTypes";
-import { FormEvent } from "react";
+import { GameMechanic } from "@_types/gddTypes";
+import { FormEvent, useEffect } from "react";
 import "react-quill-new/dist/quill.snow.css";
-import "@styles/overrides/quill_override.scss";
 import MechanicsForm from "./MechanicsForm";
 import { useState } from "react";
 import { RootState } from "@store/store";
 import { showModal } from "@store/slices/modalSlice";
-import { addMechanic } from "@store/slices/mechanicsSlice";
+import { editMechanic } from "@store/slices/mechanicsSlice";
 import { ActiveModal } from "@store/slices/modalSlice";
+import { useParams } from "react-router-dom";
 
-const initialState: NewMechnicForm = {
+const initialState: GameMechanic = {
+  id: "",
   name: "",
   description: "",
   typeId: "undefined",
@@ -19,10 +20,25 @@ const initialState: NewMechnicForm = {
   gddId: "",
 };
 
-function NewMechanicForm() {
+function EditMechanicForm() {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState<NewMechnicForm>(initialState);
-  const { id: gddId } = useSelector((state: RootState) => state.gddSlice);
+  const [formData, setFormData] = useState<GameMechanic>(initialState);
+  const { mechanicId } = useParams<{ mechanicId: string }>(); // Extract mechanicId from route params
+
+  // Retrieve the selected mechanic based on the ID from route params
+  const selectedMechanic = useSelector((state: RootState) =>
+    state.mechanicsSlice.mechanics.find(
+      (mech: GameMechanic) => mech.id === mechanicId
+    )
+  );
+
+  useEffect(() => {
+    if (selectedMechanic) {
+      setFormData(selectedMechanic);
+    }
+  }, [mechanicId]);
+
+  if (!selectedMechanic) return <>Not found</>;
 
   function handleFormSubmit(e: FormEvent<HTMLFormElement>): boolean {
     e.preventDefault();
@@ -31,9 +47,7 @@ function NewMechanicForm() {
       return false;
     }
 
-    const newMechanic = { ...formData, gddId: gddId };
-
-    dispatch(addMechanic(newMechanic));
+    dispatch(editMechanic(formData));
     dispatch(showModal({ activeModal: ActiveModal.Info, text: "Success" }));
     setFormData(initialState);
 
@@ -49,4 +63,4 @@ function NewMechanicForm() {
   );
 }
 
-export default NewMechanicForm;
+export default EditMechanicForm;

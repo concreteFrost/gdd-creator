@@ -21,6 +21,7 @@ export default function withModalWindow<T extends object>(
             overflow: "hidden",
             top: "50%",
             left: "50%",
+            height: "100vh",
             transform: "translate(-50%, -50%)",
           },
         }}
