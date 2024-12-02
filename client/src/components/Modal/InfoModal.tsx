@@ -4,6 +4,7 @@ import * as modal_styles from "@styles/modules/form.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@store/store";
 import { closeModal } from "@store/slices/modalSlice";
+import { useKeyEnter } from "@hooks/useKeyEnter";
 
 function InfoModal() {
   const { text } = useSelector((state: RootState) => state.modalSlice);
@@ -12,6 +13,8 @@ function InfoModal() {
   function handleClose() {
     dispatch(closeModal());
   }
+
+  useKeyEnter(() => handleClose());
 
   return (
     <div className={modal_styles.submit_form}>

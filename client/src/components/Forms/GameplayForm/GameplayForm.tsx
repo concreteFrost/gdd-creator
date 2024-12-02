@@ -1,39 +1,66 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRef } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import "@styles/overrides/quill_override.scss";
 import * as form_style from "@styles/modules/form.module.scss";
 import * as button_styles from "@styles/modules/button.module.scss";
-import { GamePlay } from "@_types/gddTypes";
+import { GameObjective, GamePlay, GameProgression } from "@_types/gddTypes";
 import useClearOnTime from "@hooks/useClearOnTime";
-import useKeyEnter from "@hooks/useKeyEnter";
+import { useKeyEnterWithInput } from "@hooks/useKeyEnter";
+import { v4 as uuidv4 } from "uuid";
 
-const initialFormData: GamePlay = {
-  id: "",
-  gddId: "",
-  story: "",
-  objectives: [],
-  progression: [],
-  difficulty: "",
-  pacing: "",
-  playerExperience: "",
-};
+interface FormProps {
+  handleFormSubmit: () => void;
+  formData: GamePlay;
+  setFormData: (value: any) => void;
+}
 
-function GameplayForm() {
-  const [formData, setFormData] = useState<GamePlay>(initialFormData);
-
+function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
   const objectivesInputRef: any = useRef<HTMLInputElement>(null);
   const progressionInputRef: any = useRef<HTMLInputElement>(null);
   const [submitMessage, setSubmitMessage] = useState<string>("");
 
   useClearOnTime({ setText: setSubmitMessage, text: submitMessage });
-  //   useKeyEnter({ func: (e: any) => handleSetExample(e), inputRef: inputRef });
+  useKeyEnterWithInput({
+    func: (e: any) => addObjectives(e),
+    inputRef: objectivesInputRef,
+  });
+  useKeyEnterWithInput({
+    func: (e: any) => addProgression(e),
+    inputRef: progressionInputRef,
+  });
 
   function submitForm(e: any) {
     e.preventDefault();
+    handleFormSubmit();
   }
 
+  function addObjectives(value: any) {
+    const newObjective: GameObjective = {
+      id: uuidv4(),
+      name: value,
+    };
+    setFormData((prev: GamePlay) => {
+      return {
+        ...prev,
+        objectives: [...prev.objectives, newObjective],
+      };
+    });
+  }
+
+  function addProgression(value: any) {
+    const newProgression: GameProgression = {
+      id: uuidv4(),
+      name: value,
+    };
+    setFormData((prev: GamePlay) => {
+      return {
+        ...prev,
+        progression: [...prev.progression, newProgression],
+      };
+    });
+  }
   function handleInputChange(value: any, key: keyof GamePlay) {
     setFormData((prev: any) => {
       return {
@@ -43,7 +70,7 @@ function GameplayForm() {
     });
   }
   return (
-    <form className={form_style.mechanic_form} onSubmit={submitForm}>
+    <form className={form_style.gameplay_form} onSubmit={submitForm}>
       <div className={form_style.form_group}>
         <label htmlFor="story">Story</label>
         <ReactQuill
@@ -56,7 +83,10 @@ function GameplayForm() {
       </div>
 
       <div className={form_style.form_group} style={{ width: "100%" }}>
-        <label htmlFor="objectives">Objectives</label>
+        <label htmlFor="objectives" style={{ position: "relative" }}>
+          Objectives
+        </label>
+        <span className={form_style.hint}>press enter to add</span>
         <input
           data-testid="test-objectives"
           type="text"
@@ -68,6 +98,7 @@ function GameplayForm() {
 
       <div className={form_style.form_group} style={{ width: "100%" }}>
         <label htmlFor="progression">Progression</label>
+        <span className={form_style.hint}>press enter to add</span>
         <input
           data-testid="test-progression"
           type="text"

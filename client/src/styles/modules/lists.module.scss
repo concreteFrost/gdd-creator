@@ -1,0 +1,11 @@
+@use "../mixins/form_mixins.scss" as *;
+@use "../variables.scss" as *;
+
+.gameplay_list {
+  ul {
+    position: fixed;
+    width: 500px;
+    @include form_list($list-gap: 20px, $padding: 0px, $bg: rgb(216, 216, 216));
+    max-height: 370px;
+  }
+}

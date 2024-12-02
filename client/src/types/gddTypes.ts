@@ -57,13 +57,23 @@ export interface GroupedMechanics {
   mechanics: GameMechanic[];
 }
 
+export interface GameObjective {
+  id: string;
+  name: string;
+}
+
+export interface GameProgression {
+  id: string;
+  name: string;
+}
+
 // Gameplay Interface
 export interface GamePlay {
   id: string;
   gddId: string;
   story: string; // Brief story or narrative of the game
-  objectives: string[]; // Game objectives (e.g., main quests, side missions)
-  progression: string[]; // How the player progresses (e.g., leveling up, unlocking areas)
+  objectives: GameObjective[]; // Game objectives (e.g., main quests, side missions)
+  progression: GameProgression[]; // How the player progresses (e.g., leveling up, unlocking areas)
   difficulty: string; // Difficulty settings (e.g., Easy, Hard)
   pacing: string; // Game pacing (e.g., fast-paced, slow-building)
   playerExperience: string; // Type of experience expected for the player (e.g., strategic, fast reflexes)

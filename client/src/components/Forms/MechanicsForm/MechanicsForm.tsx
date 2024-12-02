@@ -6,7 +6,7 @@ import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useSelector, useDispatch } from "react-redux";
 import useClearOnTime from "@hooks/useClearOnTime";
-import useKeyEnter from "@hooks/useKeyEnter";
+import { useKeyEnterWithInput } from "@hooks/useKeyEnter";
 import { RootState } from "@store/store";
 import { useRef, useState } from "react";
 import MechanicsTag from "@components/Tags/MechanicsTag";
@@ -32,7 +32,10 @@ export default function MechanicsForm({
   const [isTypeModalVisible, setTypeModalVisibe] = useState<boolean>(false);
 
   useClearOnTime({ setText: setSubmitMessage, text: submitMessage });
-  useKeyEnter({ func: (e: any) => handleSetExample(e), inputRef: inputRef });
+  useKeyEnterWithInput({
+    func: (e: any) => handleSetExample(e),
+    inputRef: inputRef,
+  });
 
   function setMechanicsType(value: string) {
     handleInputChange(value, "typeId");

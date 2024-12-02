@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { RootState } from "@store/store";
 import { v4 as uuidv4 } from "uuid";
 import { MechanicType } from "@_types/gddTypes";
-import useKeyEnter from "@hooks/useKeyEnter";
+import { useKeyEnterWithInput } from "@hooks/useKeyEnter";
 import useClearOnTime from "@hooks/useClearOnTime";
 import {
   addMechanicType,
@@ -47,7 +47,10 @@ function MechanicsTypeModal({
     setMechanicsType(newType.id);
   }
 
-  useKeyEnter({ func: (e: any) => handleAddType(e), inputRef: newTypeRef });
+  useKeyEnterWithInput({
+    func: (e: any) => handleAddType(e),
+    inputRef: newTypeRef,
+  });
   useClearOnTime({ setText: setErrorMessage, text: errorMessage });
 
   return (

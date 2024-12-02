@@ -11,6 +11,7 @@
 
   .form_group {
     @include form-group;
+    position: relative;
 
     &.error {
       @include form-error;
@@ -19,6 +20,14 @@
 
   .form_footer {
     @include form_footer;
+  }
+
+  .hint {
+    color: rgb(153, 153, 153);
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-style: italic;
   }
 }
 
@@ -41,6 +50,5 @@
 }
 
 .gameplay_form {
-  @include generic_form(700px);
-  margin: 2rem auto;
+  @include generic_form(900px);
 }

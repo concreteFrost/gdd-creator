@@ -38,12 +38,19 @@ export const mockGameplay: GamePlay = {
   story:
     "A post-apocalyptic world where survivors band together to rebuild society.",
   objectives: [
-    "Gather resources",
-    "Build a shelter",
-    "Defend against raiders",
-    "Uncover the cause of the apocalypse",
+    { id: "1", name: "Gather resources" },
+    { id: "2", name: "Build a shelter" },
+    { id: "3", name: "Defend against raiders" },
+    {
+      id: "4",
+      name: "Uncover the cause of the apocalypse",
+    },
   ],
-  progression: ["Crafting items", "Recruiting allies", "Expanding territory"],
+  progression: [
+    { id: "1", name: "Crafting items" },
+    { id: "2", name: "Recruiting allies" },
+    { id: "3", name: "Expanding territory" },
+  ],
   difficulty: "Hard",
   pacing: "Slow-building",
   playerExperience: "Survival-focused with moments of high tension",
