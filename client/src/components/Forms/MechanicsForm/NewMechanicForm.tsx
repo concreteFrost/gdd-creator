@@ -22,7 +22,7 @@ const initialState: NewMechnicForm = {
 function NewMechanicForm() {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<NewMechnicForm>(initialState);
-  const { id: gddId } = useSelector((state: RootState) => state.gddSlice);
+  const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
 
   function handleFormSubmit(e: FormEvent<HTMLFormElement>): boolean {
     e.preventDefault();

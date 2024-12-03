@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function NewGDDView() {
   const [isFormVisible, setFormVisible] = useState<boolean>(false);
-  const { id } = useSelector((state: RootState) => state.gddSlice);
+  const { id } = useSelector((state: RootState) => state.gddSlice.gdd);
   const navigate = useNavigate();
 
   useEffect(() => {

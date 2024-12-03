@@ -16,12 +16,14 @@
     "@babel/preset-react": "^7.25.9",
     "@reduxjs/toolkit": "^2.3.0",
     "@testing-library/react": "^16.0.1",
+    "@types/html-to-text": "^9.0.4",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-modal": "^3.16.3",
     "@types/redux-logger": "^3.0.13",
     "axios": "^1.7.7",
     "babel-loader": "^9.2.1",
+    "html-to-text": "^9.0.5",
     "node-sass": "^9.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -32,6 +34,7 @@
     "react-router-dom": "^6.28.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
+    "turndown": "^7.2.0",
     "uuid": "^11.0.3"
   },
   "devDependencies": {

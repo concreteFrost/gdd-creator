@@ -69,7 +69,7 @@ describe("GeneralInfoForm component", () => {
     await waitFor(() => {
       expect(dispatchMock).toHaveBeenCalledWith(
         editGeneralInfo({
-          ...initialState,
+          ...initialState.gdd,
           genre: "Test Genre",
           platform: GamePlatform.PC,
           title: "New Game Title",

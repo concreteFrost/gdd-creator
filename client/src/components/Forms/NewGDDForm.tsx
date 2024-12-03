@@ -17,7 +17,7 @@ interface Props {
 }
 
 function NewGDDForm({ isVisible, setVisible }: Props) {
-  const [formData, setFormData] = useState<GDD>(initialState);
+  const [formData, setFormData] = useState<GDD>(initialState.gdd);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();

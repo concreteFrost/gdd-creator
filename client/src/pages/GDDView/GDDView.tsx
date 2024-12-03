@@ -10,7 +10,7 @@ import MechanicsView from "@views/MechanicsView";
 import GameplayView from "@views/GameplayView";
 
 function GDDView() {
-  const { id } = useSelector((state: RootState) => state.gddSlice);
+  const { id } = useSelector((state: RootState) => state.gddSlice.gdd);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function GDDView() {
     <div className={gddStyle.container}>
       <Sidebar></Sidebar>
       <div></div>
-      <div>
+      <div style={{ padding: 20 }}>
         <Routes>
           <Route path="info" element={<GeneralInfo></GeneralInfo>} />
           <Route path="mechanics/*" element={<MechanicsView />} />

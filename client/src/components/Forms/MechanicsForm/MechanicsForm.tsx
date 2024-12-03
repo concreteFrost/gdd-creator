@@ -162,8 +162,8 @@ export default function MechanicsForm({
         <div className={form_style.form_group}>
           <label htmlFor="description">Description</label>
           <ReactQuill
-            className={form_style.some_class}
             id="description"
+            className=""
             value={formData.description}
             onChange={(e: any) => {
               handleInputChange(e, "description");

@@ -23,7 +23,7 @@ const initialFormData: GamePlay = {
 function GameplayView() {
   const [formData, setFormData] = useState<GamePlay>(initialFormData);
   const { gameplay } = useSelector((state: RootState) => state.gameplaySlice);
-  const { id: gddId } = useSelector((state: RootState) => state.gddSlice);
+  const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -75,13 +75,16 @@ function GameplayView() {
         padding: "20px",
         display: "grid",
         gridTemplateColumns: "8fr 4fr",
+        position: "relative",
       }}
     >
-      <GameplayForm
-        handleFormSubmit={handleFormSubmit}
-        formData={formData}
-        setFormData={setFormData}
-      ></GameplayForm>
+      <div>
+        <GameplayForm
+          handleFormSubmit={handleFormSubmit}
+          formData={formData}
+          setFormData={setFormData}
+        ></GameplayForm>
+      </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "12fr" }}>
         <GameplayList

@@ -11,9 +11,9 @@ describe("gdd slice", () => {
       view: GameView.Isometric,
       platform: GamePlatform.Mobile,
     };
-    const slice = gddSlice(initialState, createGDD(payload));
+    const slice = gddSlice(initialState, createGDD(payload.gdd));
 
-    expect(slice.view).toBe(GameView.Isometric);
-    expect(slice.id.length).toBeGreaterThan(0);
+    expect(slice.gdd.view).toBe(GameView.Isometric);
+    expect(slice.gdd.id.length).toBeGreaterThan(0);
   });
 });

@@ -3,7 +3,7 @@
 
 .gameplay_list {
   ul {
-    position: fixed;
+    position: absolute;
     width: 500px;
     @include form_list($list-gap: 20px, $padding: 0px, $bg: rgb(216, 216, 216));
     max-height: 370px;

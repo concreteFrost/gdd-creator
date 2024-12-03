@@ -11,7 +11,7 @@ import { FormEvent } from "react";
 
 function GeneralInfoForm() {
   const gdd = useSelector((state: RootState) => state.gddSlice);
-  const [formData, setFormData] = useState<GDD>(gdd);
+  const [formData, setFormData] = useState<GDD>(gdd.gdd);
   const [submitMessage, setSubmitMessage] = useState<string>("");
   const dispatch = useDispatch();
 

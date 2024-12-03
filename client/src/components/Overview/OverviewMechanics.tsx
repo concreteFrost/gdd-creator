@@ -1,17 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import * as overviewStyles from "@styles/modules/overview.module.scss";
 import { useSelector } from "react-redux";
+import ReactQuill from "react-quill-new";
 import { RootState } from "@store/store";
-import { GroupedMechanics } from "@_types/gddTypes";
-import MechanicsTable from "./MechanicsTable";
+import { useMemo } from "react";
 import {
   groupdMechanics,
   unsortedMechanics,
 } from "@utils/mechanics/groupMechanicsByType";
-import { useMemo, useState } from "react";
+import { GroupedMechanics } from "@_types/gddTypes";
+import OverviewMechanicsElement from "./OverviewMechanicsElement";
 
-// Компонент списка механик
-export default function MechanicsList() {
-  // Получаем список механик из Redux состояния
+export default function OverviewMechanics() {
   const { mechanics } = useSelector((state: RootState) => state.mechanicsSlice);
   const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
 
@@ -34,12 +34,13 @@ export default function MechanicsList() {
   }
 
   return (
-    <div style={{ overflowX: "hidden", width: "100%" }}>
+    <div className={overviewStyles.overview_container}>
+      <h2 className={overviewStyles.overview_header}>Mechanics</h2>
       <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
         {groupedMechanics.length > 0 ? (
           groupedMechanics.map((gr: GroupedMechanics) => (
             <li key={gr.type.id}>
-              <MechanicsTable group={gr}></MechanicsTable>
+              <OverviewMechanicsElement group={gr}></OverviewMechanicsElement>
             </li>
           ))
         ) : (

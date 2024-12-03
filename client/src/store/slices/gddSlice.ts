@@ -2,12 +2,18 @@ import { GamePlatform, GameView, GDD } from "@_types/gddTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
-export const initialState: GDD = {
-  id: "",
-  title: "",
-  genre: "",
-  view: GameView.FirstPerson, // Visual style of the game (e.g., 2D, 3D)
-  platform: GamePlatform.PC, // Platforms the game is targeting (e.g., PC, Mobile)
+interface GDDState {
+  gdd: GDD;
+}
+
+export const initialState: GDDState = {
+  gdd: {
+    id: "",
+    title: "",
+    genre: "",
+    view: GameView.FirstPerson, // Visual style of the game (e.g., 2D, 3D)
+    platform: GamePlatform.PC, // Platforms the game is targeting (e.g., PC, Mobile)
+  },
 };
 
 const gddSlice = createSlice({
@@ -16,11 +22,11 @@ const gddSlice = createSlice({
   reducers: {
     createGDD: (state, action: PayloadAction<GDD>) => {
       const id = uuidv4();
-      return { ...action.payload, id: id };
+      state.gdd = { ...action.payload, id: id };
     },
-    editGeneralInfo(state, action: PayloadAction<GDD>) {
-      return {
-        ...state,
+    editGeneralInfo: (state, action: PayloadAction<GDD>) => {
+      state.gdd = {
+        ...state.gdd,
         title: action.payload.title,
         genre: action.payload.genre,
         view: action.payload.view,
