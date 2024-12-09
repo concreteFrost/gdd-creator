@@ -49,7 +49,6 @@ function EditMechanicForm() {
 
     dispatch(editMechanic(formData));
     dispatch(showModal({ activeModal: ActiveModal.Info, text: "Success" }));
-    setFormData(initialState);
 
     return true;
   }

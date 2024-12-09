@@ -8,12 +8,19 @@ import {
   unsortedMechanics,
 } from "@utils/mechanics/groupMechanicsByType";
 import { useMemo, useState } from "react";
+import { useHandleEmptyList } from "@hooks/useHandleEmptyList";
 
 // Компонент списка механик
 export default function MechanicsList() {
-  // Получаем список механик из Redux состояния
   const { mechanics } = useSelector((state: RootState) => state.mechanicsSlice);
+
+  const mechanicsHandler = useHandleEmptyList({ data: mechanics });
+  if (mechanicsHandler) return mechanicsHandler;
+  // Получаем список механик из Redux состояния
+
   const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
+
+  const navigate = useNavigate();
 
   const groupedMechanics = useMemo(
     () => groupdMechanics(types, mechanics),

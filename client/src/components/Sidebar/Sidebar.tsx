@@ -41,7 +41,7 @@ export default function Sidebar() {
         <li>
           <span onClick={() => handleNavigate("locations")}>Locations</span>
           <button
-            onClick={() => handleNavigate("mechanics/new")}
+            onClick={() => handleNavigate("locations/new")}
             className={buttonStyle.create_btn}
             style={{
               padding: "5px 10px",

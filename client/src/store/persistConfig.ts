@@ -6,6 +6,7 @@ import mechanicsSlice from "./slices/mechanicsSlice";
 import modalSlice from "./slices/modalSlice";
 import mechanicsTypeSlice from "./slices/mechanicsTypeSlice";
 import gameplaySlice from "./slices/gameplaySlice";
+import locationsSlice from "./slices/locationsSlice";
 
 const persistConfig = {
   key: "root",
@@ -15,6 +16,7 @@ const persistConfig = {
     "mechanicsSlice",
     "mechanicsTypeSlice",
     "gameplaySlice",
+    "locationsSlice",
   ],
 };
 
@@ -24,6 +26,7 @@ const appReducer = combineReducers({
   modalSlice,
   mechanicsTypeSlice,
   gameplaySlice,
+  locationsSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, appReducer);

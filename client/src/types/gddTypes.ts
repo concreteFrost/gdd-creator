@@ -80,15 +80,27 @@ export interface GamePlay {
 }
 
 // Location Interface
-export interface Location {
+export interface GameLocation {
+  id: string;
+  gddId: string;
   name: string; // Name of the location
   description: string; // Description of the location (setting, atmosphere)
   environment: string; // Environment (e.g., city, forest, dungeon)
   characters: Character[]; // Characters associated with the location
   items: string[]; // List of items found in the location
-  mainImage: string;
-  additionalImages: string[];
+  mainImage: GameLocationImage;
+  additionalImages: GameLocationImage[];
 }
+
+export interface GameLocationImage {
+  id: string;
+  path: string;
+  width?: number; // Ширина изображения
+  height?: number; // Высота изображения
+  caption?: string; // Подпись к изображению
+}
+
+export type NewGameLocation = Omit<GameLocation, "id">;
 
 // Character Interface
 export interface Character {

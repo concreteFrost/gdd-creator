@@ -8,6 +8,7 @@ import { RootState } from "@store/store";
 import { ActiveModal, ModalState, showModal } from "@store/slices/modalSlice";
 import MechanicsView from "@views/MechanicsView";
 import GameplayView from "@views/GameplayView";
+import LocationsView from "@views/LocationsView";
 
 function GDDView() {
   const { id } = useSelector((state: RootState) => state.gddSlice.gdd);
@@ -32,7 +33,7 @@ function GDDView() {
           <Route path="info" element={<GeneralInfo></GeneralInfo>} />
           <Route path="mechanics/*" element={<MechanicsView />} />
           <Route path="gameplay" element={<GameplayView></GameplayView>} />
-          <Route path="locations" element={<GeneralInfo></GeneralInfo>} />
+          <Route path="locations/*" element={<LocationsView></LocationsView>} />
           <Route path="characters" element={<GeneralInfo></GeneralInfo>} />
         </Routes>
       </div>
