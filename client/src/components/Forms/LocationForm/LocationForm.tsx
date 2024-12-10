@@ -130,12 +130,12 @@ export default function LocationForm({
         </div>
 
         <div className={form_style.form_group} style={{ width: "100%" }}>
-          <label htmlFor="title">Environment*</label>
+          <label htmlFor="environment">Environment*</label>
           <input
-            data-testid="test-title"
+            data-testid="test-environment"
             type="text"
-            id="title"
-            name="title"
+            id="environment"
+            name="environment"
             value={formData.environment}
             onChange={(e) => handleInputChange(e.target.value, "environment")}
           />

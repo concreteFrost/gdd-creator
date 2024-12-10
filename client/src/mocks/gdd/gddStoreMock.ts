@@ -1,4 +1,19 @@
-import { GameMechanic, GamePlay, MechanicType } from "@_types/gddTypes";
+import {
+  GameMechanic,
+  GamePlatform,
+  GamePlay,
+  GameView,
+  GDD,
+  MechanicType,
+} from "@_types/gddTypes";
+
+export const mockGdd: GDD = {
+  id: "123",
+  title: "New Game",
+  genre: "RPG",
+  platform: GamePlatform.PC,
+  view: GameView.FirstPerson,
+};
 
 export const mockMechanics: GameMechanic[] = [
   {

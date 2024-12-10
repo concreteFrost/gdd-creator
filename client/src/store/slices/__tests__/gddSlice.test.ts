@@ -5,15 +5,16 @@ import { GamePlatform, GameView, GDD } from "@_types/gddTypes";
 describe("gdd slice", () => {
   it("should create new gdd with unique id", () => {
     const payload = {
-      ...initialState,
+      ...initialState.gdd,
       title: "new game",
       genre: "rpg",
-      view: GameView.Isometric,
+      view: GameView.ThirdPerson,
       platform: GamePlatform.Mobile,
     };
-    const slice = gddSlice(initialState, createGDD(payload.gdd));
+    console.log(payload);
+    const slice = gddSlice(initialState, createGDD(payload));
 
-    expect(slice.gdd.view).toBe(GameView.Isometric);
+    expect(slice.gdd.view).toBe(GameView.ThirdPerson);
     expect(slice.gdd.id.length).toBeGreaterThan(0);
   });
 });
