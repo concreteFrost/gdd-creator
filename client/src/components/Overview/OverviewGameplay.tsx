@@ -15,22 +15,25 @@ export default function OverviewGameplay() {
     playerExperience,
   } = useSelector((state: RootState) => state.gameplaySlice.gameplay);
 
-  const formatedStory = story;
-
   return (
     <div className={overviewStyles.overview_container}>
       <h2 className={overviewStyles.overview_header}>Gameplay</h2>
-      <section>
-        <p>
-          <strong>Difficulty:</strong> {difficulty}
-        </p>
-        <p>
-          <strong>Pacing:</strong> {pacing}
-        </p>
-        <p>
-          <strong>Player Experience:</strong> {playerExperience}
-        </p>
+      <section className={overviewStyles.overview_titles}>
+        <span>
+          {" "}
+          <strong>Difficulty: </strong> {difficulty}
+        </span>
+        <span>
+          <strong>Pacing: </strong> {pacing}
+        </span>
+        <span>
+          <strong>Player Experience: </strong> {playerExperience}
+        </span>
+        <span>
+          <strong>Story: </strong>
+        </span>
       </section>
+
       <ReactQuill
         value={story}
         readOnly={true}

@@ -1,7 +1,8 @@
-import GeneralInfoForm from "@components/Forms/GeneralInfoForm";
+import GeneralInfoForm from "@components/Forms/GddForm/GeneralInfoForm";
 import Header from "@components/Overview/Header";
 import OverviewGameplay from "@components/Overview/OverviewGameplay";
-import OverviewMechanics from "@components/Overview/OverviewMechanics";
+import OverviewLocations from "@components/Overview/OverviewLocations/OverviewLocations";
+import OverviewMechanics from "@components/Overview/OverviewMechanics/OverviewMechanics";
 import MechanicsList from "@components/Tables/MechanicsList";
 import React from "react";
 
@@ -11,6 +12,7 @@ function GeneralInfo() {
       {/* <GeneralInfoForm></GeneralInfoForm> */}
       <Header></Header>
       <OverviewGameplay></OverviewGameplay>
+      <OverviewLocations></OverviewLocations>
       <OverviewMechanics></OverviewMechanics>
     </div>
   );

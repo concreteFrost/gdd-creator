@@ -9,13 +9,19 @@ export default function Header() {
   );
   return (
     <div className={overviewStyles.overview_container}>
-      <div className={overviewStyles.overview_section}>
-        <h1 className={overviewStyles.overview_header}>Game Title: {title}</h1>
-        <p className={overviewStyles.overview_paragraph}>Genre: {genre}</p>
-        <p className={overviewStyles.overview_paragraph}>
-          Platform: {platform}
-        </p>
-      </div>
+      <h1 className={overviewStyles.overview_header}>{title}</h1>
+      <section
+        className={overviewStyles.overview_titles}
+        style={{ flexDirection: "row", justifyContent: "space-around", gap: 0 }}
+      >
+        <span>
+          <strong>Genre: </strong> {genre}
+        </span>
+        <span>
+          <strong>Platform: </strong>
+          {platform}
+        </span>
+      </section>
     </div>
   );
 }

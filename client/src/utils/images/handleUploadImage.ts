@@ -11,13 +11,13 @@ export function handleUploadImage(
 
     if (file) {
       if (file.size > MAX_SIZE) {
-        alert("Image max size is 8 MB");
+        // alert("Image max size is 8 MB");
         reject("File size exceeds limit");
         return;
       }
 
       if (!allowedFormats.includes(file.type)) {
-        alert("format is wrong");
+        // alert("format is wrong");
         reject("Unsupported file format");
         return;
       }

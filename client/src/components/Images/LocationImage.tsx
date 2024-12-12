@@ -16,7 +16,7 @@ export default function LocationImage({
       src={path}
       alt={alt}
       style={{
-        maxWidth: width,
+        width: width,
         height: "auto",
         border: "1px solid #ccc",
       }}

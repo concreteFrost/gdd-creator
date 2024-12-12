@@ -1,14 +1,10 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NewLocationForm from "../NewLocationForm";
 import * as reactRedux from "react-redux";
 import { mockGdd } from "@mocks/gdd/gddStoreMock";
 import * as React from "react";
-
-jest.mock("react", () => ({
-  ...jest.requireActual("react"),
-  useState: jest.fn(),
-}));
+import { addLocation, initialLocations } from "@store/slices/locationsSlice";
 
 const mockSetState = jest.fn();
 
@@ -17,19 +13,13 @@ describe("New Location Form component", () => {
   const useDispatch = jest.spyOn(reactRedux, "useDispatch");
 
   beforeEach(() => {
-    (React.useState as jest.Mock).mockImplementation((initialState) => [
-      initialState,
-      mockSetState,
-    ]);
-
     useSelector.mockImplementation(() => mockGdd);
     useDispatch.mockImplementation(() => jest.fn());
 
     render(<NewLocationForm />);
-  });
-  afterEach(() => {
     jest.clearAllMocks();
   });
+
   it("should render component", () => {
     expect(screen.getByLabelText("Environment*")).toBeInTheDocument();
     screen.debug;
@@ -38,8 +28,22 @@ describe("New Location Form component", () => {
     const nameInput = screen.getByTestId("test-title") as HTMLInputElement;
 
     await userEvent.type(nameInput, "New Location 2");
+    expect(nameInput.value).toBe("New Location 2");
+  });
+  it("should prevent dispatching if location name is empty", async () => {
+    const submitBtn = screen.getByTestId("test-submit-form");
+    await userEvent.click(submitBtn);
+    expect(screen.getByText("Name is required")).toBeInTheDocument();
+    expect(useDispatch).not.toHaveBeenCalled();
+  });
+  it("should submit form", async () => {
+    const nameInput = screen.getByTestId("test-title") as HTMLInputElement;
 
-    // expect(nameInput.value).toBe("New Location 2");
-    expect(mockSetState).toHaveBeenCalledTimes("New Location 2".length);
+    await userEvent.type(nameInput, "New Location 2");
+    const submitBtn = screen.getByTestId("test-submit-form");
+
+    await userEvent.click(submitBtn);
+
+    expect(useDispatch).toHaveBeenCalled();
   });
 });

@@ -5,11 +5,7 @@
   line-height: 1.6;
   color: #333;
   width: 100%;
-  margin-bottom: 70px;
-}
-
-.overview_section {
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 /* Заголовок секции */
@@ -24,24 +20,37 @@
   margin-bottom: 50px;
 }
 
+.overview_titles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
 /* Стиль параграфов */
 .overview_paragraph {
   margin: 10px 0;
 }
 
 .long_text {
+  width: 98%;
   white-space: pre-wrap; /* Сохраняет переносы строк */
   text-align: justify; /* Выравнивает текст по ширине */
   line-height: 1.8; /* Увеличивает межстрочное расстояние */
   font-size: 16px; /* Оптимальный размер для чтения */
   color: #444; /* Нейтральный цвет текста */
   padding: 10px; /* Отступы внутри блока */
-  border-left: 4px solid #ccc; /* Линия слева для визуального акцента */
+  border-left: 4px solid #5b9bd5; /* Линия слева для акцента */
+  background-color: rgb(248, 248, 248);
   margin-bottom: 20px; /* Отступ снизу */
   border-radius: 5px; /* Скругление углов */
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Лёгкая тень для объёма */
-  height: auto; /* Высота подстраивается под содержимое */
-  overflow: visible; /* Показывает весь контент */
+  // overflow: visible; /* Показывает весь контент */
+}
+
+.ql-editor {
+  min-height: 20px !important;
+  background-color: red;
 }
 
 /* Стили для маркированных списков */
@@ -60,71 +69,18 @@
   }
 }
 
-/* Механика */
-.mechanics_title {
-  text-align: center;
-  padding: 10px 0;
-
-  width: 100%;
-  font-weight: bold;
-  font-size: 1.2rem;
-  background-color: #f0f0f0; /* Фоновый цвет для выделения */
-  border-radius: 5px; /* Скругление углов */
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Лёгкая тень для объёма */
-}
-
 /* Пример механики */
 .mechanics_example {
-  background-color: #fafafa;
-  padding: 15px;
+  background-color: rgb(248, 248, 248);
+  padding: 20px;
   border-left: 4px solid #5b9bd5; /* Линия слева для акцента */
   border-radius: 5px;
-
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
-.mechanics_example h4 {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-}
-
-.mechanics_example ul {
-  padding-left: 20px;
-}
-
-.mechanics_example li {
-  font-size: 1rem;
-  color: #444;
-  margin-bottom: 10px;
-}
-
-/* Оформление каждого примера в списке */
-.examples_container {
-  background-color: #f8f8f8;
-  padding: 15px;
-  margin-top: 15px;
-  border-radius: 5px;
-}
-
-.examples_container ul {
-  padding-left: 20px;
-  margin: 0;
-}
-
-.examples_container li {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 8px;
-}
-
-.examples_container li:last-child {
-  margin-bottom: 0;
-}
-
-/* Отступы для улучшения восприятия */
-.mechanics_example + .mechanics_example {
-  margin-top: 40px; /* Отступ между механиками */
+.location_title {
+  display: grid;
+  justify-items: center;
+  margin-bottom: 20px;
 }
