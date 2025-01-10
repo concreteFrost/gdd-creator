@@ -1,6 +1,10 @@
 .ql-container {
+  font-family: "Roboto";
+  min-height: 100px;
+
 }
 
-.ql-editor {
-  min-height: 200px; // Optional: Ensure the content area matches
+.edit{
+  min-height: 100px !important;
+  background-color: white;
 }

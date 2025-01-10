@@ -15,7 +15,7 @@ export const useGroupedMechanics = (
   );
   // Сгруппировать механики, у которых нет типа (например, typeId === "unknown" или не определен)
   const mechanicsWithoutType = useMemo(
-    () => unsortedMechanics(mechanics),
+    () => unsortedMechanics(types,mechanics),
     [mechanics]
   );
 };

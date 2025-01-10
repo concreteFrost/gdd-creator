@@ -1,9 +1,0 @@
-@use "../mixins/form_mixins.scss" as *;
-
-.modal_container {
-  @include form_container(100);
-}
-
-.modal_header {
-  @include form_title;
-}

@@ -1,5 +1,6 @@
 import React from "react";
-import * as list_style from "@styles/modules/lists.module.scss";
+import * as list_style from "./GameplayList.module.scss";
+import { icons } from "@assets/icons";
 
 interface ListProps<T> {
   title: string;
@@ -31,7 +32,7 @@ export default function GameplayList<T>({
             {" "}
             <span>{renderItem(item)}</span>
             <button onClick={() => deleteItem(item)} type="button">
-              x
+              {icons.delete}
             </button>
           </li>
         ))}

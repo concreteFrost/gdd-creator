@@ -1,5 +1,5 @@
 import React from "react";
-import * as tag_style from "@styles/modules/tags.module.scss";
+import * as tag_style from "./Tags.module.scss";
 
 interface TagListProps<T> {
   items: T[]; // Массив элементов

@@ -1,6 +1,6 @@
 import EditMechanicForm from "@components/Forms/MechanicsForm/EditMechanicsForm";
 import NewMechanicForm from "@components/Forms/MechanicsForm/NewMechanicForm";
-import MechanicsList from "@components/Tables/MechanicsList";
+import MechanicsList from "@components/Tables/Mechanics/MechanicsList";
 import { Route, Routes } from "react-router-dom";
 
 export default function MechanicsView() {

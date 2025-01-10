@@ -1,7 +1,7 @@
 import React from "react";
 
 interface LocationImageProps {
-  path: string;
+  path: string ;
   width: string;
   alt: string;
 }

@@ -86,13 +86,13 @@ export interface GameLocation {
   name: string; // Name of the location
   description: string; // Description of the location (setting, atmosphere)
   environment: string; // Environment (e.g., city, forest, dungeon)
-  characters: Character[]; // Characters associated with the location
+  characters: string[]; // Characters associated with the location
   items: string[]; // List of items found in the location
-  mainImage: GameLocationImage;
-  additionalImages: GameLocationImage[];
+  mainImage: GDDElementImage | null;
+  additionalImages: GDDElementImage[] | null;
 }
 
-export interface GameLocationImage {
+export interface GDDElementImage {
   id: string;
   path: string;
   width?: number; // Ширина изображения
@@ -102,13 +102,27 @@ export interface GameLocationImage {
 
 export type NewGameLocation = Omit<GameLocation, "id">;
 
+export interface CharacterAbilities{
+  id:string;
+  ability:string;
+}
+
+export interface CharacterTraits{
+  id:string;
+  trait:string;
+}
+
 // Character Interface
 export interface Character {
+  id:string;
   name: string; // Name of the character
   role: string; // Role in the game (e.g., protagonist, antagonist, NPC)
   backstory: string; // Character's background story
-  abilities: string[]; // Abilities or special skills
-  traits: string[]; // Personality traits (e.g., brave, cautious)
-  mainImage: string;
-  additionalImages: string[];
+  abilities: CharacterAbilities[]; // Abilities or special skills
+  traits: CharacterTraits[]; // Personality traits (e.g., brave, cautious)
+  mainImage: GDDElementImage | null;
+  additionalImages: GDDElementImage[];
+  gddId:string;
 }
+
+export type NewCharacter = Omit<Character,"id">

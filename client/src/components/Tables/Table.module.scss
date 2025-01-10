@@ -1,0 +1,7 @@
+@use "@styles/mixins/table_mixins.scss" as *;
+@use "@styles/variables.scss" as *;
+
+// Миксин для фона ячеек таблицы
+.table {
+  @include table_generic;
+}

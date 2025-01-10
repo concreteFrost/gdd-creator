@@ -39,7 +39,8 @@ const mechanicsSlice = createSlice({
       (state, action: PayloadAction<string>) => {
         state.mechanics = state.mechanics.map((m: GameMechanic) => {
           if (m.typeId === action.payload) {
-            return { ...m, typeId: "unknown" };
+            console.log('found dependant mechanic')
+            return { ...m, typeId: "unspecified" };
           }
           return m;
         });

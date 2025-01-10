@@ -1,0 +1,6 @@
+@use "@styles/mixins/form_mixins.scss" as *;
+@use "@styles/variables.scss" as *;
+
+.gameplay_form {
+  @include generic_form(900px);
+}

@@ -9,6 +9,8 @@ import { showModal } from "@store/slices/modalSlice";
 import { editMechanic } from "@store/slices/mechanicsSlice";
 import { ActiveModal } from "@store/slices/modalSlice";
 import { useParams } from "react-router-dom";
+import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import { mechanicsFormTranslator } from "./localisation/mechanicsFormTranslator";
 
 const initialState: GameMechanic = {
   id: "",
@@ -24,6 +26,9 @@ function EditMechanicForm() {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<GameMechanic>(initialState);
   const { mechanicId } = useParams<{ mechanicId: string }>(); // Extract mechanicId from route params
+
+  const currentLanguage = useCurrentLanguage();
+  const loc = mechanicsFormTranslator[currentLanguage];
 
   // Retrieve the selected mechanic based on the ID from route params
   const selectedMechanic = useSelector((state: RootState) =>
@@ -48,7 +53,7 @@ function EditMechanicForm() {
     }
 
     dispatch(editMechanic(formData));
-    dispatch(showModal({ activeModal: ActiveModal.Info, text: "Success" }));
+    dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.success}));
 
     return true;
   }
@@ -58,6 +63,7 @@ function EditMechanicForm() {
       formData={formData}
       setFormData={setFormData}
       handleFormSubmit={handleFormSubmit}
+      language={loc}
     ></MechanicsForm>
   );
 }

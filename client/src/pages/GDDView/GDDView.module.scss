@@ -1,4 +1,8 @@
 .container {
   display: grid;
   grid-template-columns: 270px auto;
+
+  .routes_container{
+    padding: 20px;
+  }
 }

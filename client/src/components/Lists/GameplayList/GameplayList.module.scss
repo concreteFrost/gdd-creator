@@ -1,0 +1,16 @@
+@use "@styles/mixins/list_mixins.scss" as *;
+@use "@styles/variables.scss" as *;
+
+.gameplay_list {
+    ul {
+      position: absolute;
+      width: 500px;
+      @include form_list($list-gap: 20px, $padding: 0px, $bg: rgb(216, 216, 216));
+      max-height: 370px;
+  
+      @media screen and (max-width: $screen-lg) {
+        width: 400px;
+    }
+    }
+  }
+  

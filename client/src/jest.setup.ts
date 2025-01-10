@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
-import ReactQuill from "react-quill-new";
-import { useParams } from "react-router-dom";
+
 // Мок react-redux
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),

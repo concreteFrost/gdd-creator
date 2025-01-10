@@ -1,0 +1,62 @@
+@use "@styles/mixins/overview_mixins.scss" as *;
+@use "@styles/variables.scss" as *;
+
+.overview_container{
+    @include overview_container;
+}
+
+.overview_header{
+    @include overview_header($gameplay-border);
+    
+}
+
+.grid{
+    @include paragraphs_container($gameplay-border);
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: none;
+    border: none;
+
+}
+
+.paragraphs_container{
+    @include paragraphs_container($gameplay-border);
+    .goals_and_progression{
+        display: grid;
+        grid-template-columns: 6fr 6fr;
+      
+        ul{
+            list-style: circle;
+           
+        }
+        
+    }
+}
+
+.paragraph_element{
+    @include paragraph_element;
+}
+
+.paragraph_header{
+    @include paragraph_header;
+}
+
+.paragraph_sub_header{
+    @include paragraph_sub_header;
+    h2{
+        text-align: center;
+        margin: 0
+    }
+}
+
+.formatted_text{
+    @include formatted_text;
+}
+
+.long_text{
+    @include long_text($gameplay-border);
+    padding-bottom: 0;
+    margin-bottom: -50px;
+}

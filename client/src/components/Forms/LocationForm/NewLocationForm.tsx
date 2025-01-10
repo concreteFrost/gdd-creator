@@ -6,6 +6,8 @@ import { RootState } from "@store/store";
 import { addLocation } from "@store/slices/locationsSlice";
 import { showModal } from "@store/slices/modalSlice";
 import { ActiveModal } from "@store/slices/modalSlice";
+import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import { locationsFormTranslator } from "./localisation/locationFormTranslator";
 
 const initialFormData: NewGameLocation = {
   name: "",
@@ -22,6 +24,8 @@ const initialFormData: NewGameLocation = {
 };
 
 export default function NewLocationForm() {
+  const currentLanguage = useCurrentLanguage();
+  const loc = locationsFormTranslator[currentLanguage];
   const [formData, setFormData] = useState<NewGameLocation>(initialFormData);
   const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
   const dispatch = useDispatch();
@@ -36,7 +40,7 @@ export default function NewLocationForm() {
 
     const newLocation: NewGameLocation = { ...formData, gddId: gddId };
     dispatch(addLocation(newLocation));
-    dispatch(showModal({ activeModal: ActiveModal.Info, text: "Success" }));
+    dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.save }));
     setFormData(initialFormData);
     return true;
   }
@@ -46,6 +50,7 @@ export default function NewLocationForm() {
       formData={formData}
       setFormData={setFormData}
       handleFormSubmit={handleFormSubmit}
+      language={loc}
     ></LocationForm>
   );
 }

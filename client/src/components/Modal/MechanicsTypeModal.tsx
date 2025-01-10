@@ -1,5 +1,5 @@
-import * as button_styles from "@styles/modules/button.module.scss";
-import * as form_styles from "@styles/modules/form.module.scss";
+import * as button_styles from "@components/Buttons/Button.module.scss";
+import * as form_styles from "./Modal.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef, useState } from "react";
 import { RootState } from "@store/store";
@@ -12,17 +12,20 @@ import {
   deleteMechanicType,
 } from "@store/slices/mechanicsTypeSlice";
 import Modal from "react-modal";
+import { icons } from "@assets/icons";
 
 interface MechanicsTypeProps {
   isVisibe: boolean;
   setVisible: (isVisible: boolean) => void;
   setMechanicsType: (id: string) => void;
+  currentType: string
 }
 
 function MechanicsTypeModal({
   isVisibe,
   setVisible,
   setMechanicsType,
+  currentType
 }: MechanicsTypeProps) {
   const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -45,6 +48,14 @@ function MechanicsTypeModal({
     }
     dispatch(addMechanicType(newType));
     setMechanicsType(newType.id);
+  }
+
+  function handleDeleteType(type: MechanicType) {
+    if (currentType === type.id) {
+      setMechanicsType("unspecified");
+    }
+
+    dispatch(deleteMechanicType(type.id));
   }
 
   useKeyEnterWithInput({
@@ -85,16 +96,16 @@ function MechanicsTypeModal({
         <ul>
           {types.length > 0
             ? types.map((type: MechanicType) => (
-                <li key={type.id}>
-                  <span>{type.type}</span>
-                  <button
-                    className={button_styles.create_btn}
-                    onClick={() => dispatch(deleteMechanicType(type.id))}
-                  >
-                    x
-                  </button>
-                </li>
-              ))
+              <li key={type.id}>
+                <span>{type.type}</span>
+                <button
+                  className={button_styles.create_btn}
+                  onClick={() => handleDeleteType(type)}
+                >
+                  {icons.delete}
+                </button>
+              </li>
+            ))
             : null}
         </ul>
 

@@ -1,0 +1,8 @@
+@use "@styles/mixins/form_mixins.scss" as *;
+@use "@styles/variables.scss" as *;
+
+.mechanic_form {
+  @include generic_form(900px);
+  margin: 2rem auto;
+
+}

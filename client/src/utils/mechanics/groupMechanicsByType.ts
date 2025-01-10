@@ -13,7 +13,12 @@ export const groupdMechanics = (
     return { type, mechanics: mechanicsByType };
   });
 
-export const unsortedMechanics = (mechanics: GameMechanic[]) =>
+export const unsortedMechanics = (
+  types: MechanicType[],
+  mechanics: GameMechanic[],
+ 
+) =>
   mechanics.filter(
-    (mech: GameMechanic) => !mech.typeId || mech.typeId === "unknown"
+    (mech: GameMechanic) =>
+      !mech.typeId || !types.some((type: MechanicType) => type.id === mech.typeId)
   );

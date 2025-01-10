@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // button.scss
 @mixin button($bg_color) {
   padding: 12px 24px;
@@ -13,7 +15,10 @@
   transition: background-color 0.3s ease;
   background-color: $bg_color;
 
+
   &:hover {
-    opacity: 0.8;
+   background-color: color.scale($bg_color, $lightness: -20%);
   }
+
+  transition: background-color 0.1s ease-in-out;
 }

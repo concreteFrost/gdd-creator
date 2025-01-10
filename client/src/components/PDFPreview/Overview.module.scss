@@ -1,0 +1,65 @@
+/* Общие контейнеры */
+.overview_container {
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
+    margin-bottom: 50px;
+  }
+  
+  /* Заголовок секции */
+  .overview_header {
+    color: #333;
+    line-height: 1.6;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 2px solid #d4d4d4;
+    border-top: 2px solid #d4d4d4;
+    background-color: #f3f3f3;
+    padding-bottom: 5px;
+  }
+
+  .long_text {
+    width: 98%;
+    white-space: pre-wrap; /* Сохраняет переносы строк */
+    text-align: justify; /* Выравнивает текст по ширине */
+    line-height: 1.8; /* Увеличивает межстрочное расстояние */
+    font-size: 16px; /* Оптимальный размер для чтения */
+    color: #444; /* Нейтральный цвет текста */
+    padding: 10px; /* Отступы внутри блока */
+    border-left: 4px solid #7996b1; /* Линия слева для акцента */
+    background-color: rgb(248, 248, 248);
+    margin-bottom: 20px; /* Отступ снизу */
+    border-radius: 5px; /* Скругление углов */
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Лёгкая тень для объёма */
+    // overflow: visible; /* Показывает весь контент */
+    
+  }
+  
+  .paragraphs_container {
+    background-color: rgb(248, 248, 248);
+    padding: 20px;
+    border-left: 4px solid #7996b1; /* Линия слева для акцента */
+    border-radius: 5px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  .paragraph_element{
+    margin-bottom: 10px;
+  }
+
+  .paragraph_header{
+    font-weight: bold;
+    color: #282828;
+  }
+  
+  .sub_header {
+    display: grid;
+    justify-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .formatted_text {
+    line-height: normal;
+  }
+  

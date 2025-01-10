@@ -3,20 +3,23 @@ import { useRef } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import "@styles/overrides/quill_override.scss";
-import * as form_style from "@styles/modules/form.module.scss";
-import * as button_styles from "@styles/modules/button.module.scss";
+import * as form_style from "./GameplayForm.module.scss";
+import * as button_styles from "@components/Buttons/Button.module.scss";
 import { GameObjective, GamePlay, GameProgression } from "@_types/gddTypes";
 import useClearOnTime from "@hooks/useClearOnTime";
 import { useKeyEnterWithInput } from "@hooks/useKeyEnter";
 import { v4 as uuidv4 } from "uuid";
+import { GameplayFormTranslator } from "./localisation/gameplayFormTranslator";
+import PressKeyHint from "@components/Hints/PressKeyHint";
 
 interface FormProps {
   handleFormSubmit: () => void;
   formData: GamePlay;
   setFormData: (value: any) => void;
+  t: GameplayFormTranslator
 }
 
-function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
+function GameplayForm({ formData, setFormData, handleFormSubmit, t }: FormProps) {
   const objectivesInputRef: any = useRef<HTMLInputElement>(null);
   const progressionInputRef: any = useRef<HTMLInputElement>(null);
   const [submitMessage, setSubmitMessage] = useState<string>("");
@@ -30,12 +33,10 @@ function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
     func: (e: any) => addProgression(e),
     inputRef: progressionInputRef,
   });
-
   function submitForm(e: any) {
     e.preventDefault();
     handleFormSubmit();
   }
-
   function addObjectives(value: any) {
     const newObjective: GameObjective = {
       id: uuidv4(),
@@ -48,7 +49,6 @@ function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
       };
     });
   }
-
   function addProgression(value: any) {
     const newProgression: GameProgression = {
       id: uuidv4(),
@@ -73,7 +73,7 @@ function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
     <div>
       <form className={form_style.gameplay_form} onSubmit={submitForm}>
         <div className={form_style.form_group}>
-          <label htmlFor="story">Story</label>
+          <label htmlFor="story">{t.story}</label>
           <ReactQuill
             id="story"
             data-testid="test-story"
@@ -84,11 +84,11 @@ function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
           ></ReactQuill>
         </div>
 
-        <div className={form_style.form_group} style={{ width: "100%" }}>
-          <label htmlFor="objectives" style={{ position: "relative" }}>
-            Objectives
+        <div className={form_style.form_group}>
+          <label htmlFor="objectives">
+            {t.objectives}
           </label>
-          <span className={form_style.hint}>press enter to add</span>
+          <PressKeyHint></PressKeyHint>
           <input
             data-testid="test-objectives"
             type="text"
@@ -98,9 +98,9 @@ function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
           />
         </div>
 
-        <div className={form_style.form_group} style={{ width: "100%" }}>
-          <label htmlFor="progression">Progression</label>
-          <span className={form_style.hint}>press enter to add</span>
+        <div className={form_style.form_group}>
+          <label htmlFor="progression">{t.progression}</label>
+          <PressKeyHint></PressKeyHint>
           <input
             data-testid="test-progression"
             type="text"
@@ -110,8 +110,8 @@ function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
           />
         </div>
 
-        <div className={form_style.form_group} style={{ width: "100%" }}>
-          <label htmlFor="difficulty">Difficulty</label>
+        <div className={form_style.form_group}>
+          <label htmlFor="difficulty">{t.difficulty}</label>
           <input
             data-testid="test-difficulty"
             type="text"
@@ -122,8 +122,8 @@ function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
           />
         </div>
 
-        <div className={form_style.form_group} style={{ width: "100%" }}>
-          <label htmlFor="pacing">Pacing</label>
+        <div className={form_style.form_group}>
+          <label htmlFor="pacing">{t.pacing}</label>
           <input
             data-testid="test-pacing"
             type="text"
@@ -134,8 +134,8 @@ function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
           />
         </div>
 
-        <div className={form_style.form_group} style={{ width: "100%" }}>
-          <label htmlFor="player-experience">Player Experience</label>
+        <div className={form_style.form_group}>
+          <label htmlFor="player-experience">{t.playerExperience}</label>
           <input
             data-testid="test-player-experience"
             type="text"
@@ -164,7 +164,7 @@ function GameplayForm({ formData, setFormData, handleFormSubmit }: FormProps) {
             className={button_styles.create_btn}
             data-testid="test-submit-form"
           >
-            Save
+            {t.save}
           </button>
         </div>
       </form>

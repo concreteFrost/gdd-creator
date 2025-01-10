@@ -3,10 +3,6 @@ import userEvent from "@testing-library/user-event";
 import NewLocationForm from "../NewLocationForm";
 import * as reactRedux from "react-redux";
 import { mockGdd } from "@mocks/gdd/gddStoreMock";
-import * as React from "react";
-import { addLocation, initialLocations } from "@store/slices/locationsSlice";
-
-const mockSetState = jest.fn();
 
 describe("New Location Form component", () => {
   const useSelector = jest.spyOn(reactRedux, "useSelector");

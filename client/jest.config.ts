@@ -25,6 +25,7 @@ const config: Config = {
     "^@views/(.*)$": "<rootDir>/views/$1",
     "^@mocks/(.*)$": "<rootDir>/mocks/$1",
     "^@utils/(.*)$": "<rootDir>/utils/$1",
+    "^@localisation/(.*)$": "<rootDir>/localisation/$1"
   },
   extensionsToTreatAsEsm: [".ts", ".tsx", ".scss", ".css"],
 };

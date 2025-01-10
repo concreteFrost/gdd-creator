@@ -1,6 +1,7 @@
-import { GameLocation, NewGameLocation } from "@_types/gddTypes";
+import { Character, GameLocation, NewGameLocation } from "@_types/gddTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { deleteCharacter } from "./characterSlices";
 
 interface LocationsState {
   locations: GameLocation[];
@@ -32,6 +33,19 @@ const locationsSlice = createSlice({
       );
     },
   },
+  extraReducers(builder) {
+    builder.addCase(deleteCharacter, (state, action: PayloadAction<string>) => {
+      state.locations = state.locations.map((location: GameLocation) => ({
+        ...location,
+        characters: location.characters.filter(
+          (characterId: string) => characterId !== action.payload
+        ),
+      }));
+    });
+
+    console.log("character was removed")
+  },
+  
 });
 
 export const initialLocations = locationsSlice.getInitialState();

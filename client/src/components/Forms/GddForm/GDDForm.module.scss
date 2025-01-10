@@ -1,0 +1,7 @@
+@use "@styles/mixins/form_mixins.scss" as *;
+@use "@styles/variables.scss" as *;
+
+.general_info_form {
+    @include generic_form(700px);
+    margin: 2rem auto;
+  }

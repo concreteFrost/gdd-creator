@@ -34,6 +34,7 @@ const config: Configuration = {
       "@hooks": path.resolve(__dirname, "src/hooks/"),
       "@mocks": path.resolve(__dirname, "src/mocks/"),
       "@utils": path.resolve(__dirname, "src/utils/"),
+      "@localisation": path.resolve(__dirname, "src/localisation/")
     },
   },
   module: {

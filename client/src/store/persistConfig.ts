@@ -7,6 +7,8 @@ import modalSlice from "./slices/modalSlice";
 import mechanicsTypeSlice from "./slices/mechanicsTypeSlice";
 import gameplaySlice from "./slices/gameplaySlice";
 import locationsSlice from "./slices/locationsSlice";
+import charactersSlice from "./slices/characterSlices";
+import localisationSlice from "./slices/localisationSlice"
 
 const persistConfig = {
   key: "root",
@@ -17,6 +19,8 @@ const persistConfig = {
     "mechanicsTypeSlice",
     "gameplaySlice",
     "locationsSlice",
+    "charactersSlice",
+    "localisationSlice"
   ],
 };
 
@@ -27,6 +31,8 @@ const appReducer = combineReducers({
   mechanicsTypeSlice,
   gameplaySlice,
   locationsSlice,
+  charactersSlice,
+  localisationSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, appReducer);

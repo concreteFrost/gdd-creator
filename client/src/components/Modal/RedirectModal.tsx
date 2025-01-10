@@ -1,5 +1,5 @@
-import * as button_styles from "@styles/modules/button.module.scss";
-import * as modal_styles from "@styles/modules/form.module.scss";
+import * as button_styles from "@components/Buttons/Button.module.scss";
+import * as modal_styles from "./Modal.module.scss";
 import { closeModal } from "@store/slices/modalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@store/store";

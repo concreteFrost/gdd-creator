@@ -1,17 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "@store/store";
 import CreateButton from "@components/Buttons/CreateButton/CreateButton";
-import { GameLocation, GameMechanic } from "@_types/gddTypes";
+import { Character, GameLocation, GameMechanic } from "@_types/gddTypes";
+import { useCurrentLanguage } from "./useCurrentLanguage";
+import { useHandleEmptyListTranslator } from "./localisation/useHandleEmptyListTranslator";
 
 interface EmptyListProps {
-  data: GameLocation[] | GameMechanic[];
+  data: GameLocation[] | GameMechanic[] | Character[];
 }
 // Кастомный хук для обработки механиков
 export function useHandleEmptyList({ data }: EmptyListProps) {
   const navigate = useNavigate();
+  const currentLang = useCurrentLanguage();
+  const loc = useHandleEmptyListTranslator[currentLang];
 
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     return (
       <div
         style={{
@@ -20,9 +22,8 @@ export function useHandleEmptyList({ data }: EmptyListProps) {
           alignItems: "center",
         }}
       >
-        <span>currently this list is empty...</span>
-
-        <CreateButton title="ADD" action={() => navigate("new")}></CreateButton>
+        <span>{loc.message}</span>
+        <CreateButton title={loc.buttonText} action={() => navigate("new")}></CreateButton>
       </div>
     );
   }

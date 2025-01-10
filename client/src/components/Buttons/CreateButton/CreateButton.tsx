@@ -1,4 +1,4 @@
-import * as s from "@styles/modules/button.module.scss";
+import * as s from "../Button.module.scss";
 
 interface CreateButtonProps {
   title: string;

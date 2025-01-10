@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import GeneralInfoForm from "../GeneralInfoForm";
+import EditGddForm from "../EditGDDForm";
 import * as reactRedux from "react-redux";
 import { editGeneralInfo, initialState } from "@store/slices/gddSlice";
 import { GamePlatform, GameView } from "@_types/gddTypes";
@@ -15,7 +15,7 @@ describe("GeneralInfoForm component", () => {
     useSelectorMock.mockImplementation((selector) => initialState);
     useDispatchMock.mockReturnValue(jest.fn());
 
-    render(<GeneralInfoForm></GeneralInfoForm>);
+    render(<EditGddForm></EditGddForm>);
   });
 
   afterEach(() => {

@@ -8,6 +8,9 @@ import { createGameplay, editGameplay } from "@store/slices/gameplaySlice";
 import { v4 as uuidv4 } from "uuid";
 import { showModal } from "@store/slices/modalSlice";
 import { ActiveModal } from "@store/slices/modalSlice";
+import * as style from "./styles/GameplayView.module.scss"
+import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import { gamplayFormTranslator } from "@components/Forms/GameplayForm/localisation/gameplayFormTranslator";
 
 const initialFormData: GamePlay = {
   id: "",
@@ -25,6 +28,9 @@ function GameplayView() {
   const { gameplay } = useSelector((state: RootState) => state.gameplaySlice);
   const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
   const dispatch = useDispatch();
+
+  const currentLang= useCurrentLanguage();
+  const loc = gamplayFormTranslator[currentLang];
 
   useEffect(() => {
     if (gameplay.id !== "") {
@@ -71,31 +77,27 @@ function GameplayView() {
 
   return (
     <div
-      style={{
-        padding: "20px",
-        display: "grid",
-        gridTemplateColumns: "8fr 4fr",
-        position: "relative",
-      }}
+      className={style.container}
     >
-      <div>
+      <div className={style.gameplay_form}>
         <GameplayForm
+          t={loc}
           handleFormSubmit={handleFormSubmit}
           formData={formData}
           setFormData={setFormData}
         ></GameplayForm>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "12fr" }}>
+      <div className={style.gameplay_list_container}>
         <GameplayList
           deleteItem={(item: GameObjective) => deleteObjective(item)}
-          title="Objectives:"
+          title={`${loc.objectives}:`}
           item={formData.objectives}
           renderItem={(item: GameObjective) => <>{item.name}</>}
         ></GameplayList>
         <GameplayList
           deleteItem={(item: GameProgression) => deleteProgression(item)}
-          title="Progression:"
+          title={`${loc.progression}:`}
           item={formData.progression}
           renderItem={(item: GameProgression) => <>{item.name}</>}
         ></GameplayList>

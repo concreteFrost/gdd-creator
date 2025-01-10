@@ -1,0 +1,28 @@
+@use "@styles/variables.scss" as *;
+
+.container{
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 8fr 4fr;
+    gap: 20px;
+    position: relative;
+
+    @media screen and (max-width: $screen-lg) {
+        grid-template-columns: 12fr;
+    }
+
+    .gameplay_form{
+       
+
+    }
+
+    .gameplay_list_container{
+        display: grid;
+        grid-template-columns: 12fr;
+
+        @media screen and (max-width: $screen-lg) {
+            grid-template-columns: 6fr 6fr;
+        }
+    }
+}
+

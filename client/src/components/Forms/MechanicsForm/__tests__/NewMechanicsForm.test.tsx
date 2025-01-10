@@ -4,6 +4,7 @@ import MechanicsForm from "../MechanicsForm";
 import { NewMechnicForm } from "@_types/gddTypes";
 import * as reactRedux from "react-redux";
 import { initialTypes } from "@store/slices/mechanicsTypeSlice";
+import { mechanicsFormTranslator } from "../localisation/mechanicsFormTranslator";
 
 const mockData: NewMechnicForm = {
   name: "",
@@ -23,6 +24,7 @@ const mockFormSubmit = jest.fn();
 describe("Mechanics Form Component", () => {
   const useSelectorMock = jest.spyOn(reactRedux, "useSelector");
   const useDispatchMock = jest.spyOn(reactRedux, "useDispatch");
+  const lang = mechanicsFormTranslator['en'];
 
   beforeEach(() => {
     useSelectorMock.mockImplementation((selector) => initialTypes);
@@ -33,6 +35,7 @@ describe("Mechanics Form Component", () => {
         formData={mockData}
         setFormData={mockSetForm}
         handleFormSubmit={mockFormSubmit}
+        language={lang}
       ></MechanicsForm>
     );
   });

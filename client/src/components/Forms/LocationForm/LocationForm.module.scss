@@ -1,0 +1,26 @@
+@use "@styles/mixins/form_mixins.scss" as *;
+@use "@styles/variables.scss" as *;
+
+
+.location_form{
+    @include generic_form(900px);
+    margin: 2rem auto;
+
+    .characters_list{
+        list-style: none;
+        max-height: 150px;
+        overflow-y: auto;
+
+        li{
+            width: 500px;
+            display:  flex;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgb(225, 225, 225);
+            span{
+                width: 100%;
+            }
+            
+        }
+    }
+}

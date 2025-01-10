@@ -7,7 +7,7 @@ export function handleUploadImage(
     const file = e.target.files?.[0];
     console.log(file);
     const MAX_SIZE = 8 * 1024 * 1024;
-    const allowedFormats = ["image/jpeg", "image/png"];
+    const allowedFormats = ["image/jpeg", "image/png", "image/webp"];
 
     if (file) {
       if (file.size > MAX_SIZE) {

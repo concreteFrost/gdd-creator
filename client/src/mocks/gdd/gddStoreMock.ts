@@ -1,4 +1,5 @@
 import {
+  Character,
   GameMechanic,
   GamePlatform,
   GamePlay,
@@ -70,3 +71,18 @@ export const mockGameplay: GamePlay = {
   pacing: "Slow-building",
   playerExperience: "Survival-focused with moments of high tension",
 };
+
+export const mockCharacters:Character[]=[
+{
+    id: "character-001",
+    name: "Lia Silverleaf",
+    role: "NPC",
+    backstory: "A kind herbalist who helps travelers with potions and remedies.",
+    abilities: [{id:"1",ability: "Herbal Knowledge"}],
+    traits: [{id:"1",trait: "Kind"}, {id:"2",trait:"Wise"}],
+    mainImage: null,
+    additionalImages: [],
+    gddId: "gdd-123",
+  }
+  
+]

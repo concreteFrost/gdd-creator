@@ -1,16 +1,15 @@
 import React, { FormEvent, useState } from "react";
 import { GamePlatform, GameView, GDD } from "@_types/gddTypes";
-import * as form_style from "@styles/modules/form.module.scss";
-import * as button_styles from "@styles/modules/button.module.scss";
-import withModalWindow from "@components/_hoc/withModalWindow";
+import * as form_style from "./GDDForm.module.scss";
+import * as button_styles from "@components/Buttons/Button.module.scss";
 import { useDispatch } from "react-redux";
 import { createGDD } from "@store/slices/gddSlice";
-import { RootState } from "@store/store";
 import useClearOnTime from "@hooks/useClearOnTime";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import { initialState } from "@store/slices/gddSlice";
-
+import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import { gddFormTranslator } from "./localisation/gddFormTranslator";
 interface Props {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
@@ -21,6 +20,9 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const currentLang = useCurrentLanguage();
+  const loc = gddFormTranslator[currentLang]
 
   useClearOnTime({ setText: setErrorMessage, text: errorMessage });
 
@@ -40,7 +42,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
     e.preventDefault();
 
     if (formData.title.length <= 0) {
-      setErrorMessage("*Title field is required");
+      setErrorMessage(loc.titleRequired);
       return;
     }
 
@@ -61,11 +63,11 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
         content: { border: "none", background: "none" },
       }}
     >
-      <form onSubmit={handleSubmit} className={form_style.submit_form}>
+      <form onSubmit={handleSubmit} className={form_style.general_info_form}>
         <h2>Game Design Document (GDD)</h2>
 
         <div className={form_style.form_group}>
-          <label htmlFor="title">Title*</label>
+          <label htmlFor="title">{loc.title}</label>
           <input
             data-testid="title_input"
             type="text"
@@ -77,7 +79,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
         </div>
 
         <div className={form_style.form_group}>
-          <label htmlFor="genre">Genre</label>
+          <label htmlFor="genre">{loc.genre}</label>
           <input
             type="text"
             id="genre"
@@ -88,7 +90,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
         </div>
 
         <div className={form_style.form_group}>
-          <label htmlFor="view">Game View</label>
+          <label htmlFor="view">{loc.view}</label>
           <select
             id="view"
             name="view"
@@ -104,7 +106,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
         </div>
 
         <div className={form_style.form_group}>
-          <label htmlFor="platform">Platform</label>
+          <label htmlFor="platform">{loc.platform}</label>
           <select
             id="platform"
             name="platform"
@@ -127,7 +129,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
 
         <div className={form_style.form_footer}>
           <button type="submit" className={button_styles.create_btn}>
-            Save
+            {loc.saveButton}
           </button>
           <button
             data-testid="close_modal"
@@ -135,7 +137,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
             className={button_styles.cancel_btn}
             onClick={handleCloseModal}
           >
-            Close
+            {loc.closeButton}
           </button>
         </div>
       </form>

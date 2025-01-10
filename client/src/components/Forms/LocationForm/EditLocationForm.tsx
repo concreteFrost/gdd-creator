@@ -8,6 +8,8 @@ import { editLocation } from "@store/slices/locationsSlice";
 import { showModal } from "@store/slices/modalSlice";
 import { ActiveModal } from "@store/slices/modalSlice";
 import LocationForm from "./LocationForm";
+import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import { locationsFormTranslator } from "./localisation/locationFormTranslator";
 
 const initialFormData: GameLocation = {
   id: "",
@@ -28,6 +30,8 @@ export default function EditLocationForm() {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<GameLocation>(initialFormData);
   const { locationId } = useParams<{ locationId: string }>();
+  const currentLanguage = useCurrentLanguage();
+  const loc = locationsFormTranslator[currentLanguage];
 
   const selectedLocation = useSelector((state: RootState) =>
     state.locationsSlice.locations.find(
@@ -53,7 +57,7 @@ export default function EditLocationForm() {
     }
 
     dispatch(editLocation(formData));
-    dispatch(showModal({ activeModal: ActiveModal.Info, text: "Success" }));
+    dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.successMessage }));
 
     return true;
   }
@@ -63,6 +67,7 @@ export default function EditLocationForm() {
       formData={formData}
       setFormData={setFormData}
       handleFormSubmit={handleSubmit}
+      language={loc}
     />
   );
 }
