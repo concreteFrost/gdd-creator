@@ -17,7 +17,7 @@ const initialState: GameMechanic = {
   name: "",
   description: "",
   typeId: "undefined",
-  interactions: [],
+  //interactions: [],
   examples: [],
   gddId: "",
 };
@@ -53,7 +53,7 @@ function EditMechanicForm() {
     }
 
     dispatch(editMechanic(formData));
-    dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.success}));
+    dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.success }));
 
     return true;
   }

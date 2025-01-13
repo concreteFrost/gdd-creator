@@ -15,12 +15,12 @@ const initialFormData: NewGameLocation = {
   description: "",
   environment: "",
   characters: [],
-  items: [],
+  //items: [],
   mainImage: {
     id: "",
     path: "",
   },
-  additionalImages: [],
+  //additionalImages: [],
 };
 
 export default function NewLocationForm() {

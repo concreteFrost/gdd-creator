@@ -13,7 +13,7 @@ const mockMechanic: GameMechanic = {
   name: "New Mechanic",
   description: "Some desc",
   typeId: "123",
-  interactions: [],
+  //interactions: [],
   examples: [],
   gddId: "",
 };

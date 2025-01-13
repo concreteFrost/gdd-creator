@@ -4,7 +4,10 @@ import * as button_style from "@components/Buttons/Button.module.scss";
 import { GroupedMechanics } from "@_types/gddTypes";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteMechanic } from "@store/slices/mechanicsSlice";
+import {
+  deleteMechanic,
+  duplicateMechanic,
+} from "@store/slices/mechanicsSlice";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { tableTranslator } from "../localisation/tableTranslator";
 import { icons } from "@assets/icons";
@@ -18,7 +21,7 @@ function MechanicsTable({ group }: MechanicsTableProps) {
 
   const currentLang = useCurrentLanguage();
   const loc = tableTranslator[currentLang];
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isExpanded, setExpanded] = useState<boolean>(true);
@@ -68,6 +71,11 @@ function MechanicsTable({ group }: MechanicsTableProps) {
                       }}
                     >
                       {icons.delete}
+                    </button>
+                    <button
+                      onClick={() => dispatch(duplicateMechanic(mechanic))}
+                    >
+                      Dup
                     </button>
                   </td>
                 </tr>

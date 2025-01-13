@@ -12,18 +12,18 @@ import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { characterFormTranslator } from "./localisation/characterFormTranslator";
 
 const initialFormData: Character = {
-  id:"",
+  id: "",
   name: "",
-  role:"",
-  abilities:[],
-  traits:[],
+  role: "",
+  abilities: [],
+  traits: [],
   backstory: "",
   mainImage: {
     id: "",
     path: "",
   },
-  additionalImages: [],
-  gddId: ""
+  //additionalImages: [],
+  gddId: "",
 };
 
 export default function EditCharacterForm() {

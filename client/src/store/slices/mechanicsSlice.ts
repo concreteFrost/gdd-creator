@@ -32,14 +32,20 @@ const mechanicsSlice = createSlice({
         (m: GameMechanic) => m.id !== action.payload
       );
     },
+    duplicateMechanic: (state, action: PayloadAction<GameMechanic>) => {
+      var dup = { ...action.payload, id: uuidv4() };
+
+      state.mechanics.push(dup);
+    },
   },
+
   extraReducers: (builder) => {
     builder.addCase(
       deleteMechanicType,
       (state, action: PayloadAction<string>) => {
         state.mechanics = state.mechanics.map((m: GameMechanic) => {
           if (m.typeId === action.payload) {
-            console.log('found dependant mechanic')
+            console.log("found dependant mechanic");
             return { ...m, typeId: "unspecified" };
           }
           return m;
@@ -51,7 +57,7 @@ const mechanicsSlice = createSlice({
 
 export const initialMechanics = mechanicsSlice.getInitialState();
 
-export const { addMechanic, editMechanic, deleteMechanic } =
+export const { addMechanic, editMechanic, deleteMechanic, duplicateMechanic } =
   mechanicsSlice.actions;
 export default mechanicsSlice.reducer;
 export const d = mechanicsSlice;

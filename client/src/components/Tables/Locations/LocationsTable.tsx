@@ -1,8 +1,12 @@
 import { RootState } from "@store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteLocation } from "@store/slices/locationsSlice";
+import {
+  deleteLocation,
+  duplicateLocation,
+} from "@store/slices/locationsSlice";
 import { useHandleEmptyList } from "@hooks/useHandleEmptyList";
 import TableWithImages from "../TableWithImages";
+import { GameLocation } from "@_types/gddTypes";
 
 export default function LocationsTable() {
   const locations = useSelector(
@@ -22,10 +26,15 @@ export default function LocationsTable() {
     dispatch(deleteLocation(id));
   }
 
+  function handleDup(item: any) {
+    dispatch(duplicateLocation(item));
+  }
+
   return (
     <TableWithImages
       data={sortedLocations}
       handleDeteleItem={handleLocationDelete}
+      handleDup={handleDup}
     ></TableWithImages>
   );
 }

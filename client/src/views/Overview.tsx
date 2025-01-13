@@ -1,40 +1,36 @@
-import EditGddForm from "@components/Forms/GddForm/EditGDDForm";
 import OverviewGeneralInfo from "@components/Overview/OverviewGeneralInfo/OverviewGeneralInfo";
 import OverviewGameplay from "@components/Overview/OverviewGameplay/OverviewGameplay";
-import OverviewLocations from "@components/Overview/OverviewLocations/OverviewLocations";
 import OverviewMechanics from "@components/Overview/OverviewMechanics/OverviewMechanics";
+import OverviewLocations from "@components/Overview/OverviewLocations/OverviewLocations";
 import OverviewCharacters from "@components/Overview/OverviewCharacters/OverviewCharacters";
-// import { PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import PreviewCharacters from "@components/PDFPreview/PreviewCharacters/PreviewCharacters";
-import { useRef, useState } from "react";
-import PreviewGeneralInfo from "@components/PDFPreview/PreviewGeneralInfo/PreviewGeneralInfo";
-import { Document,Page, StyleSheet,PDFViewer } from "@react-pdf/renderer";
-import PreviewGameplay from "@components/PDFPreview/PreviewGameplay/PreviewGameplay";
-import html2pdf from 'html2pdf.js';
-import jsPDF from 'jspdf';
-
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import "@styles/print.css"; // Подключение печатных стилей
 
 function GeneralInfo() {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
 
-  const pdfRef: any = useRef(null);
-
-  const [doc, setDoc] = useState<jsPDF>(new jsPDF())
-
-  
   return (
     <div>
-       {/* <button onClick={()=>generatePDF()}>try</button> */}
-      <div id="content">
-        <a href="https://concreteage.co.uk">link</a>
-      <OverviewGeneralInfo doc={doc}></OverviewGeneralInfo>
-      <OverviewGameplay></OverviewGameplay>
-      {/* <OverviewMechanics></OverviewMechanics>
-      <OverviewLocations></OverviewLocations>
-      <OverviewCharacters></OverviewCharacters> */}
+      <button onClick={() => reactToPrintFn()}>Generate PDF</button>
+      <div id="gdd-content" ref={contentRef}>
+        <div id="general-info">
+          <OverviewGeneralInfo />
+        </div>
+        <div id="gameplay">
+          <OverviewGameplay />
+        </div>
+        <div id="mechanics">
+          <OverviewMechanics />
+        </div>
+        <div id="locations">
+          <OverviewLocations />
+        </div>
+        <div id="characters">
+          <OverviewCharacters />
+        </div>
       </div>
-      
-     
-
     </div>
   );
 }

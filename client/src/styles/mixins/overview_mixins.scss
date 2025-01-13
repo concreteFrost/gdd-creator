@@ -1,74 +1,71 @@
-@mixin overview_container{
-    margin: 0 auto;
-    max-width: 1200px;
-    width: 100%;
-    margin-bottom: 50px;
+@mixin overview_container {
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+  margin-bottom: 50px;
+
+  //   @media print {
+  //     padding-bottom: 100px; /* Увеличение нижнего паддинга до 100px */
+  //   }
 }
 
-@mixin overview_header($bg-color){
-    color: #333;
-    line-height: 1.6;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    border-bottom: 2px solid #d4d4d4;
-    border-top: 2px solid #d4d4d4;
-    background-color: $bg-color;
-    padding-bottom: 5px;
-    margin-bottom: 50px;
-    
+@mixin overview_header($bg-color) {
+  color: #333;
+  line-height: 1.6;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 2px solid #d4d4d4;
+  border-top: 2px solid #d4d4d4;
+  background-color: $bg-color;
+  padding-bottom: 5px;
+  margin-bottom: 50px;
 }
 
-@mixin paragraphs_container($border_color){
-    background-color: rgb(248, 248, 248);
-    padding: 20px;
-    border-left: 4px solid $border_color; /* Линия слева для акцента */
-    border-radius: 5px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+@mixin paragraphs_container($border_color) {
+  padding: 20px;
 
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 30px;
 
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    
+  border-bottom: 1px solid rgb(212, 212, 212);
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-@mixin paragraph_element{
-    
-    font-size: 14px;
+@mixin paragraph_element {
+  font-size: 14px;
 }
 
-@mixin paragraph_header{
-    font-weight: bold;
-    color: #282828; 
+@mixin paragraph_header {
+  font-weight: bold;
+  color: #282828;
 }
 
-@mixin paragraph_sub_header{
-    display: grid;
-    justify-items: center;
-    margin-bottom: 20px;
+@mixin paragraph_sub_header {
+  display: grid;
+  justify-items: center;
+  margin-bottom: 20px;
 }
 
-@mixin formatted_text{
-    line-height: normal;
+@mixin formatted_text {
+  line-height: normal;
 }
 
-@mixin long_text($border_color){
-    font-family: "Roboto";
-    min-height: 10px;
-    width: 98%;
-    white-space: pre-wrap; /* Сохраняет переносы строк */
-    text-align: justify; /* Выравнивает текст по ширине */
-    line-height: 1.8; /* Увеличивает межстрочное расстояние */
-    color: #444; /* Нейтральный цвет текста */
-    // padding: 10px; /* Отступы внутри блока */
-    // border-radius: 5px; /* Скругление углов */
-    // box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Лёгкая тень для объёма */
-    // border-left: 4px solid $border_color; /* Линия слева для акцента */
-    // background-color: rgb(248, 248, 248);
-
-    
+@mixin long_text($border_color) {
+  font-family: "Roboto";
+  min-height: 10px;
+  width: 98%;
+  white-space: pre-wrap; /* Сохраняет переносы строк */
+  text-align: justify; /* Выравнивает текст по ширине */
+  line-height: 1.8; /* Увеличивает межстрочное расстояние */
+  color: #444; /* Нейтральный цвет текста */
+  // padding: 10px; /* Отступы внутри блока */
+  // border-radius: 5px; /* Скругление углов */
+  // box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Лёгкая тень для объёма */
+  // border-left: 4px solid $border_color; /* Линия слева для акцента */
+  // background-color: rgb(248, 248, 248);
 }

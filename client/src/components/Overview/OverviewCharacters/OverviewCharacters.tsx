@@ -9,8 +9,9 @@ import { locationsFormTranslator } from "@components/Forms/LocationForm/localisa
 import { characterFormTranslator } from "@components/Forms/CharacterForm/localisation/characterFormTranslator";
 
 export default function OverviewCharacters() {
-
-  const { characters } = useSelector((state: RootState) => state.charactersSlice);
+  const { characters } = useSelector(
+    (state: RootState) => state.charactersSlice
+  );
 
   if (characters.length === 0) return;
 
@@ -23,7 +24,7 @@ export default function OverviewCharacters() {
       <h2 className={overviewStyles.overview_header}>{headerName}</h2>
       <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
         {characters.map((character: Character) => (
-          <li key={character.id}>
+          <li key={character.id} className={overviewStyles.character_item}>
             <OverviewCharactersElement
               t={t}
               character={character}

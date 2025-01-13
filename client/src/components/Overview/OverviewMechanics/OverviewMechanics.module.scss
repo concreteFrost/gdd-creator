@@ -1,36 +1,41 @@
 @use "@styles/mixins/overview_mixins.scss" as *;
 @use "@styles/variables.scss" as *;
 
-.overview_container{
-    @include overview_container;
+.overview_container {
+  @include overview_container;
+  page-break-before: always;
+  page-break-after: always;
 }
 
-.overview_header{
-    @include overview_header($mechanics-border);
+.overview_header {
+  @include overview_header($mechanics-border);
 }
 
-.paragraphs_container{
-    @include paragraphs_container($mechanics-border);
+.paragraphs_container {
+  @include paragraphs_container($mechanics-border);
 }
 
-.paragraph_element{
-    @include paragraph_element;
+.paragraph_element {
+  @include paragraph_element;
 }
 
-.paragraph_header{
-    @include paragraph_header;
+.paragraph_header {
+  @include paragraph_header;
 }
 
-.paragraph_sub_header{
-    @include paragraph_sub_header;
+.paragraph_sub_header {
+  @include paragraph_sub_header;
 }
 
-.formatted_text{
-    @include formatted_text;
+.formatted_text {
+  @include formatted_text;
 }
 
-.mechanic_title{
-    font-size: 20px;
-    text-align: center;
-    margin-bottom: 10px;
+.mechanic_element {
+}
+
+.mechanic_title {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }

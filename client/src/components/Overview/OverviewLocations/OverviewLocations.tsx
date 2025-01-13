@@ -9,7 +9,9 @@ import { locationsFormTranslator } from "@components/Forms/LocationForm/localisa
 
 export default function OverviewLocations() {
   const { locations } = useSelector((state: RootState) => state.locationsSlice);
-  const {characters} = useSelector((state:RootState)=>state.charactersSlice);
+  const { characters } = useSelector(
+    (state: RootState) => state.charactersSlice
+  );
 
   if (locations.length === 0) return;
 
@@ -18,11 +20,11 @@ export default function OverviewLocations() {
   const t = locationsFormTranslator[currentLang];
 
   return (
-    <div className={overviewStyles.overview_container}>
+    <div className={overviewStyles.overview_container} id="locations">
       <h2 className={overviewStyles.overview_header}>{headerName}</h2>
       <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
         {locations.map((location: GameLocation) => (
-          <li key={location.id}>
+          <li key={location.id} className={overviewStyles.location_item}>
             <OverviewLocationsElement
               t={t}
               location={location}

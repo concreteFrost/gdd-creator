@@ -1,6 +1,9 @@
 import { RootState } from "@store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCharacter } from "@store/slices/characterSlices";
+import {
+  deleteCharacter,
+  duplicateCharacter,
+} from "@store/slices/characterSlices";
 import { useHandleEmptyList } from "@hooks/useHandleEmptyList";
 import TableWithImages from "../TableWithImages";
 
@@ -22,8 +25,13 @@ export default function CharactersTable() {
     dispatch(deleteCharacter(id));
   }
 
+  function handleDup(item: any) {
+    dispatch(duplicateCharacter(item));
+  }
+
   return (
     <TableWithImages
+      handleDup={handleDup}
       data={sortedCharacters}
       handleDeteleItem={handleDeleteCharacter}
     ></TableWithImages>

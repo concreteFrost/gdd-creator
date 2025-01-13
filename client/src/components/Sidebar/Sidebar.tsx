@@ -22,25 +22,31 @@ export default function Sidebar() {
       {/* <h3>Components</h3> */}
       <ul>
         <li>
-          <span onClick={() => handleNavigate("info")}>{loc.output}</span>
-        </li>
-        <li>
           <span onClick={() => handleNavigate("editGdd")}>{loc.general}</span>
         </li>
         <li>
           <span onClick={() => handleNavigate("gameplay")}>{loc.gameplay}</span>
         </li>
         <li>
-          <span onClick={() => handleNavigate("mechanics")}>{loc.mechanics}</span>
+          <span onClick={() => handleNavigate("mechanics")}>
+            {loc.mechanics}
+          </span>
           <NavigateButton route="mechanics/new" icon={icons.plus} />
         </li>
         <li>
-          <span onClick={() => handleNavigate("locations")}>{loc.locations}</span>
+          <span onClick={() => handleNavigate("locations")}>
+            {loc.locations}
+          </span>
           <NavigateButton route="locations/new" icon={icons.plus} />
         </li>
         <li>
-          <span onClick={() => handleNavigate("characters")}>{loc.characters} </span>
+          <span onClick={() => handleNavigate("characters")}>
+            {loc.characters}{" "}
+          </span>
           <NavigateButton route="characters/new" icon={icons.plus} />
+        </li>
+        <li>
+          <span onClick={() => handleNavigate("info")}>{loc.output}</span>
         </li>
       </ul>
     </div>

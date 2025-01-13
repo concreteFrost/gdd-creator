@@ -18,12 +18,12 @@ const initialFormData: GameLocation = {
   description: "",
   environment: "",
   characters: [],
-  items: [],
+  //items: [],
   mainImage: {
     id: "",
     path: "",
   },
-  additionalImages: [],
+  //additionalImages: [],
 };
 
 export default function EditLocationForm() {
@@ -57,7 +57,9 @@ export default function EditLocationForm() {
     }
 
     dispatch(editLocation(formData));
-    dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.successMessage }));
+    dispatch(
+      showModal({ activeModal: ActiveModal.Info, text: loc.successMessage })
+    );
 
     return true;
   }

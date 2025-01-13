@@ -23,14 +23,14 @@ interface CharacterFormProps {
   formData: NewCharacter;
   setFormData: (data: any) => void;
   handleFormSubmit: (e: FormEvent<HTMLFormElement>) => boolean;
-  t: CharacterFormFields
+  t: CharacterFormFields;
 }
 
 export default function CharacterForm({
   formData,
   handleFormSubmit,
   setFormData,
-  t
+  t,
 }: CharacterFormProps) {
   const [submitMessage, setSubmitMessage] = useState<string>("");
   const abilitiesInputRef: any = useRef<HTMLInputElement>(null);
@@ -65,7 +65,7 @@ export default function CharacterForm({
     });
   }
 
-  function handleSetTrait(e:any){
+  function handleSetTrait(e: any) {
     const newTrait: CharacterTraits = { id: uuidv4(), trait: e };
     setFormData((prev: NewCharacter) => {
       return {
@@ -75,7 +75,7 @@ export default function CharacterForm({
     });
   }
 
-  function handleDeleteTrait(id:string){
+  function handleDeleteTrait(id: string) {
     const filtered = formData.traits.filter(
       (trait: CharacterTraits) => trait.id !== id
     );
@@ -110,40 +110,6 @@ export default function CharacterForm({
           id: "",
           path: "",
         },
-      };
-    });
-  }
-
-  const uploadAdditionalImages = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    try {
-      const previewUrl = await handleUploadImage(e);
-      const id = uuidv4();
-      const newImage: GDDElementImage = {
-        id: id,
-        path: previewUrl,
-      };
-      setFormData((prev: NewCharacter) => {
-        return {
-          ...prev,
-          additionalImages: [...prev.additionalImages!, newImage],
-        };
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  function deleteAdditionalImage(id: string) {
-    const filteredImages = formData.additionalImages?.filter(
-      (img: GDDElementImage) => img.id !== id
-    );
-
-    setFormData((prev: NewCharacter) => {
-      return {
-        ...prev,
-        additionalImages: filteredImages,
       };
     });
   }
@@ -240,9 +206,7 @@ export default function CharacterForm({
         <div className={form_style.form_group}>
           {formData.traits.length > 0 ? (
             <MechanicsTag
-              deleteTag={(item: CharacterTraits) =>
-                handleDeleteTrait(item.id)
-              }
+              deleteTag={(item: CharacterTraits) => handleDeleteTrait(item.id)}
               items={formData.traits}
               renderItem={(item: CharacterTraits) => <>{item.trait}</>}
             ></MechanicsTag>
@@ -290,7 +254,7 @@ export default function CharacterForm({
           )}
         </div>
 
-        <div className={form_style.form_group}>
+        {/* <div className={form_style.form_group}>
           <label htmlFor="main-image">{t.additionalImages}</label>
           <input
             data-testid="test-main-image"
@@ -325,7 +289,7 @@ export default function CharacterForm({
               ))
               : null}
           </ul>
-        </div>
+        </div> */}
 
         {/* <div className={form_style.form_group}>
             <label htmlFor="description">Interactions</label>
@@ -350,3 +314,37 @@ export default function CharacterForm({
     </>
   );
 }
+
+// const uploadAdditionalImages = async (
+//   e: React.ChangeEvent<HTMLInputElement>
+// ) => {
+//   try {
+//     const previewUrl = await handleUploadImage(e);
+//     const id = uuidv4();
+//     const newImage: GDDElementImage = {
+//       id: id,
+//       path: previewUrl,
+//     };
+//     setFormData((prev: NewCharacter) => {
+//       return {
+//         ...prev,
+//         additionalImages: [...prev.additionalImages!, newImage],
+//       };
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// function deleteAdditionalImage(id: string) {
+//   const filteredImages = formData.additionalImages?.filter(
+//     (img: GDDElementImage) => img.id !== id
+//   );
+
+//   setFormData((prev: NewCharacter) => {
+//     return {
+//       ...prev,
+//       additionalImages: filteredImages,
+//     };
+//   });
+// }

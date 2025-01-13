@@ -1,25 +1,25 @@
-
-import LocationImage from '@components/Images/LocationImage';
-import { Character,GameLocation } from '@_types/gddTypes';
+import LocationImage from "@components/Images/LocationImage";
+import { Character, GameLocation } from "@_types/gddTypes";
 import * as table_style from "./Table.module.scss";
 import * as button_style from "@components/Buttons/Button.module.scss";
-import { useNavigate } from 'react-router-dom';
-import { useCurrentLanguage } from '@hooks/useCurrentLanguage';
-import { tableTranslator } from './localisation/tableTranslator';
-import { icons } from '@assets/icons';
+import { useNavigate } from "react-router-dom";
+import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import { tableTranslator } from "./localisation/tableTranslator";
+import { icons } from "@assets/icons";
 
-interface TableProps{
-    data: (Character | GameLocation)[];
-    handleDeteleItem:(itemId:string)=>void;
+interface TableProps {
+  data: (Character | GameLocation)[];
+  handleDeteleItem: (itemId: string) => void;
+  handleDup: (item: Character | GameLocation) => void;
 }
 
-function TableWithImages({data, handleDeteleItem} : TableProps) {
-    const navigate : any = useNavigate();
+function TableWithImages({ data, handleDeteleItem, handleDup }: TableProps) {
+  const navigate: any = useNavigate();
 
-    const currentLang = useCurrentLanguage();
-    const loc = tableTranslator[currentLang];
-    return (
-        <table className={table_style.table}>
+  const currentLang = useCurrentLanguage();
+  const loc = tableTranslator[currentLang];
+  return (
+    <table className={table_style.table}>
       <thead>
         <tr>
           <th>{loc.nameHeader}</th>
@@ -29,7 +29,7 @@ function TableWithImages({data, handleDeteleItem} : TableProps) {
       <tbody>
         {data.map((item) => (
           <tr key={item.id}>
-            <td style={{ height: "150px" }} >
+            <td style={{ height: "150px" }}>
               <div
                 style={{
                   display: "grid",
@@ -78,12 +78,13 @@ function TableWithImages({data, handleDeteleItem} : TableProps) {
               >
                 {icons.delete}
               </button>
+              <button onClick={() => handleDup(item)}>Dup</button>
             </td>
           </tr>
         ))}
       </tbody>
     </table>
-    );
+  );
 }
 
 export default TableWithImages;

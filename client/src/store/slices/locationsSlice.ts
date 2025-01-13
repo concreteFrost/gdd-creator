@@ -32,6 +32,11 @@ const locationsSlice = createSlice({
         (location: GameLocation) => location.id !== action.payload
       );
     },
+
+    duplicateLocation: (state, action: PayloadAction<GameLocation>) => {
+      const dup = { ...action.payload, id: uuidv4() };
+      state.locations.push(dup);
+    },
   },
   extraReducers(builder) {
     builder.addCase(deleteCharacter, (state, action: PayloadAction<string>) => {
@@ -42,13 +47,10 @@ const locationsSlice = createSlice({
         ),
       }));
     });
-
-    console.log("character was removed")
   },
-  
 });
 
 export const initialLocations = locationsSlice.getInitialState();
-export const { addLocation, editLocation, deleteLocation } =
+export const { addLocation, editLocation, deleteLocation, duplicateLocation } =
   locationsSlice.actions;
 export default locationsSlice.reducer;

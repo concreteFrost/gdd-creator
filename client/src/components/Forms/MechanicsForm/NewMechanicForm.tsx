@@ -15,7 +15,7 @@ const initialState: NewMechnicForm = {
   name: "",
   description: "",
   typeId: "unspecified",
-  interactions: [],
+  //interactions: [],
   examples: [],
   gddId: "",
 };

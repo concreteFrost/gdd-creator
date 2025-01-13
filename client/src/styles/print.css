@@ -1,0 +1,13 @@
+@media print {
+  @page {
+    padding: 10mm;
+  }
+
+  .page-number {
+    display: none !important;
+  }
+
+  /* Дополнительные стили для печати */
+
+  /* Другие настройки стилей для печатной версии */
+}

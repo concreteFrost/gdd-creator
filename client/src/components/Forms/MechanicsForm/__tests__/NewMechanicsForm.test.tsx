@@ -10,7 +10,7 @@ const mockData: NewMechnicForm = {
   name: "",
   description: "",
   typeId: "undefined",
-  interactions: [],
+  //interactions: [],
   examples: [],
   gddId: "",
 };
@@ -24,7 +24,7 @@ const mockFormSubmit = jest.fn();
 describe("Mechanics Form Component", () => {
   const useSelectorMock = jest.spyOn(reactRedux, "useSelector");
   const useDispatchMock = jest.spyOn(reactRedux, "useDispatch");
-  const lang = mechanicsFormTranslator['en'];
+  const lang = mechanicsFormTranslator["en"];
 
   beforeEach(() => {
     useSelectorMock.mockImplementation((selector) => initialTypes);

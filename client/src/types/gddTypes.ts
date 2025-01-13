@@ -35,7 +35,7 @@ export interface GameMechanic {
   name: string; // Name of the mechanic (e.g., Jump, Combat)
   description: string; // Explanation of how it works in the game
   typeId: string; // Type of mechanic (e.g., Action, Puzzle)
-  interactions: string[]; // List of other mechanics this interacts with
+  //interactions: string[]; // List of other mechanics this interacts with
   examples: MechanicExample[]; // Examples in games that use similar mechanics
   gddId: string;
 }
@@ -87,9 +87,9 @@ export interface GameLocation {
   description: string; // Description of the location (setting, atmosphere)
   environment: string; // Environment (e.g., city, forest, dungeon)
   characters: string[]; // Characters associated with the location
-  items: string[]; // List of items found in the location
+  //items: string[]; // List of items found in the location
   mainImage: GDDElementImage | null;
-  additionalImages: GDDElementImage[] | null;
+  // additionalImages: GDDElementImage[] | null;
 }
 
 export interface GDDElementImage {
@@ -102,27 +102,27 @@ export interface GDDElementImage {
 
 export type NewGameLocation = Omit<GameLocation, "id">;
 
-export interface CharacterAbilities{
-  id:string;
-  ability:string;
+export interface CharacterAbilities {
+  id: string;
+  ability: string;
 }
 
-export interface CharacterTraits{
-  id:string;
-  trait:string;
+export interface CharacterTraits {
+  id: string;
+  trait: string;
 }
 
 // Character Interface
 export interface Character {
-  id:string;
+  id: string;
   name: string; // Name of the character
   role: string; // Role in the game (e.g., protagonist, antagonist, NPC)
   backstory: string; // Character's background story
   abilities: CharacterAbilities[]; // Abilities or special skills
   traits: CharacterTraits[]; // Personality traits (e.g., brave, cautious)
   mainImage: GDDElementImage | null;
-  additionalImages: GDDElementImage[];
-  gddId:string;
+  // additionalImages: GDDElementImage[];
+  gddId: string;
 }
 
-export type NewCharacter = Omit<Character,"id">
+export type NewCharacter = Omit<Character, "id">;

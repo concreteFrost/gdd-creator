@@ -29,10 +29,12 @@ export default function LocationForm({
   formData,
   handleFormSubmit,
   setFormData,
-  language
+  language,
 }: LocationFormProps) {
   const [submitMessage, setSubmitMessage] = useState<string>("");
-  const { characters } = useSelector((state: RootState) => state.charactersSlice);
+  const { characters } = useSelector(
+    (state: RootState) => state.charactersSlice
+  );
 
   useClearOnTime({ setText: setSubmitMessage, text: submitMessage });
   //   useKeyEnterWithInput({
@@ -66,40 +68,6 @@ export default function LocationForm({
           id: "",
           path: "",
         },
-      };
-    });
-  }
-
-  const uploadAdditionalImages = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    try {
-      const previewUrl = await handleUploadImage(e);
-      const id = uuidv4();
-      const newImage: GDDElementImage = {
-        id: id,
-        path: previewUrl,
-      };
-      setFormData((prev: GameLocation) => {
-        return {
-          ...prev,
-          additionalImages: [...prev.additionalImages!, newImage],
-        };
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  function deleteAdditionalImage(id: string) {
-    const filteredImages = formData.additionalImages?.filter(
-      (img: GDDElementImage) => img.id !== id
-    );
-
-    setFormData((prev: GameLocation) => {
-      return {
-        ...prev,
-        additionalImages: filteredImages,
       };
     });
   }
@@ -175,18 +143,23 @@ export default function LocationForm({
         <section className={form_style.form_group}>
           <label>{language.characters}</label>
           <ul className={form_style.characters_list}>
-            {characters.length > 0 ? characters.map((character: Character) => (
-              <li key={character.id}>
-                <span>{character.name}</span>
-                <div className={form_style.input}><input
-                  type="checkbox"
-                  value={character.id}
-                  checked={formData.characters?.includes(character.id) || false}
-                  onChange={(e) => toggleCharacters(e, character)}
-                /></div>
-
-              </li>
-            )) : null}
+            {characters.length > 0
+              ? characters.map((character: Character) => (
+                  <li key={character.id}>
+                    <span>{character.name}</span>
+                    <div className={form_style.input}>
+                      <input
+                        type="checkbox"
+                        value={character.id}
+                        checked={
+                          formData.characters?.includes(character.id) || false
+                        }
+                        onChange={(e) => toggleCharacters(e, character)}
+                      />
+                    </div>
+                  </li>
+                ))
+              : null}
           </ul>
         </section>
 
@@ -232,7 +205,7 @@ export default function LocationForm({
           )}
         </section>
         {/*Additional images */}
-        <section className={form_style.form_group}>
+        {/* <section className={form_style.form_group}>
           <label htmlFor="main-image">{language.additionalImages}</label>
           <input
             data-testid="test-main-image"
@@ -267,7 +240,7 @@ export default function LocationForm({
               ))
               : null}
           </ul>
-        </section>
+        </section> */}
         {submitMessage.length > 0 ? (
           <div className={`${form_style.form_group} ${form_style.error}`}>
             {submitMessage}
@@ -287,3 +260,37 @@ export default function LocationForm({
     </>
   );
 }
+
+// const uploadAdditionalImages = async (
+//   e: React.ChangeEvent<HTMLInputElement>
+// ) => {
+//   try {
+//     const previewUrl = await handleUploadImage(e);
+//     const id = uuidv4();
+//     const newImage: GDDElementImage = {
+//       id: id,
+//       path: previewUrl,
+//     };
+//     setFormData((prev: GameLocation) => {
+//       return {
+//         ...prev,
+//         additionalImages: [...prev.additionalImages!, newImage],
+//       };
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// function deleteAdditionalImage(id: string) {
+//   const filteredImages = formData.additionalImages?.filter(
+//     (img: GDDElementImage) => img.id !== id
+//   );
+
+//   setFormData((prev: GameLocation) => {
+//     return {
+//       ...prev,
+//       additionalImages: filteredImages,
+//     };
+//   });
+// }

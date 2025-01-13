@@ -11,16 +11,16 @@ import { characterFormTranslator } from "./localisation/characterFormTranslator"
 
 const initialFormData: NewCharacter = {
   name: "",
-  role:"",
-  abilities:[],
-  traits:[],
+  role: "",
+  abilities: [],
+  traits: [],
   backstory: "",
   mainImage: {
     id: "",
     path: "",
   },
-  additionalImages: [],
-  gddId: ""
+  //additionalImages: [],
+  gddId: "",
 };
 
 export default function NewCharacterForm() {
@@ -28,8 +28,8 @@ export default function NewCharacterForm() {
   const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
   const dispatch = useDispatch();
 
-   const currentLang = useCurrentLanguage();
-    const loc = characterFormTranslator[currentLang];
+  const currentLang = useCurrentLanguage();
+  const loc = characterFormTranslator[currentLang];
 
   function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

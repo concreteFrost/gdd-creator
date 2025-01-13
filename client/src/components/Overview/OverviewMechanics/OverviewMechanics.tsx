@@ -16,14 +16,12 @@ export default function OverviewMechanics() {
   const { mechanics } = useSelector((state: RootState) => state.mechanicsSlice);
   const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
 
-  console.log('mechanics', mechanics)
+  console.log("mechanics", mechanics);
 
-  if(mechanics.length <=0){
+  if (mechanics.length <= 0) {
     console.log("no mechanics were found");
     return;
   }
-
- 
 
   const currentLang = useCurrentLanguage();
   const headerName = sidebarTranslator[currentLang].mechanics;
@@ -35,7 +33,7 @@ export default function OverviewMechanics() {
   );
   // Сгруппировать механики, у которых нет типа (например, typeId === "unknown" или не определен)
   const mechanicsWithoutType = useMemo(
-    () => unsortedMechanics(types,mechanics),
+    () => unsortedMechanics(types, mechanics),
     [mechanics]
   );
 
@@ -48,18 +46,19 @@ export default function OverviewMechanics() {
   }
 
   return (
-    <div className={overviewStyles.overview_container}>
+    <div className={overviewStyles.overview_container} id="mechanics">
       <h2 className={overviewStyles.overview_header}>{headerName}</h2>
       <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
-        {groupedMechanics.length > 0 ? (
-          groupedMechanics.map((gr: GroupedMechanics) => (
-            <li key={gr.type.id}>
-              <OverviewMechanicsElement group={gr} t={t}></OverviewMechanicsElement>
-            </li>
-          ))
-        ) : (
-         null
-        )}
+        {groupedMechanics.length > 0
+          ? groupedMechanics.map((gr: GroupedMechanics) => (
+              <li key={gr.type.id}>
+                <OverviewMechanicsElement
+                  group={gr}
+                  t={t}
+                ></OverviewMechanicsElement>
+              </li>
+            ))
+          : null}
       </ul>
     </div>
   );

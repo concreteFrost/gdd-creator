@@ -1,42 +1,42 @@
-import { RootState } from "@store/store";
-import { useSelector } from "react-redux";
 import { sidebarTranslator } from "@components/Sidebar/localisation/sidebarTranslator";
 import { gamplayFormTranslator } from "@components/Forms/GameplayForm/localisation/gameplayFormTranslator";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { View, Text, StyleSheet } from "@react-pdf/renderer";
-import { container, longText, subSectionContainer, sectionHeaderTitle, subHeader } from "../styles/PDFStyle";
+import {
+  container,
+  longText,
+  subSectionContainer,
+  sectionHeaderTitle,
+  subHeader,
+} from "../styles/PDFStyle";
 import { formatQuillOutput } from "@utils/quillToText";
+import { GamePlay } from "@_types/gddTypes";
 
 const style = StyleSheet.create({
   container: container,
   sectionHeader: sectionHeaderTitle,
-  subSectionContainer:subSectionContainer,
-  storyContainer:{
-    width:"100%",
-    display:"flex",
-    flexDirection:"column",
-    marginBottom:20
+  subSectionContainer: subSectionContainer,
+  storyContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    marginBottom: 20,
   },
-  storyTitle:subHeader,
-  storyContent:longText,
-  gameplayGeneralInfo:{
-    display:"flex",
-    flexDirection:"row",
-    fontSize:"0.8rem",
-    justifyContent:"space-between"
-  }
+  storyTitle: subHeader,
+  storyContent: longText,
+  gameplayGeneralInfo: {
+    display: "flex",
+    flexDirection: "row",
+    fontSize: "0.8rem",
+    justifyContent: "space-between",
+  },
 });
 
-export default function PreviewGameplay() {
-  const {
-    story,
-    objectives,
-    progression,
-    difficulty,
-    pacing,
-    playerExperience,
-  } = useSelector((state: RootState) => state.gameplaySlice.gameplay);
+interface Props {
+  gamePlay: GamePlay;
+}
 
+export default function PreviewGameplay({ gamePlay }: Props) {
   const currentLang = useCurrentLanguage();
   const headerName = sidebarTranslator[currentLang].gameplay;
   const paragraphNames = gamplayFormTranslator[currentLang];
@@ -48,34 +48,31 @@ export default function PreviewGameplay() {
         <Text>{headerName}</Text>
       </View>
       {/**section container */}
-      <View style={style.subSectionContainer} >
-      {/**story */}
-      <View style={style.storyContainer}>
-        {/**header */}
-        <Text style={style.storyTitle}>
-          {paragraphNames.story}
-        </Text>
-        {/**story content */}
-        <Text style={style.storyContent}>
-          {formatQuillOutput(story)}
-        </Text>
-      </View>
-      {/**gameplay info */}
-      <View style={style.gameplayGeneralInfo}>
-        <View>
-          <Text>{paragraphNames.difficulty}:</Text>
-          <Text>{difficulty}</Text>
+      <View style={style.subSectionContainer}>
+        {/**story */}
+        <View style={style.storyContainer}>
+          {/**header */}
+          <Text style={style.storyTitle}>{paragraphNames.story}</Text>
+          {/**story content */}
+          <Text style={style.storyContent}>
+            {formatQuillOutput(gamePlay.story)}
+          </Text>
         </View>
-        <View>
-          <Text>{paragraphNames.pacing}:</Text>
-          <Text>{pacing}</Text>
+        {/**gameplay info */}
+        <View style={style.gameplayGeneralInfo}>
+          <View>
+            <Text>{paragraphNames.difficulty}:</Text>
+            <Text>{gamePlay.difficulty}</Text>
+          </View>
+          <View>
+            <Text>{paragraphNames.pacing}:</Text>
+            <Text>{gamePlay.pacing}</Text>
+          </View>
+          <View>
+            <Text>{paragraphNames.playerExperience}:</Text>
+            <Text>{gamePlay.playerExperience}</Text>
+          </View>
         </View>
-        <View>
-          <Text>{paragraphNames.playerExperience}:</Text>
-          <Text>{playerExperience}</Text>
-        </View>
-      </View>
-
       </View>
 
       {/* <section className={overviewStyles.paragraphs_container}>

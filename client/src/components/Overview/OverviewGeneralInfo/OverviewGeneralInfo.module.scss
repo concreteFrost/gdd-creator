@@ -2,36 +2,36 @@
 @use "@styles/variables.scss" as *;
 
 .overview_container {
-    @include overview_container;
+  @include overview_container;
+  page-break-after: avoid;
 }
 
 .overview_header {
-    text-align: center;
-    margin-bottom: 70px;
-    font-size: 3rem;
+  text-align: center;
+  margin-bottom: 70px;
+  font-size: 3rem;
 }
 
 .game_info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding-right: 20px;
-    text-align: right;
-    
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-right: 20px;
+  text-align: right;
 }
 
 .paragraphs_container {
-    @include paragraphs_container($gameplay-border);
+  @include paragraphs_container($gameplay-border);
 }
 
 .paragraph_element {
-    @include paragraph_element;
+  @include paragraph_element;
 }
 
 .paragraph_header {
-    @include paragraph_header;
+  @include paragraph_header;
 }
 
 .paragraph_sub_header {
-    @include paragraph_sub_header;
+  @include paragraph_sub_header;
 }
