@@ -1,0 +1,25 @@
+@use "@styles/mixins/form_mixins.scss" as *;
+@use "@styles/mixins/list_mixins.scss" as *;
+@use "@styles/mixins/button_mixins.scss" as *;
+@use "@styles/variables.scss" as *;
+
+.list_wrapper {
+  @include generic_form(600px);
+
+  ul {
+    @include form_list($list-gap: 20px, $padding: 0px, $bg: rgb(216, 216, 216));
+
+    max-height: 500px;
+    overflow-y: auto;
+    .edit_button {
+      @include button($btn-primary-color);
+      font-size: 0.8rem;
+      padding: 8px;
+    }
+  }
+  margin: 2rem auto;
+}
+
+.modal_header {
+  @include form_title;
+}
