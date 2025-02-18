@@ -2,16 +2,7 @@ import { GamePlatform, GameView } from "@_types/gddTypes";
 import { GDD } from "@_types/gddTypes";
 import { AxiosResponse } from "axios";
 import axiosClient from "./axiosSetup";
-
-interface GDDResponse {
-  success: string;
-  gdd: GDD;
-}
-
-interface GDDGetAllResponse {
-  success: string;
-  gdd: Array<GDD>;
-}
+import { GDDResponse, GDDGetAllResponse } from "./types/apiTypes";
 
 export const createGDDAPI = async (
   title: string,

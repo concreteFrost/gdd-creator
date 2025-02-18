@@ -1,18 +1,12 @@
 import * as form_style from "./CharacterForm.module.scss";
 import * as button_styles from "@components/Buttons/Button.module.scss";
-import {
-  CharacterAbilities,
-  CharacterTraits,
-  GDDElementImage,
-  NewCharacter,
-} from "@_types/gddTypes";
+import { NewCharacter } from "@_types/gddTypes";
 import { FormEvent } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import useClearOnTime from "@hooks/useClearOnTime";
 import { useKeyEnterWithInput } from "@hooks/useKeyEnter";
 import { useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { handleUploadImage } from "@utils/images/handleUploadImage";
 import LocationImage from "@components/Images/LocationImage";
 import MechanicsTag from "@components/Tags/MechanicsTag";
@@ -22,7 +16,7 @@ import PressKeyHint from "@components/Hints/PressKeyHint";
 interface CharacterFormProps {
   formData: NewCharacter;
   setFormData: (data: any) => void;
-  handleFormSubmit: (e: FormEvent<HTMLFormElement>) => boolean;
+  handleFormSubmit: (e: FormEvent<HTMLFormElement>) => Promise<boolean>;
   t: CharacterFormFields;
 }
 
@@ -47,18 +41,21 @@ export default function CharacterForm({
   });
 
   function handleSetAbility(e: any) {
-    const newAbility: CharacterAbilities = { id: uuidv4(), ability: e };
     setFormData((prev: NewCharacter) => {
+      if (prev.abilities.includes(e)) {
+        return prev; // Если есть, просто возвращаем прежнее состояние
+      }
+
       return {
         ...prev,
-        abilities: [...prev.abilities, newAbility],
+        abilities: [...prev.abilities, e],
       };
     });
   }
 
   function handleDeleteAbility(id: string) {
-    const filtered = formData.abilities.filter(
-      (ability: CharacterAbilities) => ability.id !== id
+    const filtered = formData.abilities?.filter(
+      (ability: string) => ability !== id
     );
     setFormData((prev: NewCharacter) => {
       return { ...prev, abilities: filtered };
@@ -66,19 +63,20 @@ export default function CharacterForm({
   }
 
   function handleSetTrait(e: any) {
-    const newTrait: CharacterTraits = { id: uuidv4(), trait: e };
     setFormData((prev: NewCharacter) => {
+      if (prev.traits.includes(e)) {
+        return prev; // Если есть, просто возвращаем прежнее состояние
+      }
+
       return {
         ...prev,
-        traits: [...prev.traits, newTrait],
+        traits: [...prev.traits, e],
       };
     });
   }
 
   function handleDeleteTrait(id: string) {
-    const filtered = formData.traits.filter(
-      (trait: CharacterTraits) => trait.id !== id
-    );
+    const filtered = formData.traits.filter((trait: string) => trait !== id);
     setFormData((prev: NewCharacter) => {
       return { ...prev, traits: filtered };
     });
@@ -87,14 +85,12 @@ export default function CharacterForm({
   const uploadMainImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const previewUrl = await handleUploadImage(e);
-      const id = uuidv4();
+      console.log(e.target.files);
       setFormData((prev: NewCharacter) => {
         return {
           ...prev,
-          mainImage: {
-            id: id,
-            path: previewUrl,
-          },
+          img: previewUrl,
+          imageInstance: e.target.files?.[0],
         };
       });
     } catch (error) {
@@ -106,10 +102,8 @@ export default function CharacterForm({
     setFormData((prev: NewCharacter) => {
       return {
         ...prev,
-        mainImage: {
-          id: "",
-          path: "",
-        },
+        img: "",
+        imageInstance: null,
       };
     });
   }
@@ -123,8 +117,9 @@ export default function CharacterForm({
     });
   }
 
-  function submitForm(e: any) {
-    if (handleFormSubmit(e) === false) {
+  async function submitForm(e: any) {
+    const res = await handleFormSubmit(e);
+    if (res === false) {
       setSubmitMessage(t.nameRequired);
       return;
     }
@@ -183,11 +178,9 @@ export default function CharacterForm({
         <div className={form_style.form_group}>
           {formData.abilities.length > 0 ? (
             <MechanicsTag
-              deleteTag={(item: CharacterAbilities) =>
-                handleDeleteAbility(item.id)
-              }
+              deleteTag={(item: string) => handleDeleteAbility(item)}
               items={formData.abilities}
-              renderItem={(item: CharacterAbilities) => <>{item.ability}</>}
+              renderItem={(item: string) => <>{item}</>}
             ></MechanicsTag>
           ) : null}
         </div>
@@ -206,9 +199,9 @@ export default function CharacterForm({
         <div className={form_style.form_group}>
           {formData.traits.length > 0 ? (
             <MechanicsTag
-              deleteTag={(item: CharacterTraits) => handleDeleteTrait(item.id)}
+              deleteTag={(item: string) => handleDeleteTrait(item)}
               items={formData.traits}
-              renderItem={(item: CharacterTraits) => <>{item.trait}</>}
+              renderItem={(item: string) => <>{item}</>}
             ></MechanicsTag>
           ) : null}
         </div>
@@ -223,7 +216,7 @@ export default function CharacterForm({
             accept="image/*"
             onChange={uploadMainImage}
           />
-          {formData.mainImage?.path && (
+          {formData.img && (
             <div style={{ marginTop: "10px", position: "relative" }}>
               {/* <img
                 src={formData.mainImage.path}
@@ -235,7 +228,7 @@ export default function CharacterForm({
                 }}
               /> */}
               <LocationImage
-                path={formData.mainImage.path}
+                path={formData.img}
                 alt="Main image"
                 width="200px"
               ></LocationImage>

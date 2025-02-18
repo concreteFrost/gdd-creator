@@ -174,7 +174,7 @@ export default function LocationForm({
             accept="image/*"
             onChange={uploadMainImage}
           />
-          {formData.mainImage?.path && (
+          {formData.img && (
             <div style={{ marginTop: "10px", position: "relative" }}>
               {/* <img
                 src={formData.mainImage.path}
@@ -186,7 +186,7 @@ export default function LocationForm({
                 }}
               /> */}
               <LocationImage
-                path={formData.mainImage.path}
+                path={formData.img}
                 alt="Main image"
                 width="200px"
               ></LocationImage>

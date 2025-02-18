@@ -21,7 +21,7 @@ export const mockMechanics: GameMechanic[] = [
     id: "123",
     name: "Grab",
     description: "Test Description",
-    typeId: "1",
+    type_id: "1",
     //interactions: [],
     examples: [],
     // gddId: "1",
@@ -30,7 +30,7 @@ export const mockMechanics: GameMechanic[] = [
     id: "234",
     name: "Shooting",
     description: "Shooting desc",
-    typeId: "2",
+    type_id: "2",
     //interactions: [],
     examples: [],
     // gddId: "1",
@@ -62,7 +62,7 @@ export const mockGameplay: GamePlay = {
       name: "Uncover the cause of the apocalypse",
     },
   ],
-  progression: [
+  progressions: [
     { id: "1", name: "Crafting items" },
     { id: "2", name: "Recruiting allies" },
     { id: "3", name: "Expanding territory" },
@@ -79,12 +79,9 @@ export const mockCharacters: Character[] = [
     role: "NPC",
     backstory:
       "A kind herbalist who helps travelers with potions and remedies.",
-    abilities: [{ id: "1", ability: "Herbal Knowledge" }],
-    traits: [
-      { id: "1", trait: "Kind" },
-      { id: "2", trait: "Wise" },
-    ],
-    mainImage: null,
+    abilities: ["some knowledge"],
+    traits: ["Kind", "wise"],
+    img: null,
     //additionalImages: [],
     // gddId: "gdd-123",
   },

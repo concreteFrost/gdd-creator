@@ -10,29 +10,11 @@ import { ActiveModal } from "@store/slices/modalSlice";
 import CharacterForm from "./CharacterForm";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { characterFormTranslator } from "./localisation/characterFormTranslator";
-
-const initialFormData: Character = {
-  id: "",
-  name: "",
-  role: "",
-  abilities: [],
-  traits: [],
-  backstory: "",
-  mainImage: {
-    id: "",
-    path: "",
-  },
-  //additionalImages: [],
-  // gddId: "",
-};
+import { updateCharacterAPI } from "@services/charactersAPI";
 
 export default function EditCharacterForm() {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState<Character>(initialFormData);
   const { characterId } = useParams<{ characterId: string }>();
-
-  const currentLang = useCurrentLanguage();
-  const loc = characterFormTranslator[currentLang];
 
   const selectedCharacter = useSelector((state: RootState) =>
     state.charactersSlice.characters.find(
@@ -40,25 +22,61 @@ export default function EditCharacterForm() {
     )
   );
 
+  const currentLang = useCurrentLanguage();
+  const loc = characterFormTranslator[currentLang];
+
+  const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
+
+  // Состояние формы
+  const [formData, setFormData] = useState<NewCharacter | null>(null);
+
   useEffect(() => {
     if (selectedCharacter) {
-      setFormData(selectedCharacter);
+      setFormData({ ...selectedCharacter, imageInstance: null });
     }
-  }, [characterId]);
+  }, [selectedCharacter]);
 
-  if (!selectedCharacter) {
+  if (!selectedCharacter || !formData) {
     return <div>{loc.characterNotFound}</div>;
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>): boolean {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<boolean> {
     e.preventDefault();
+
+    if (!formData || !selectedCharacter) return false;
+
     if (formData.name.length <= 0) {
       console.log("name is required");
       return false;
     }
 
-    dispatch(editCharacter(formData));
-    dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.success }));
+    try {
+      const dataToSend = new FormData();
+      dataToSend.append("id", selectedCharacter.id);
+      dataToSend.append("name", formData.name);
+      dataToSend.append("gdd_id", gddId);
+      dataToSend.append("abilities", JSON.stringify(formData.abilities));
+      dataToSend.append("traits", JSON.stringify(formData.traits));
+      dataToSend.append("role", formData.role);
+      dataToSend.append("backstory", formData.backstory);
+      dataToSend.append("imagePath", formData.img ?? "null");
+
+      if (formData.imageInstance) {
+        dataToSend.append("character", formData.imageInstance);
+      }
+
+      const res = await updateCharacterAPI(dataToSend);
+
+      if (res.success) {
+        dispatch(editCharacter(res.character));
+        console.log(res.character);
+        dispatch(
+          showModal({ activeModal: ActiveModal.Info, text: loc.success })
+        );
+      }
+    } catch (error) {
+      console.log("errrr", error);
+    }
 
     return true;
   }

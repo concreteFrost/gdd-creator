@@ -24,6 +24,7 @@ export default function withModalWindow<T extends object>(
             height: "100vh",
             transform: "translate(-50%, -50%)",
           },
+          overlay: { zIndex: 10000 },
         }}
       >
         <WrappedComponent {...props} />

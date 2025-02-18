@@ -8,17 +8,17 @@ import { showModal } from "@store/slices/modalSlice";
 import { ActiveModal } from "@store/slices/modalSlice";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { characterFormTranslator } from "./localisation/characterFormTranslator";
+import { createCharacterAPI } from "@services/charactersAPI";
 
 const initialFormData: NewCharacter = {
+  id: "",
   name: "",
   role: "",
   abilities: [],
   traits: [],
   backstory: "",
-  mainImage: {
-    id: "",
-    path: "",
-  },
+  img: "",
+  imageInstance: null,
   //additionalImages: [],
   // gddId: "",
 };
@@ -31,7 +31,7 @@ export default function NewCharacterForm() {
   const currentLang = useCurrentLanguage();
   const loc = characterFormTranslator[currentLang];
 
-  function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (formData.name.length <= 0) {
@@ -39,10 +39,30 @@ export default function NewCharacterForm() {
       return false;
     }
 
-    const newCharacter: NewCharacter = { ...formData };
-    dispatch(addCharacter(newCharacter));
-    dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.success }));
-    setFormData(initialFormData);
+    try {
+      const dataToSend = new FormData();
+      dataToSend.append("name", formData.name);
+      dataToSend.append("gdd_id", gddId);
+      dataToSend.append("abilities", JSON.stringify(formData.abilities));
+      dataToSend.append("traits", JSON.stringify(formData.traits));
+      dataToSend.append("role", formData.role);
+      dataToSend.append("backstory", formData.backstory);
+      if (formData.imageInstance) {
+        dataToSend.append("character", formData.imageInstance); // Только если файл есть
+      }
+      const res = await createCharacterAPI(dataToSend);
+
+      if (res.success) {
+        dispatch(addCharacter(res.character));
+        dispatch(
+          showModal({ activeModal: ActiveModal.Info, text: loc.success })
+        );
+        setFormData(initialFormData);
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+
     return true;
   }
 

@@ -1,9 +1,8 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useActionState, useState } from "react";
 import { GamePlatform, GameView, GDD } from "@_types/gddTypes";
 import * as form_style from "./GDDForm.module.scss";
 import * as button_styles from "@components/Buttons/Button.module.scss";
 import { useDispatch } from "react-redux";
-import { createGDD } from "@store/slices/gddSlice";
 import useClearOnTime from "@hooks/useClearOnTime";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
@@ -18,7 +17,7 @@ interface Props {
 }
 
 function NewGDDForm({ isVisible, setVisible }: Props) {
-  const [formData, setFormData] = useState<GDD>(initialState.gdd);
+  const [data, action, isPending] = useActionState(handleSubmit, undefined);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,36 +27,21 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
 
   useClearOnTime({ setText: setErrorMessage, text: errorMessage });
 
-  function handleInputChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) {
-    const { name, value } = event.target;
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
-  }
+  async function handleSubmit(prevValue: any, data: FormData) {
+    const title = data.get("title") as string;
+    const genre = data.get("genre") as string;
+    const view = data.get("view") as GameView;
+    const platform = data.get("platform") as GamePlatform;
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (formData.title.length <= 0) {
+    if (title.length <= 0) {
       setErrorMessage(loc.titleRequired);
       return;
     }
 
     try {
-      const gddResponse = await createGDDAPI(
-        formData.title,
-        formData.genre,
-        formData.view,
-        formData.platform
-      );
+      const gddResponse = await createGDDAPI(title, genre, view, platform);
 
       if (gddResponse.success) {
-        // dispatch(createGDD(gddResponse.gdd));
         dispatch(setSelectedGDD(gddResponse.gdd.id));
         handleCloseModal();
         navigate("/gdd/info");
@@ -65,9 +49,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
     } catch (error) {
       console.log("error", error);
     }
-
-    // dispatch(createGDD(formData));
-  };
+  }
 
   function handleCloseModal() {
     setVisible(false);
@@ -81,7 +63,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
         content: { border: "none", background: "none" },
       }}
     >
-      <form onSubmit={handleSubmit} className={form_style.general_info_form}>
+      <form action={action} className={form_style.general_info_form}>
         <h2>Game Design Document (GDD)</h2>
 
         <div className={form_style.form_group}>
@@ -91,30 +73,17 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
             type="text"
             id="title"
             name="title"
-            value={formData.title}
-            onChange={handleInputChange}
           />
         </div>
 
         <div className={form_style.form_group}>
           <label htmlFor="genre">{loc.genre}</label>
-          <input
-            type="text"
-            id="genre"
-            name="genre"
-            value={formData.genre}
-            onChange={handleInputChange}
-          />
+          <input type="text" id="genre" name="genre" />
         </div>
 
         <div className={form_style.form_group}>
           <label htmlFor="view">{loc.view}</label>
-          <select
-            id="view"
-            name="view"
-            value={formData.view}
-            onChange={handleInputChange}
-          >
+          <select id="view" name="view" defaultValue={GameView.FirstPerson}>
             {Object.values(GameView).map((view) => (
               <option key={view} value={view}>
                 {view}
@@ -125,12 +94,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
 
         <div className={form_style.form_group}>
           <label htmlFor="platform">{loc.platform}</label>
-          <select
-            id="platform"
-            name="platform"
-            value={formData.platform}
-            onChange={handleInputChange}
-          >
+          <select id="platform" name="platform" defaultValue={GamePlatform.PC}>
             {Object.values(GamePlatform).map((platform) => (
               <option key={platform} value={platform}>
                 {platform}
@@ -159,6 +123,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
           </button>
         </div>
       </form>
+      {isPending ? "hold on..." : ""}
     </Modal>
   );
 }

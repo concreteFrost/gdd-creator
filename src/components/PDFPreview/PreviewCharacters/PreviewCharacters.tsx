@@ -10,26 +10,31 @@ import {
 } from "@react-pdf/renderer";
 import { useSelector } from "react-redux";
 import { RootState } from "@store/store";
-import { Character, CharacterAbilities, CharacterTraits } from "@_types/gddTypes";
+import {
+  Character,
+  CharacterAbilities,
+  CharacterTraits,
+} from "@_types/gddTypes";
 import { sidebarTranslator } from "@components/Sidebar/localisation/sidebarTranslator";
-import { CharacterFormFields, characterFormTranslator } from "@components/Forms/CharacterForm/localisation/characterFormTranslator";
+import {
+  CharacterFormFields,
+  characterFormTranslator,
+} from "@components/Forms/CharacterForm/localisation/characterFormTranslator";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 
-const styles  = StyleSheet.create({
+const styles = StyleSheet.create({
   page: {
     padding: 20,
-    fontFamily:"Roboto",
-    flexDirection:"column"
+    fontFamily: "Roboto",
+    flexDirection: "column",
   },
   container: {
-   
     margin: "0 auto",
     maxWidth: 600,
     width: "100%",
     marginBottom: 20,
   },
   header: {
-    
     color: "#333",
     fontSize: 24,
     fontWeight: "bold",
@@ -42,7 +47,7 @@ const styles  = StyleSheet.create({
   },
   characterContainer: {
     marginBottom: 20,
-   
+
     padding: 10,
     borderRadius: 5,
   },
@@ -54,7 +59,7 @@ const styles  = StyleSheet.create({
   },
   section: {
     marginBottom: 15,
-    flexGrow:1,
+    flexGrow: 1,
   },
   paragraphHeader: {
     fontWeight: "bold",
@@ -70,7 +75,9 @@ const styles  = StyleSheet.create({
 });
 
 function PreviewCharacters() {
-  const { characters } = useSelector((state: RootState) => state.charactersSlice);
+  const { characters } = useSelector(
+    (state: RootState) => state.charactersSlice
+  );
 
   if (characters.length === 0) return null;
 
@@ -80,22 +87,20 @@ function PreviewCharacters() {
 
   return (
     <Page size={"A4"} style={styles.page}>
-    <View style={styles.container}>
-      <View><Text>section 1</Text></View>
-      <View><Text>section 1</Text></View>
-      
-      <Text style={styles.header}>{headerName}</Text>
-      {characters.map((character: Character) => (
-        <CharacterPDFElement
-          key={character.id}
-          character={character}
-          t={t}
-        />
-      ))}
-    </View>
+      <View style={styles.container}>
+        <View>
+          <Text>section 1</Text>
+        </View>
+        <View>
+          <Text>section 1</Text>
+        </View>
+
+        <Text style={styles.header}>{headerName}</Text>
+        {characters.map((character: Character) => (
+          <CharacterPDFElement key={character.id} character={character} t={t} />
+        ))}
+      </View>
     </Page>
-
-
   );
 }
 
@@ -127,9 +132,9 @@ function CharacterPDFElement({
         <Text style={styles.paragraphHeader}>{t.abilities}:</Text>
         <View style={styles.list}>
           {character.abilities.length > 0 ? (
-            character.abilities.map((abilities: CharacterAbilities) => (
-              <Text key={abilities.id} style={styles.listItem}>
-                {abilities.ability}
+            character.abilities.map((abilities: string) => (
+              <Text key={abilities} style={styles.listItem}>
+                {abilities}
               </Text>
             ))
           ) : (
@@ -141,9 +146,9 @@ function CharacterPDFElement({
         <Text style={styles.paragraphHeader}>{t.traits}:</Text>
         <View style={styles.list}>
           {character.traits.length > 0 ? (
-            character.traits.map((trait: CharacterTraits) => (
-              <Text key={trait.id} style={styles.listItem}>
-                {trait.trait}
+            character.traits.map((trait: string) => (
+              <Text key={trait} style={styles.listItem}>
+                {trait}
               </Text>
             ))
           ) : (

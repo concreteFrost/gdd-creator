@@ -11,44 +11,51 @@ import { ActiveModal } from "@store/slices/modalSlice";
 import * as style from "./styles/GameplayView.module.scss";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { gamplayFormTranslator } from "@components/Forms/GameplayForm/localisation/gameplayFormTranslator";
+import { updateGameplayAPI } from "@services/gameplayAPI";
 
 const initialFormData: GamePlay = {
   id: "",
   // gddId: "",
   story: "",
   objectives: [],
-  progression: [],
+  progressions: [],
   difficulty: "",
   pacing: "",
   player_experience: "",
 };
 
 function GameplayView() {
-  const [formData, setFormData] = useState<GamePlay>(initialFormData);
   const { gameplay } = useSelector((state: RootState) => state.gameplaySlice);
+  const [formData, setFormData] = useState<GamePlay>(gameplay);
+
   const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
   const dispatch = useDispatch();
 
   const currentLang = useCurrentLanguage();
   const loc = gamplayFormTranslator[currentLang];
 
-  useEffect(() => {
-    if (gameplay.id !== "") {
-      console.log("id is not null");
+  async function handleFormSubmit() {
+    const { id, ...data } = formData;
 
-      setFormData(gameplay);
-    }
-  }, [gameplay]);
+    try {
+      const res = await updateGameplayAPI(data, gddId);
 
-  function handleFormSubmit() {
-    if (gameplay.id !== "") {
-      dispatch(editGameplay(formData));
-      dispatch(showModal({ activeModal: ActiveModal.Info, text: "Success" }));
-      return;
+      if (res.success) {
+        dispatch(editGameplay(res.gameplay));
+        dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.save }));
+      } else {
+        dispatch(
+          showModal({ activeModal: ActiveModal.Info, text: res.message })
+        );
+      }
+    } catch (error) {
+      dispatch(
+        showModal({
+          activeModal: ActiveModal.Info,
+          text: "Something went wrong",
+        })
+      );
     }
-    const id = uuidv4();
-    dispatch(createGameplay({ ...formData, id: id }));
-    dispatch(showModal({ activeModal: ActiveModal.Info, text: "Success" }));
   }
 
   function deleteObjective(item: GameObjective) {
@@ -64,13 +71,13 @@ function GameplayView() {
   }
 
   function deleteProgression(item: GameProgression) {
-    const filteredProgressions = formData.progression.filter(
+    const filteredProgressions = formData.progressions.filter(
       (obj: GameProgression) => obj.id !== item.id
     );
     setFormData((prev) => {
       return {
         ...prev,
-        progression: filteredProgressions,
+        progressions: filteredProgressions,
       };
     });
   }
@@ -96,7 +103,7 @@ function GameplayView() {
         <GameplayList
           deleteItem={(item: GameProgression) => deleteProgression(item)}
           title={`${loc.progression}:`}
-          item={formData.progression}
+          item={formData.progressions}
           renderItem={(item: GameProgression) => <>{item.name}</>}
         ></GameplayList>
       </div>

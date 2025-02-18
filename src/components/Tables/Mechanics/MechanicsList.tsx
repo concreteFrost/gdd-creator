@@ -20,9 +20,7 @@ export default function MechanicsList() {
 
   const groupedMechanics = groupdMechanics(types, mechanics);
   // Сгруппировать механики, у которых нет типа (например, typeId === "unknown" или не определен)
-  const mechanicsWithoutType = unsortedMechanics(types,mechanics);
-  console.log(mechanicsWithoutType)
-
+  const mechanicsWithoutType = unsortedMechanics(types, mechanics);
 
   // Добавляем механики без типа в отдельную группу
   if (mechanicsWithoutType.length > 0) {
@@ -35,15 +33,13 @@ export default function MechanicsList() {
   return (
     <div style={{ overflowX: "hidden", width: "100%" }}>
       <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
-        {groupedMechanics.length > 0 ? (
-          groupedMechanics.map((gr: GroupedMechanics) => (
-            <li key={gr.type.id}>
-              <MechanicsTable group={gr}></MechanicsTable>
-            </li>
-          ))
-        ) : (
-          null
-        )}
+        {groupedMechanics.length > 0
+          ? groupedMechanics.map((gr: GroupedMechanics) => (
+              <li key={gr.type.id}>
+                <MechanicsTable group={gr}></MechanicsTable>
+              </li>
+            ))
+          : null}
       </ul>
     </div>
   );

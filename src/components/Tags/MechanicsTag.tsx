@@ -1,5 +1,6 @@
 import React from "react";
 import * as tag_style from "./Tags.module.scss";
+import { v4 as uuidv4 } from "uuid";
 
 interface TagListProps<T> {
   items: T[]; // Массив элементов

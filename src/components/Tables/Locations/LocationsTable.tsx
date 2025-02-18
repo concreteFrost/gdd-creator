@@ -22,7 +22,7 @@ export default function LocationsTable() {
     a.name.localeCompare(b.name)
   );
 
-  function handleLocationDelete(id: string) {
+  async function handleLocationDelete(id: string) {
     dispatch(deleteLocation(id));
   }
 

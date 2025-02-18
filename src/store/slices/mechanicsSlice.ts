@@ -15,8 +15,8 @@ const mechanicsSlice = createSlice({
   name: "mechanics",
   initialState,
   reducers: {
-    addMechanic: (state, action: PayloadAction<NewMechnicForm>) => {
-      state.mechanics.push({ ...action.payload, id: uuidv4() });
+    addMechanic: (state, action: PayloadAction<GameMechanic>) => {
+      state.mechanics.push(action.payload);
     },
     editMechanic: (state, action: PayloadAction<GameMechanic>) => {
       const index = state.mechanics.findIndex(
@@ -44,9 +44,8 @@ const mechanicsSlice = createSlice({
       deleteMechanicType,
       (state, action: PayloadAction<string>) => {
         state.mechanics = state.mechanics.map((m: GameMechanic) => {
-          if (m.typeId === action.payload) {
-            console.log("found dependant mechanic");
-            return { ...m, typeId: "unspecified" };
+          if (m.type_id === action.payload) {
+            return { ...m, type_id: "null" };
           }
           return m;
         });

@@ -2,7 +2,7 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import * as gddStyle from "./GDDView.module.scss";
 import { Route, Routes } from "react-router-dom";
 import GeneralInfo from "@views/Overview";
-import { useEffect } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@store/store";
 import { ActiveModal, ModalState, showModal } from "@store/slices/modalSlice";
@@ -12,48 +12,90 @@ import LocationsView from "@views/LocationsView";
 import CharactersView from "@views/CharactersView";
 import EditGddForm from "@components/Forms/GddForm/EditGDDForm";
 import { getGameplayAPI } from "@services/gameplayAPI";
-import { createGameplay } from "@store/slices/gameplaySlice";
+import { createGameplay, editGameplay } from "@store/slices/gameplaySlice";
 import { getGDDAPI } from "@services/gddAPI";
 import { createGDD } from "@store/slices/gddSlice";
+import { getAllMechanicsAPI } from "@services/mechanicsAPI";
+import { Character, GameMechanic, MechanicType } from "@_types/gddTypes";
+import { addMechanic } from "@store/slices/mechanicsSlice";
+import { getAllTypesAPI } from "@services/mechanicsTypesAPI";
+import { addMechanicType } from "@store/slices/mechanicsTypeSlice";
+import { getAllCharactersAPI } from "@services/charactersAPI";
+import { addCharacter } from "@store/slices/characterSlices";
 
 function GDDView() {
   const { selectedGDD } = useSelector((state: RootState) => state.authSlice);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchGDDData = async () => {
-      if (!selectedGDD) {
-        return dispatch(
-          showModal({
-            text: "GDD was not found",
-            activeModal: ActiveModal.Redirect,
-          })
-        );
+  const fetchAll = async () => {
+    setLoading(true);
+    if (!selectedGDD) {
+      dispatch(
+        showModal({
+          text: "GDD was not found",
+          activeModal: ActiveModal.Redirect,
+        })
+      );
+      return;
+    }
+
+    try {
+      // Запускаем запросы параллельно
+      const [
+        gddResponse,
+        gameplayResponse,
+        mechanicsResponse,
+        allTypesResponse,
+        allCharactersResponse,
+      ] = await Promise.all([
+        getGDDAPI(selectedGDD),
+        getGameplayAPI(selectedGDD),
+        getAllMechanicsAPI(selectedGDD),
+        getAllTypesAPI(selectedGDD),
+        getAllCharactersAPI(selectedGDD),
+      ]);
+
+      if (gddResponse.success) dispatch(createGDD(gddResponse.gdd));
+      if (gameplayResponse.success)
+        dispatch(editGameplay(gameplayResponse.gameplay));
+
+      if (mechanicsResponse.success) {
+        const allMechanics = mechanicsResponse.mechanics;
+
+        allMechanics.forEach((m: GameMechanic) => {
+          dispatch(addMechanic(m));
+        });
+      }
+      if (allTypesResponse.success) {
+        const allTypes = allTypesResponse.types;
+        allTypes.forEach((t: MechanicType) => dispatch(addMechanicType(t)));
       }
 
-      try {
-        const gddResponse = await getGDDAPI(selectedGDD);
-        if (gddResponse.success) {
-          const gameplayResponse = await getGameplayAPI(selectedGDD);
-          if (gameplayResponse.success) {
-            dispatch(createGDD(gddResponse.gdd));
-            dispatch(createGameplay(gameplayResponse.gameplay));
-          }
-        }
-      } catch (error) {
-        console.error(error);
-        dispatch(
-          showModal({
-            text: "GDD was not found",
-            activeModal: ActiveModal.Redirect,
-          })
-        );
-      }
-    };
+      console.log(allCharactersResponse);
+      if (allCharactersResponse.success) {
+        const allCharacters = allCharactersResponse.characters;
 
-    fetchGDDData();
-    console.log("fetching");
-  }, [selectedGDD, dispatch]);
+        allCharacters.forEach((c: Character) => dispatch(addCharacter(c)));
+      }
+    } catch (error) {
+      dispatch(
+        showModal({
+          text: "Failed to load GDD data",
+          activeModal: ActiveModal.Redirect,
+        })
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useLayoutEffect(() => {
+    fetchAll();
+  }, [selectedGDD]);
+
+  if (isLoading) return <p>Loading</p>;
+
   return (
     <div className={gddStyle.container}>
       <Sidebar></Sidebar>

@@ -12,7 +12,7 @@ const mockMechanic: GameMechanic = {
   id: "",
   name: "New Mechanic",
   description: "Some desc",
-  typeId: "123",
+  type_id: "123",
   //interactions: [],
   examples: [],
   // gddId: "",
@@ -54,6 +54,6 @@ describe("mechanics slice", () => {
     const deleteAction = deleteMechanicType("123");
     const newState = mechanicsSlice(slice, deleteAction);
 
-    expect(newState.mechanics[0].typeId).toBe("unknown");
+    expect(newState.mechanics[0].type_id).toBe("unknown");
   });
 });

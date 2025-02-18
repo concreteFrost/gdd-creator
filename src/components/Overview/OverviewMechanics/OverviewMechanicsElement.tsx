@@ -49,8 +49,8 @@ function OverviewMechanicsElement({ group, t }: MechanicsDescriptionProps) {
               </header>
               <div className={overviewStyles.formatted_text}>
                 <ul>
-                  {mechanic.examples.map((example: MechanicExample) => (
-                    <li key={example.id}>{example.example}</li>
+                  {mechanic.examples.map((example: string) => (
+                    <li key={example}>{example}</li>
                   ))}
                 </ul>
               </div>

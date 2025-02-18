@@ -12,7 +12,7 @@ export default function OverviewGameplay() {
   const {
     story,
     objectives,
-    progression,
+    progressions: progression,
     difficulty,
     pacing,
     player_experience,

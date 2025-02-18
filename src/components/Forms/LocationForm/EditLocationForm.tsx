@@ -19,10 +19,7 @@ const initialFormData: GameLocation = {
   environment: "",
   characters: [],
   //items: [],
-  mainImage: {
-    id: "",
-    path: "",
-  },
+  img: "",
   //additionalImages: [],
 };
 

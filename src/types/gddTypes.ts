@@ -33,10 +33,9 @@ export interface GDD {
 // Gameplay Interface
 export interface GamePlay {
   id: string;
-
   story: string; // Brief story or narrative of the game
   objectives: GameObjective[]; // Game objectives (e.g., main quests, side missions)
-  progression: GameProgression[]; // How the player progresses (e.g., leveling up, unlocking areas)
+  progressions: GameProgression[]; // How the player progresses (e.g., leveling up, unlocking areas)
   difficulty: string; // Difficulty settings (e.g., Easy, Hard)
   pacing: string; // Game pacing (e.g., fast-paced, slow-building)
   player_experience: string; // Type of experience expected for the player (e.g., strategic, fast reflexes)
@@ -47,9 +46,9 @@ export interface GameMechanic {
   id: string;
   name: string; // Name of the mechanic (e.g., Jump, Combat)
   description: string; // Explanation of how it works in the game
-  typeId: string; // Type of mechanic (e.g., Action, Puzzle)
+  type_id: string | null; // Type of mechanic (e.g., Action, Puzzle)
   //interactions: string[]; // List of other mechanics this interacts with
-  examples: MechanicExample[]; // Examples in games that use similar mechanics
+  examples: Array<string>; // Examples in games that use similar mechanics
 }
 
 export interface MechanicExample {
@@ -85,7 +84,7 @@ export interface GameLocation {
   environment: string; // Environment (e.g., city, forest, dungeon)
   characters: string[]; // Characters associated with the location
   //items: string[]; // List of items found in the location
-  mainImage: GDDElementImage | null;
+  img: string | null;
   // additionalImages: GDDElementImage[] | null;
 }
 
@@ -113,13 +112,15 @@ export interface Character {
   name: string; // Name of the character
   role: string; // Role in the game (e.g., protagonist, antagonist, NPC)
   backstory: string; // Character's background story
-  abilities: CharacterAbilities[]; // Abilities or special skills
-  traits: CharacterTraits[]; // Personality traits (e.g., brave, cautious)
-  mainImage: GDDElementImage | null;
+  abilities: string[]; // Abilities or special skills
+  traits: string[]; // Personality traits (e.g., brave, cautious)
+  img: string | null;
   // additionalImages: GDDElementImage[];
   // gddId: string;
 }
 
 export type NewGameLocation = Omit<GameLocation, "id">;
 export type NewMechnicForm = Omit<GameMechanic, "id">;
-export type NewCharacter = Omit<Character, "id">;
+export interface NewCharacter extends Character {
+  imageInstance: File | null;
+}

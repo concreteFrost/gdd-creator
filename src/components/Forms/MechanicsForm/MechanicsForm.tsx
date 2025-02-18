@@ -1,66 +1,71 @@
 import * as form_style from "./MechanicsForm.module.scss";
 import * as button_styles from "@components/Buttons/Button.module.scss";
-import { GameMechanic, MechanicType, MechanicExample } from "@_types/gddTypes";
-import { FormEvent } from "react";
-import ReactQuill from "react-quill-new";
+import { GameMechanic, MechanicType } from "@_types/gddTypes";
+import { FormEvent, useEffect } from "react";
 import "react-quill-new/dist/quill.snow.css";
 import "@styles/overrides/quill_override.scss";
-import { useSelector } from "react-redux";
 import useClearOnTime from "@hooks/useClearOnTime";
 import { useKeyEnterWithInput } from "@hooks/useKeyEnter";
-import { RootState } from "@store/store";
 import { useRef, useState } from "react";
 import MechanicsTag from "@components/Tags/MechanicsTag";
-import { v4 as uuidv4 } from "uuid";
 import MechanicsTypeModal from "@components/Modal/MechanicsTypeModal";
 import { MechanicFormElements } from "./localisation/mechanicsFormTranslator";
 import PressKeyHint from "@components/Hints/PressKeyHint";
+import { useDispatch, useSelector } from "react-redux";
+import { showModal } from "@store/slices/modalSlice";
+import { ActiveModal } from "@store/slices/modalSlice";
+import { RootState } from "@store/store";
 
 export type NewMechnicForm = Omit<GameMechanic, "id" | "gddId">;
 
 interface MechanicsFormProps {
   formData: NewMechnicForm;
   setFormData: (data: any) => void;
-  handleFormSubmit: (e: FormEvent<HTMLFormElement>) => boolean;
+  handleFormSubmit: (e: FormEvent<HTMLFormElement>) => Promise<boolean>;
   language: MechanicFormElements;
 }
 
 export default function MechanicsForm({
   formData,
-  handleFormSubmit,
   setFormData,
-  language: t
+  handleFormSubmit,
+  language: t,
 }: MechanicsFormProps) {
-
-  const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
   const inputRef: any = useRef<HTMLInputElement>(null);
   const [submitMessage, setSubmitMessage] = useState<string>("");
   const [isTypeModalVisible, setTypeModalVisibe] = useState<boolean>(false);
+  const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
+  const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
+
+  const dispatch = useDispatch();
 
   useClearOnTime({ setText: setSubmitMessage, text: submitMessage });
+
   useKeyEnterWithInput({
     func: (e: any) => handleSetExample(e),
     inputRef: inputRef,
   });
 
   function setMechanicsType(value: string) {
-    handleInputChange(value, "typeId");
+    handleInputChange(value, "type_id");
   }
 
   function handleSetExample(e: any) {
-    const newExample = { id: uuidv4(), example: e };
     setFormData((prev: NewMechnicForm) => {
+      // Проверяем, есть ли уже такая строка в массиве
+      if (prev.examples.includes(e)) {
+        return prev; // Если есть, просто возвращаем прежнее состояние
+      }
+
       return {
         ...prev,
-        examples: [...prev.examples, newExample],
+        examples: [...prev.examples, e],
       };
     });
   }
 
   function handleDeleteExample(id: string) {
-    const filtered = formData.examples.filter(
-      (ex: MechanicExample) => ex.id !== id
-    );
+    const filtered = formData.examples.filter((ex: string) => ex !== id);
     setFormData((prev: NewMechnicForm) => {
       return { ...prev, examples: filtered };
     });
@@ -75,17 +80,30 @@ export default function MechanicsForm({
     });
   }
 
-  function submitForm(e: any) {
-    if (handleFormSubmit(e) === false) {
-      setSubmitMessage(t.requiredError);
-      return;
+  async function submitForm(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      const res = await handleFormSubmit(e);
+      if (res === false) {
+        setSubmitMessage(t.requiredError);
+      }
+    } catch (error) {
+      dispatch(
+        showModal({
+          activeModal: ActiveModal.Info,
+          text: "Something went wrong",
+        })
+      );
     }
   }
 
   return (
     <>
       <form className={form_style.mechanic_form} onSubmit={submitForm}>
-        <div style={{ display: "grid", gridTemplateColumns: "6fr 6fr", gap: 20 }}>
+        <div
+          style={{ display: "grid", gridTemplateColumns: "6fr 6fr", gap: 20 }}
+        >
+          {/**Name */}
           <div className={form_style.form_group} style={{ width: "100%" }}>
             <label htmlFor="title">{t.nameLabel}</label>
             <input
@@ -98,6 +116,7 @@ export default function MechanicsForm({
             />
           </div>
 
+          {/**TYPE SELECT */}
           <div className={form_style.form_group} style={{ width: "100%" }}>
             <label htmlFor="type">{t.typeLabel}</label>
             <div
@@ -109,17 +128,14 @@ export default function MechanicsForm({
                 alignContent: "center",
               }}
             >
-
               <select
                 data-testid="test-type-select"
-                value={formData.typeId}
+                value={formData.type_id || "null"}
                 onChange={(e: any) => {
-                  handleInputChange(e.target.value, "typeId");
+                  handleInputChange(e.target.value, "type_id");
                 }}
               >
-                <option value={"unspecified"}>
-                  {t.selectTypePlaceholder}
-                </option>
+                <option value={"null"}>{t.selectTypePlaceholder}</option>
                 {types.map((type: MechanicType) => (
                   <option key={type.id} value={type.id}>
                     {type.type}
@@ -139,8 +155,11 @@ export default function MechanicsForm({
           </div>
         </div>
 
+        {/**EXAMPLES */}
         <div className={form_style.form_group}>
-          <label htmlFor="description" className={form_style.relative_label}>{t.examplesLabel}</label>
+          <label htmlFor="description" className={form_style.relative_label}>
+            {t.examplesLabel}
+          </label>
           <PressKeyHint></PressKeyHint>
           <input
             data-testid="test-example-input"
@@ -150,41 +169,38 @@ export default function MechanicsForm({
           ></input>
         </div>
 
+        {/**TAGS */}
         <div className={form_style.form_group}>
           {formData.examples.length > 0 ? (
             <MechanicsTag
-              deleteTag={(item: MechanicExample) =>
-                handleDeleteExample(item.id)
-              }
+              deleteTag={(item: string) => handleDeleteExample(item)}
               items={formData.examples}
-              renderItem={(item: MechanicExample) => <>{item.example}</>}
+              renderItem={(item: string) => <>{item}</>}
             ></MechanicsTag>
           ) : null}
         </div>
 
+        {/**DESC */}
         <div className={form_style.form_group}>
           <label htmlFor="description">{t.descriptionLabel}</label>
-          {/* <textarea name="description" id="description"
-          value={formData.description}
-         rows={5}
-         cols={30}
-          onChange={(e:any)=>handleInputChange(e.target.value,"description")}></textarea> */}
-          <ReactQuill
+          <textarea
             id="description"
             className={"edit"}
             value={formData.description}
             onChange={(e: any) => {
-              handleInputChange(e, "description");
+              handleInputChange(e.target.value, "description");
             }}
-          ></ReactQuill>
+          ></textarea>
         </div>
 
+        {/**ERROR MSG */}
         {submitMessage.length > 0 ? (
           <div className={`${form_style.form_group} ${form_style.error}`}>
             {submitMessage}
           </div>
         ) : null}
 
+        {/**SUBMIT */}
         <div className={form_style.form_footer}>
           <button
             type="submit"
@@ -200,7 +216,7 @@ export default function MechanicsForm({
           isVisibe={isTypeModalVisible}
           setVisible={setTypeModalVisibe}
           setMechanicsType={setMechanicsType}
-          currentType={formData.typeId}
+          currentType={formData.type_id}
         ></MechanicsTypeModal>
       ) : null}
     </>

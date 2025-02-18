@@ -1,68 +1,93 @@
 import * as button_styles from "@components/Buttons/Button.module.scss";
 import * as form_styles from "./Modal.module.scss";
-import { useSelector, useDispatch } from "react-redux";
-import { useRef, useState } from "react";
-import { RootState } from "@store/store";
-import { v4 as uuidv4 } from "uuid";
 import { MechanicType } from "@_types/gddTypes";
-import { useKeyEnterWithInput } from "@hooks/useKeyEnter";
-import useClearOnTime from "@hooks/useClearOnTime";
+import Modal from "react-modal";
+import { icons } from "@assets/icons";
+import { showModal, ActiveModal } from "@store/slices/modalSlice";
 import {
   addMechanicType,
   deleteMechanicType,
 } from "@store/slices/mechanicsTypeSlice";
-import Modal from "react-modal";
-import { icons } from "@assets/icons";
+import {
+  createMechnanicsTypeAPI,
+  deleteMechnanicsTypeAPI,
+  updateMechnanicsTypeAPI,
+} from "@services/mechanicsTypesAPI";
+import { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useKeyEnterWithInput } from "@hooks/useKeyEnter";
+import useClearOnTime from "@hooks/useClearOnTime";
+import { RootState } from "@store/store";
 
 interface MechanicsTypeProps {
   isVisibe: boolean;
   setVisible: (isVisible: boolean) => void;
-  setMechanicsType: (id: string) => void;
-  currentType: string
+  setMechanicsType: (type: string) => void;
+  currentType: string | null;
 }
 
 function MechanicsTypeModal({
   isVisibe,
   setVisible,
   setMechanicsType,
-  currentType
+  currentType,
 }: MechanicsTypeProps) {
   const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
+  const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const newTypeRef: any = useRef<HTMLInputElement>(null);
+  const newTypeRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-
-  function handleAddType(e: any) {
-    const newType: MechanicType = {
-      id: uuidv4(),
-      type: e,
-    };
-
-    const match = types.filter(
-      (type: MechanicType) => type.type === newType.type
-    );
-
-    if (match.length > 0) {
-      setErrorMessage("mechanic type already exists");
-      return;
-    }
-    dispatch(addMechanicType(newType));
-    setMechanicsType(newType.id);
-  }
-
-  function handleDeleteType(type: MechanicType) {
-    if (currentType === type.id) {
-      setMechanicsType("unspecified");
-    }
-
-    dispatch(deleteMechanicType(type.id));
-  }
 
   useKeyEnterWithInput({
     func: (e: any) => handleAddType(e),
     inputRef: newTypeRef,
   });
   useClearOnTime({ setText: setErrorMessage, text: errorMessage });
+  /** Добавление типа */
+  async function handleAddType(typeName: string) {
+    if (types.some((type) => type.type === typeName)) {
+      setErrorMessage("Mechanic type already exists");
+      return;
+    }
+
+    try {
+      const res = await createMechnanicsTypeAPI(typeName, gddId);
+
+      if (!res.success) {
+        dispatch(
+          showModal({ activeModal: ActiveModal.Info, text: res.message })
+        );
+        return;
+      }
+
+      dispatch(addMechanicType(res.type));
+      setMechanicsType(res.type.id);
+    } catch (error: any) {
+      dispatch(showModal({ activeModal: ActiveModal.Info, text: error }));
+    }
+  }
+
+  /** Удаление типа */
+  async function handleDeleteType(type: MechanicType) {
+    try {
+      const res = await deleteMechnanicsTypeAPI(type.id);
+
+      if (!res.success) {
+        dispatch(
+          showModal({ activeModal: ActiveModal.Info, text: res.message })
+        );
+        return;
+      }
+
+      if (currentType === type.id) {
+        setMechanicsType("null");
+      }
+
+      dispatch(deleteMechanicType(type.id));
+    } catch (error: any) {
+      dispatch(showModal({ activeModal: ActiveModal.Info, text: error }));
+    }
+  }
 
   return (
     <Modal
@@ -72,12 +97,13 @@ function MechanicsTypeModal({
         content: {
           border: "none",
           background: "none",
-          position: "absolute",
           overflow: "hidden",
           height: "100vh",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          transform: "none",
+          position: "absolute",
+        },
+        overlay: {
+          zIndex: 1000,
         },
       }}
     >
@@ -91,29 +117,27 @@ function MechanicsTypeModal({
             name="new_type"
             type="text"
             ref={newTypeRef}
-          ></input>
+          />
         </div>
         <ul>
-          {types.length > 0
-            ? types.map((type: MechanicType) => (
-              <li key={type.id}>
-                <span>{type.type}</span>
-                <button
-                  className={button_styles.create_btn}
-                  onClick={() => handleDeleteType(type)}
-                >
-                  {icons.delete}
-                </button>
-              </li>
-            ))
-            : null}
+          {types.map((type) => (
+            <li key={type.id}>
+              <span>{type.type}</span>
+              <button
+                className={button_styles.create_btn}
+                onClick={() => handleDeleteType(type)}
+              >
+                {icons.delete}
+              </button>
+            </li>
+          ))}
         </ul>
 
-        {errorMessage.length > 0 ? (
+        {errorMessage && (
           <div className={`${form_styles.form_group} ${form_styles.error}`}>
             {errorMessage}
           </div>
-        ) : null}
+        )}
 
         <div className={form_styles.form_footer}>
           <button

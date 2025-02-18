@@ -62,7 +62,7 @@ function GameplayForm({
     setFormData((prev: GamePlay) => {
       return {
         ...prev,
-        progression: [...prev.progression, newProgression],
+        progressions: [...prev.progressions, newProgression],
       };
     });
   }

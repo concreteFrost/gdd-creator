@@ -1,12 +1,11 @@
 import * as overviewStyles from "./OverviewMechanics.module.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "@store/store";
-import { useMemo } from "react";
 import {
   groupdMechanics,
   unsortedMechanics,
 } from "@utils/mechanics/groupMechanicsByType";
-import { GameMechanic, GroupedMechanics } from "@_types/gddTypes";
+import { GroupedMechanics } from "@_types/gddTypes";
 import OverviewMechanicsElement from "./OverviewMechanicsElement";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { sidebarTranslator } from "@components/Sidebar/localisation/sidebarTranslator";
@@ -25,20 +24,14 @@ export default function OverviewMechanics() {
   const headerName = sidebarTranslator[currentLang].mechanics;
   const t = mechanicsFormTranslator[currentLang];
 
-  const groupedMechanics = useMemo(
-    () => groupdMechanics(types, mechanics),
-    [types, mechanics]
-  );
+  const groupedMechanics = groupdMechanics(types, mechanics);
   // Сгруппировать механики, у которых нет типа (например, typeId === "unknown" или не определен)
-  const mechanicsWithoutType = useMemo(
-    () => unsortedMechanics(types, mechanics),
-    [mechanics]
-  );
+  const mechanicsWithoutType = unsortedMechanics(types, mechanics);
 
   // Добавляем механики без типа в отдельную группу
   if (mechanicsWithoutType.length > 0) {
     groupedMechanics.push({
-      type: { id: "unknown", type: "unspecified" },
+      type: { id: "null", type: "unspecified" },
       mechanics: mechanicsWithoutType,
     });
   }

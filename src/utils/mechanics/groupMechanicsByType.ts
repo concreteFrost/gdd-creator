@@ -7,7 +7,7 @@ export const groupdMechanics = (
   types.map((type: MechanicType) => {
     // Фильтруем механики по типу
     const mechanicsByType: GameMechanic[] = mechanics.filter(
-      (mech: GameMechanic) => mech.typeId === type.id
+      (mech: GameMechanic) => mech.type_id === type.id
     );
 
     return { type, mechanics: mechanicsByType };
@@ -15,10 +15,10 @@ export const groupdMechanics = (
 
 export const unsortedMechanics = (
   types: MechanicType[],
-  mechanics: GameMechanic[],
- 
+  mechanics: GameMechanic[]
 ) =>
   mechanics.filter(
     (mech: GameMechanic) =>
-      !mech.typeId || !types.some((type: MechanicType) => type.id === mech.typeId)
+      !mech.type_id ||
+      !types.some((type: MechanicType) => type.id === mech.type_id)
   );

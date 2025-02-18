@@ -9,7 +9,7 @@ import { icons } from "@assets/icons";
 
 interface TableProps {
   data: (Character | GameLocation)[];
-  handleDeteleItem: (itemId: string) => void;
+  handleDeteleItem: (itemId: string) => Promise<void>;
   handleDup: (item: Character | GameLocation) => void;
 }
 
@@ -38,10 +38,10 @@ function TableWithImages({ data, handleDeteleItem, handleDup }: TableProps) {
                   gap: 20,
                 }}
               >
-                {item.mainImage && item.mainImage.id.length > 0 ? (
+                {item.img ? (
                   <LocationImage
-                    path={item.mainImage.path}
-                    alt={"main image"}
+                    path={item.img}
+                    alt={"no img"}
                     width="90px"
                   ></LocationImage>
                 ) : (

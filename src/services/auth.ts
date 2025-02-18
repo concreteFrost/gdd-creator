@@ -1,16 +1,6 @@
 import { AxiosResponse } from "axios";
 import axiosClient from "./axiosSetup"; // Импортируем настроенный axiosClient
-
-// Типы для ответов
-interface AuthResponse {
-  success: boolean;
-  token: string;
-  user: {
-    username: string;
-    email: string;
-    // Добавьте остальные поля пользователя
-  };
-}
+import { AuthResponse } from "./types/apiTypes";
 
 // Функция для логина
 export const loginAPI = async (

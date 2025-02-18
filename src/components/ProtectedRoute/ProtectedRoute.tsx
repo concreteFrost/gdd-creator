@@ -5,7 +5,7 @@ import { RootState } from "@store/store";
 import { jwtDecode } from "jwt-decode";
 
 interface ProtectedRouteProps {
-  component: JSX.Element;
+  component: any;
 }
 
 const isTokenExpired = (token: string): boolean => {
@@ -20,9 +20,8 @@ const isTokenExpired = (token: string): boolean => {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component }) => {
   const token = useSelector((state: RootState) => state.authSlice.token);
-  console.log(token);
+
   if (!token || isTokenExpired(token)) {
-    console.log("navigating back to login");
     return <Navigate to="/login" />;
   }
 

@@ -10,7 +10,7 @@ const initialState: GamePlayState = {
     id: "",
     story: "",
     objectives: [],
-    progression: [],
+    progressions: [],
     difficulty: "",
     pacing: "",
     player_experience: "",
@@ -37,7 +37,7 @@ const gameplaySlice = createSlice({
         difficulty: action.payload.difficulty,
         objectives: action.payload.objectives,
         pacing: action.payload.pacing,
-        progression: action.payload.progression,
+        progressions: action.payload.progressions,
         player_experience: action.payload.player_experience,
       };
     },

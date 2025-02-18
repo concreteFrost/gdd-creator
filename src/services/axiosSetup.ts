@@ -1,14 +1,14 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios from "axios";
 import store from "@store/store";
 
-const axiosClient = axios.create({
+const axiosClient: any = axios.create({
   baseURL: "http://localhost:8801/api",
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });
 
 axiosClient.interceptors.request.use(
-  (config): any => {
+  (config: any) => {
     const state = store.getState();
     const token = state.authSlice.token;
     const isPublicEndpoint =
@@ -21,13 +21,15 @@ axiosClient.interceptors.request.use(
   (error: any) => Promise.reject(error)
 );
 
-axios.interceptors.response.use((res): any => {
-  res.data,
-    (error: any) => {
-      console.log("Axios error", error?.response.data || error.message);
-      return Promise.reject(error);
-    };
-});
+axios.interceptors.response.use(
+  (res): any => {
+    return res.data; // This was missing
+  },
+  (error: any) => {
+    console.log("Axios error", error?.response?.data || error.message);
+    return Promise.reject(error);
+  }
+);
 
 export default axiosClient;
 // baseURL:"http://localhost:8801/api",

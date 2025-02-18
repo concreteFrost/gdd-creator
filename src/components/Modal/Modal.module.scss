@@ -3,11 +3,11 @@
 @use "@styles/variables.scss" as *;
 
 .submit_form {
-    @include generic_form(400px);
-    margin: 2rem auto;
-    ul {
-      @include form_list($list-gap: 20px, $padding: 0px, $bg: rgb(216, 216, 216));
-    }
+  @include generic_form(400px);
+  margin: 2rem auto;
+  ul {
+    @include form_list($list-gap: 20px, $padding: 0px, $bg: rgb(216, 216, 216));
+  }
 }
 
 .modal_container {
@@ -17,7 +17,3 @@
 .modal_header {
   @include form_title;
 }
-
-  
-  
-  

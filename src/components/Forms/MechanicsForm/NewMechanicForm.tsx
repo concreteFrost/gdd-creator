@@ -10,14 +10,13 @@ import { addMechanic } from "@store/slices/mechanicsSlice";
 import { ActiveModal } from "@store/slices/modalSlice";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { mechanicsFormTranslator } from "./localisation/mechanicsFormTranslator";
+import { createMechanicAPI } from "@services/mechanicsAPI";
 
-const initialState: NewMechnicForm = {
+const initialState = {
   name: "",
   description: "",
-  typeId: "unspecified",
-  //interactions: [],
+  type_id: null,
   examples: [],
-  // gddId: "",
 };
 
 function NewMechanicForm() {
@@ -28,16 +27,19 @@ function NewMechanicForm() {
   const currentLanguage = useCurrentLanguage();
   const loc = mechanicsFormTranslator[currentLanguage];
 
-  function handleFormSubmit(e: FormEvent<HTMLFormElement>): boolean {
-    e.preventDefault();
-    if (formData.name.length <= 0 || formData.typeId === "undefined") {
-      console.log("not all fields were completed");
-      return false;
+  async function handleFormSubmit(): Promise<boolean> {
+    if (formData.name.length <= 0) return false;
+
+    try {
+      const res = await createMechanicAPI({ ...formData, gdd_id: gddId });
+
+      if (res.success) {
+        dispatch(addMechanic(res.mechanic));
+      }
+    } catch (error) {
+      console.log(error);
     }
 
-    const newMechanic = { ...formData, gddId: gddId };
-
-    dispatch(addMechanic(newMechanic));
     dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.success }));
     setFormData(initialState);
 

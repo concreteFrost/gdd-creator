@@ -6,11 +6,14 @@ import {
 } from "@store/slices/characterSlices";
 import { useHandleEmptyList } from "@hooks/useHandleEmptyList";
 import TableWithImages from "../TableWithImages";
+import { deleteCharacterAPI } from "@services/charactersAPI";
+import { ActiveModal, showModal } from "@store/slices/modalSlice";
 
 export default function CharactersTable() {
   const characters = useSelector(
     (state: RootState) => state.charactersSlice.characters
   );
+  const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
 
   const dispatch = useDispatch();
 
@@ -21,8 +24,23 @@ export default function CharactersTable() {
     a.name.localeCompare(b.name)
   );
 
-  function handleDeleteCharacter(id: string) {
-    dispatch(deleteCharacter(id));
+  async function handleDeleteCharacter(id: string) {
+    try {
+      const res = await deleteCharacterAPI(id, gddId);
+
+      console.log(res);
+
+      if (res.success) {
+        dispatch(deleteCharacter(id));
+      }
+    } catch (error: any) {
+      dispatch(
+        showModal({
+          activeModal: ActiveModal.Info,
+          text: "Something went wrong",
+        })
+      );
+    }
   }
 
   function handleDup(item: any) {

@@ -14,11 +14,11 @@ const characterSlice = createSlice({
   name: "characters",
   initialState,
   reducers: {
-    addCharacter: (state, action: PayloadAction<NewCharacter>) => {
-      const id = uuidv4();
+    addCharacter: (state, action: PayloadAction<Character>) => {
+      // const a = JSON.parse(action.payload.abilities.toString());
+      // const t = JSON.parse(action.payload.traits.toString());
       const character: Character = {
         ...action.payload,
-        id: id,
       };
       state.characters.push(character);
     },

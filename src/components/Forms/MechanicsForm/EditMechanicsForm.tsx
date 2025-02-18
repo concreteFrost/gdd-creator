@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { GameMechanic } from "@_types/gddTypes";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useLayoutEffect } from "react";
 import "react-quill-new/dist/quill.snow.css";
 import MechanicsForm from "./MechanicsForm";
 import { useState } from "react";
@@ -11,25 +11,20 @@ import { ActiveModal } from "@store/slices/modalSlice";
 import { useParams } from "react-router-dom";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { mechanicsFormTranslator } from "./localisation/mechanicsFormTranslator";
+import { updateGDDAPI } from "@services/gddAPI";
+import { updateMechanicAPI } from "@services/mechanicsAPI";
 
 const initialState: GameMechanic = {
   id: "",
   name: "",
   description: "",
-  typeId: "undefined",
-  //interactions: [],
+  type_id: null,
   examples: [],
-  // gddId: "",
 };
 
 function EditMechanicForm() {
-  const dispatch = useDispatch();
-  const [formData, setFormData] = useState<GameMechanic>(initialState);
   const { mechanicId } = useParams<{ mechanicId: string }>(); // Extract mechanicId from route params
-
-  const currentLanguage = useCurrentLanguage();
-  const loc = mechanicsFormTranslator[currentLanguage];
-
+  const { selectedGDD } = useSelector((state: RootState) => state.authSlice);
   // Retrieve the selected mechanic based on the ID from route params
   const selectedMechanic = useSelector((state: RootState) =>
     state.mechanicsSlice.mechanics.find(
@@ -37,23 +32,37 @@ function EditMechanicForm() {
     )
   );
 
+  if (!selectedMechanic) return <>Not found</>;
+
+  const [formData, setFormData] = useState<GameMechanic>(initialState);
+  const dispatch = useDispatch();
+  const currentLanguage = useCurrentLanguage();
+  const loc = mechanicsFormTranslator[currentLanguage];
+
   useEffect(() => {
     if (selectedMechanic) {
       setFormData(selectedMechanic);
     }
-  }, [mechanicId]);
+  }, [selectedMechanic]); // Обновляем formData при изменении selectedMechanic
 
-  if (!selectedMechanic) return <>Not found</>;
+  async function handleFormSubmit(): Promise<boolean> {
+    if (formData.name.length <= 0) return false;
 
-  function handleFormSubmit(e: FormEvent<HTMLFormElement>): boolean {
-    e.preventDefault();
-    if (formData.name.length <= 0 || formData.typeId === "undefined") {
-      console.log("not all fields were completed");
-      return false;
+    try {
+      const res = await updateMechanicAPI({
+        ...formData,
+        gdd_id: selectedGDD!,
+      });
+
+      if (res.success) {
+        dispatch(editMechanic(res.mechanic));
+        dispatch(
+          showModal({ activeModal: ActiveModal.Info, text: loc.success })
+        );
+      }
+    } catch (error: any) {
+      dispatch(showModal({ activeModal: ActiveModal.Info, text: error }));
     }
-
-    dispatch(editMechanic(formData));
-    dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.success }));
 
     return true;
   }
