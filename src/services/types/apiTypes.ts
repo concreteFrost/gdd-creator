@@ -4,6 +4,7 @@ import {
   GameMechanic,
   MechanicType,
   Character,
+  GameLocation,
 } from "@_types/gddTypes";
 
 export interface BaseResponse {
@@ -55,8 +56,16 @@ export interface GetAllCharactersResponse extends BaseResponse {
   characters: Character[];
 }
 
-export interface CreacteCharacterResponse extends BaseResponse {
+export interface CreateCharacterResponse extends BaseResponse {
   character: Character;
 }
 
 export interface DeleteCharacterResponse extends BaseResponse {}
+
+export interface CreateLocationResponse extends BaseResponse {
+  location: GameLocation;
+}
+
+export interface GetAllLocationsResponse extends BaseResponse {
+  locations: GameLocation[];
+}

@@ -1,5 +1,6 @@
 import { GamePlay } from "@_types/gddTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { closeGDD } from "./gddSlice";
 
 interface GamePlayState {
   gameplay: GamePlay;
@@ -42,6 +43,11 @@ const gameplaySlice = createSlice({
       };
     },
     clearGameplay: () => {},
+  },
+  extraReducers: (builder) => {
+    builder.addCase(closeGDD, () => {
+      return initialState;
+    });
   },
 });
 

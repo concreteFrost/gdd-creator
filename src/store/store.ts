@@ -29,9 +29,9 @@ const store = configureStore({
       },
     });
 
-    if (process.env.NODE_ENV === "development") {
-      return middleware.concat(logger); // Добавляем logger только в dev-режиме
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return middleware.concat(logger); // Добавляем logger только в dev-режиме
+    // }
 
     return middleware;
   },

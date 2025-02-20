@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "@store/store";
 
 const axiosClient: any = axios.create({
-  baseURL: "http://localhost:8801/api",
+  baseURL: "https://gdd-creator-server-production.up.railway.app/api",
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });

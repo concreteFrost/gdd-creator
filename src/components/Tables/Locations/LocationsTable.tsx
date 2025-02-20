@@ -6,7 +6,9 @@ import {
 } from "@store/slices/locationsSlice";
 import { useHandleEmptyList } from "@hooks/useHandleEmptyList";
 import TableWithImages from "../TableWithImages";
-import { GameLocation } from "@_types/gddTypes";
+import { deleteLocationAPI } from "@services/locationsAPI";
+import { showModal } from "@store/slices/modalSlice";
+import { ActiveModal } from "@store/slices/modalSlice";
 
 export default function LocationsTable() {
   const locations = useSelector(
@@ -23,7 +25,18 @@ export default function LocationsTable() {
   );
 
   async function handleLocationDelete(id: string) {
-    dispatch(deleteLocation(id));
+    try {
+      const res = await deleteLocationAPI(id);
+
+      if (res.success) {
+        dispatch(deleteLocation(id));
+        return;
+      }
+
+      dispatch(showModal({ activeModal: ActiveModal.Info, text: res.message }));
+    } catch (error: any) {
+      dispatch(showModal({ activeModal: ActiveModal.Info, text: error }));
+    }
   }
 
   function handleDup(item: any) {

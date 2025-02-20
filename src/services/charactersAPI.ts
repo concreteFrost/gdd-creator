@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import axiosClient from "./axiosSetup";
 import {
-  CreacteCharacterResponse,
+  CreateCharacterResponse,
   GetAllCharactersResponse,
   DeleteCharacterResponse,
 } from "./types/apiTypes";
@@ -21,9 +21,9 @@ export const getAllCharactersAPI = async (
 
 export const createCharacterAPI = async (
   character: FormData
-): Promise<CreacteCharacterResponse> => {
+): Promise<CreateCharacterResponse> => {
   try {
-    const response: AxiosResponse<CreacteCharacterResponse> =
+    const response: AxiosResponse<CreateCharacterResponse> =
       await axiosClient.post("/character/create", character, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -37,9 +37,9 @@ export const createCharacterAPI = async (
 
 export const updateCharacterAPI = async (
   character: FormData
-): Promise<CreacteCharacterResponse> => {
+): Promise<CreateCharacterResponse> => {
   try {
-    const response: AxiosResponse<CreacteCharacterResponse> =
+    const response: AxiosResponse<CreateCharacterResponse> =
       await axiosClient.put("/character/update", character, {
         headers: {
           "Content-Type": "multipart/form-data",

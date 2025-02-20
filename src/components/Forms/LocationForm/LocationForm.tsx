@@ -1,17 +1,11 @@
 import * as form_style from "./LocationForm.module.scss";
 import * as button_styles from "@components/Buttons/Button.module.scss";
-import {
-  Character,
-  GameLocation,
-  GDDElementImage,
-  NewGameLocation,
-} from "@_types/gddTypes";
+import { Character, NewGameLocation } from "@_types/gddTypes";
 import { FormEvent } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import useClearOnTime from "@hooks/useClearOnTime";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { handleUploadImage } from "@utils/images/handleUploadImage";
 import LocationImage from "@components/Images/LocationImage";
 import { useSelector } from "react-redux";
@@ -21,7 +15,7 @@ import { LocationFormElements } from "./localisation/locationFormTranslator";
 interface LocationFormProps {
   formData: NewGameLocation;
   setFormData: (data: any) => void;
-  handleFormSubmit: (e: FormEvent<HTMLFormElement>) => boolean;
+  handleFormSubmit: (e: FormEvent<HTMLFormElement>) => Promise<boolean>;
   language: LocationFormElements;
 }
 
@@ -37,22 +31,15 @@ export default function LocationForm({
   );
 
   useClearOnTime({ setText: setSubmitMessage, text: submitMessage });
-  //   useKeyEnterWithInput({
-  //     func: (e: any) => handleSetExample(e),
-  //     inputRef: inputRef,
-  //   });
 
   const uploadMainImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const previewUrl = await handleUploadImage(e);
-      const id = uuidv4();
-      setFormData((prev: GameLocation) => {
+      setFormData((prev: NewGameLocation) => {
         return {
           ...prev,
-          mainImage: {
-            id: id,
-            path: previewUrl,
-          },
+          img: previewUrl,
+          imageInstance: e.target.files?.[0],
         };
       });
     } catch (error) {
@@ -64,10 +51,8 @@ export default function LocationForm({
     setFormData((prev: NewGameLocation) => {
       return {
         ...prev,
-        mainImage: {
-          id: "",
-          path: "",
-        },
+        img: "",
+        imageInstance: null,
       };
     });
   }
@@ -81,8 +66,10 @@ export default function LocationForm({
     });
   }
 
-  function submitForm(e: any) {
-    if (handleFormSubmit(e) === false) {
+  async function submitForm(e: any) {
+    const res = await handleFormSubmit(e);
+
+    if (res === false) {
       setSubmitMessage(language.nameRequired);
       return;
     }
@@ -204,8 +191,32 @@ export default function LocationForm({
             </div>
           )}
         </section>
-        {/*Additional images */}
-        {/* <section className={form_style.form_group}>
+
+        {submitMessage.length > 0 ? (
+          <div className={`${form_style.form_group} ${form_style.error}`}>
+            {submitMessage}
+          </div>
+        ) : null}
+
+        <div className={form_style.form_footer}>
+          <button
+            type="submit"
+            className={button_styles.create_btn}
+            data-testid="test-submit-form"
+          >
+            {language.save}
+          </button>
+        </div>
+      </form>
+    </>
+  );
+}
+
+{
+  /*Additional images */
+}
+{
+  /* <section className={form_style.form_group}>
           <label htmlFor="main-image">{language.additionalImages}</label>
           <input
             data-testid="test-main-image"
@@ -240,57 +251,5 @@ export default function LocationForm({
               ))
               : null}
           </ul>
-        </section> */}
-        {submitMessage.length > 0 ? (
-          <div className={`${form_style.form_group} ${form_style.error}`}>
-            {submitMessage}
-          </div>
-        ) : null}
-
-        <div className={form_style.form_footer}>
-          <button
-            type="submit"
-            className={button_styles.create_btn}
-            data-testid="test-submit-form"
-          >
-            {language.save}
-          </button>
-        </div>
-      </form>
-    </>
-  );
+        </section> */
 }
-
-// const uploadAdditionalImages = async (
-//   e: React.ChangeEvent<HTMLInputElement>
-// ) => {
-//   try {
-//     const previewUrl = await handleUploadImage(e);
-//     const id = uuidv4();
-//     const newImage: GDDElementImage = {
-//       id: id,
-//       path: previewUrl,
-//     };
-//     setFormData((prev: GameLocation) => {
-//       return {
-//         ...prev,
-//         additionalImages: [...prev.additionalImages!, newImage],
-//       };
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// function deleteAdditionalImage(id: string) {
-//   const filteredImages = formData.additionalImages?.filter(
-//     (img: GDDElementImage) => img.id !== id
-//   );
-
-//   setFormData((prev: GameLocation) => {
-//     return {
-//       ...prev,
-//       additionalImages: filteredImages,
-//     };
-//   });
-// }

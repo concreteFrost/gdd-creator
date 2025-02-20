@@ -1,5 +1,6 @@
 import { MechanicType } from "@_types/gddTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { closeGDD } from "./gddSlice";
 
 export interface MechanicsTypeState {
   types: MechanicType[];
@@ -30,6 +31,11 @@ const mechanicsTypeSlice = createSlice({
 
       state.types[index] = { ...state.types[index], ...action.payload };
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(closeGDD, () => {
+      return initialState;
+    });
   },
 });
 

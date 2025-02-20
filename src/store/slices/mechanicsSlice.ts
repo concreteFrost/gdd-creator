@@ -2,6 +2,7 @@ import { GameMechanic, MechanicType, NewMechnicForm } from "@_types/gddTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { deleteMechanicType } from "./mechanicsTypeSlice";
+import { closeGDD } from "./gddSlice";
 
 export interface MechanicsState {
   mechanics: Array<GameMechanic>;
@@ -51,6 +52,9 @@ const mechanicsSlice = createSlice({
         });
       }
     );
+    builder.addCase(closeGDD, () => {
+      return initialState;
+    });
   },
 });
 

@@ -16,7 +16,7 @@ export default function OverviewCharacters() {
   if (characters.length === 0) return;
 
   const currentLang = useCurrentLanguage();
-  const headerName = sidebarTranslator[currentLang].locations;
+  const headerName = sidebarTranslator[currentLang].characters;
   const t = characterFormTranslator[currentLang];
 
   return (

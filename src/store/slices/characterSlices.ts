@@ -1,6 +1,7 @@
 import { Character, NewCharacter } from "@_types/gddTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { closeGDD } from "./gddSlice";
 
 export interface CharactersState {
   characters: Character[];
@@ -43,6 +44,11 @@ const characterSlice = createSlice({
       const dup = { ...action.payload, id: uuidv4() };
       state.characters.push(dup);
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(closeGDD, () => {
+      return initialState;
+    });
   },
 });
 

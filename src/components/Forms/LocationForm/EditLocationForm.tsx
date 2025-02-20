@@ -1,4 +1,4 @@
-import { GameLocation } from "@_types/gddTypes";
+import { GameLocation, NewGameLocation } from "@_types/gddTypes";
 import React, { FormEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
@@ -10,25 +10,25 @@ import { ActiveModal } from "@store/slices/modalSlice";
 import LocationForm from "./LocationForm";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { locationsFormTranslator } from "./localisation/locationFormTranslator";
+import { updateLocationAPI } from "@services/locationsAPI";
 
-const initialFormData: GameLocation = {
+const initialFormData: NewGameLocation = {
   id: "",
   name: "",
-  // gddId: "",
   description: "",
   environment: "",
   characters: [],
-  //items: [],
   img: "",
-  //additionalImages: [],
+  imageInstance: null,
 };
 
 export default function EditLocationForm() {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState<GameLocation>(initialFormData);
+  const [formData, setFormData] = useState<NewGameLocation>(initialFormData);
   const { locationId } = useParams<{ locationId: string }>();
   const currentLanguage = useCurrentLanguage();
   const loc = locationsFormTranslator[currentLanguage];
+  const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
 
   const selectedLocation = useSelector((state: RootState) =>
     state.locationsSlice.locations.find(
@@ -38,25 +38,49 @@ export default function EditLocationForm() {
 
   useEffect(() => {
     if (selectedLocation) {
-      setFormData(selectedLocation);
+      setFormData({ ...selectedLocation, imageInstance: null });
     }
   }, [locationId]);
 
-  if (!selectedLocation) {
+  if (!selectedLocation || !formData) {
     return <div>Location was not found</div>;
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>): boolean {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<boolean> {
     e.preventDefault();
+
+    if (!formData || !selectedLocation) return false;
+
     if (formData.name.length <= 0) {
       console.log("name is required");
       return false;
     }
 
-    dispatch(editLocation(formData));
-    dispatch(
-      showModal({ activeModal: ActiveModal.Info, text: loc.successMessage })
-    );
+    const dataToSend = new FormData();
+    dataToSend.append("id", selectedLocation.id);
+    dataToSend.append("name", formData.name);
+    dataToSend.append("description", formData.description);
+    dataToSend.append("environment", formData.environment);
+    dataToSend.append("gdd_id", gddId);
+    dataToSend.append("characters", JSON.stringify(formData.characters));
+    dataToSend.append("imagePath", formData.img ?? "null");
+
+    if (formData.imageInstance) {
+      dataToSend.append("location", formData.imageInstance); // Только если файл есть
+    }
+
+    try {
+      const res = await updateLocationAPI(dataToSend);
+
+      if (res.success) {
+        dispatch(editLocation(res.location));
+        dispatch(
+          showModal({ activeModal: ActiveModal.Info, text: loc.successMessage })
+        );
+      }
+    } catch (error: any) {
+      dispatch(showModal({ activeModal: ActiveModal.Info, text: error }));
+    }
 
     return true;
   }

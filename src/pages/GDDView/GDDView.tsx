@@ -16,12 +16,19 @@ import { createGameplay, editGameplay } from "@store/slices/gameplaySlice";
 import { getGDDAPI } from "@services/gddAPI";
 import { createGDD } from "@store/slices/gddSlice";
 import { getAllMechanicsAPI } from "@services/mechanicsAPI";
-import { Character, GameMechanic, MechanicType } from "@_types/gddTypes";
+import {
+  Character,
+  GameLocation,
+  GameMechanic,
+  MechanicType,
+} from "@_types/gddTypes";
 import { addMechanic } from "@store/slices/mechanicsSlice";
 import { getAllTypesAPI } from "@services/mechanicsTypesAPI";
 import { addMechanicType } from "@store/slices/mechanicsTypeSlice";
 import { getAllCharactersAPI } from "@services/charactersAPI";
 import { addCharacter } from "@store/slices/characterSlices";
+import { getAllLocationsAPI } from "@services/locationsAPI";
+import { addLocation } from "@store/slices/locationsSlice";
 
 function GDDView() {
   const { selectedGDD } = useSelector((state: RootState) => state.authSlice);
@@ -48,12 +55,14 @@ function GDDView() {
         mechanicsResponse,
         allTypesResponse,
         allCharactersResponse,
+        allLocationsResponse,
       ] = await Promise.all([
         getGDDAPI(selectedGDD),
         getGameplayAPI(selectedGDD),
         getAllMechanicsAPI(selectedGDD),
         getAllTypesAPI(selectedGDD),
         getAllCharactersAPI(selectedGDD),
+        getAllLocationsAPI(selectedGDD),
       ]);
 
       if (gddResponse.success) dispatch(createGDD(gddResponse.gdd));
@@ -62,21 +71,28 @@ function GDDView() {
 
       if (mechanicsResponse.success) {
         const allMechanics = mechanicsResponse.mechanics;
-
-        allMechanics.forEach((m: GameMechanic) => {
-          dispatch(addMechanic(m));
-        });
+        if (allMechanics.length > 0)
+          allMechanics.forEach((m: GameMechanic) => {
+            dispatch(addMechanic(m));
+          });
       }
       if (allTypesResponse.success) {
         const allTypes = allTypesResponse.types;
-        allTypes.forEach((t: MechanicType) => dispatch(addMechanicType(t)));
+        if (allTypes.length > 0)
+          allTypes.forEach((t: MechanicType) => dispatch(addMechanicType(t)));
       }
 
-      console.log(allCharactersResponse);
       if (allCharactersResponse.success) {
         const allCharacters = allCharactersResponse.characters;
+        if (allCharacters.length > 0)
+          allCharacters.forEach((c: Character) => dispatch(addCharacter(c)));
+      }
 
-        allCharacters.forEach((c: Character) => dispatch(addCharacter(c)));
+      if (allLocationsResponse.success) {
+        const allLocations = allLocationsResponse.locations;
+        console.log(allLocations);
+        if (allLocations.length > 0)
+          allLocations.forEach((l: GameLocation) => dispatch(addLocation(l)));
       }
     } catch (error) {
       dispatch(
@@ -91,7 +107,7 @@ function GDDView() {
   };
 
   useLayoutEffect(() => {
-    fetchAll();
+    if (selectedGDD) fetchAll();
   }, [selectedGDD]);
 
   if (isLoading) return <p>Loading</p>;

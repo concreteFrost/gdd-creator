@@ -119,8 +119,10 @@ export interface Character {
   // gddId: string;
 }
 
-export type NewGameLocation = Omit<GameLocation, "id">;
 export type NewMechnicForm = Omit<GameMechanic, "id">;
 export interface NewCharacter extends Character {
+  imageInstance: File | null;
+}
+export interface NewGameLocation extends GameLocation {
   imageInstance: File | null;
 }

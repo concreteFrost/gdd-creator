@@ -2,6 +2,7 @@ import { Character, GameLocation, NewGameLocation } from "@_types/gddTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { deleteCharacter } from "./characterSlices";
+import { closeGDD } from "./gddSlice";
 
 interface LocationsState {
   locations: GameLocation[];
@@ -15,8 +16,8 @@ const locationsSlice = createSlice({
   name: "locations",
   initialState,
   reducers: {
-    addLocation: (state, action: PayloadAction<NewGameLocation>) => {
-      state.locations.push({ ...action.payload, id: uuidv4() });
+    addLocation: (state, action: PayloadAction<GameLocation>) => {
+      state.locations.push(action.payload);
     },
     editLocation: (state, action: PayloadAction<GameLocation>) => {
       const index = state.locations.findIndex(
@@ -46,6 +47,9 @@ const locationsSlice = createSlice({
           (characterId: string) => characterId !== action.payload
         ),
       }));
+    });
+    builder.addCase(closeGDD, () => {
+      return initialState;
     });
   },
 });
