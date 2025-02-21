@@ -13,6 +13,7 @@ export interface BaseResponse {
 }
 // Типы для ответов
 export interface AuthResponse {
+  message: string;
   success: boolean;
   token: string;
   user: {

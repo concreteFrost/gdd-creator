@@ -33,7 +33,6 @@
     // color: darken($input-border, 30%);
   }
 
-
   textarea,
   input,
   select {
@@ -55,8 +54,7 @@
     }
   }
 
-  
-  textarea{
+  textarea {
     resize: none;
     height: auto !important;
     min-height: 300px;

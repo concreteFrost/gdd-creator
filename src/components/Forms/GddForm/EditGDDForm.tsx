@@ -27,7 +27,6 @@ function EditGddForm() {
 
     try {
       const updateGDDResponse = await updateGDDAPI(toSubmit);
-      console.log(updateGDDResponse);
 
       if (updateGDDResponse.success) {
         dispatch(editGeneralInfo(toSubmit));
@@ -63,7 +62,13 @@ function EditGddForm() {
 
         <div className={form_style.form_group}>
           <label htmlFor="genre">{loc.genre}</label>
-          <input type="text" id="genre" name="genre" defaultValue={gdd.genre} />
+          <input
+            type="text"
+            id="genre"
+            name="genre"
+            defaultValue={gdd.genre}
+            required
+          />
         </div>
 
         <div className={form_style.form_group}>

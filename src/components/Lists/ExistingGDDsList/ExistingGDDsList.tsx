@@ -10,6 +10,8 @@ import { ActiveModal, showModal } from "@store/slices/modalSlice";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { gddListTranslator } from "./localisation/gddListTranslator";
 
+import { setLoading } from "@store/slices/loaderSlice";
+
 export default function ExistingGDDsList() {
   const [gddList, setGddList] = useState<Array<GDD>>([]);
   const dispatch = useDispatch();
@@ -19,6 +21,7 @@ export default function ExistingGDDsList() {
 
   useEffect(() => {
     const fetchGDDList = async () => {
+      dispatch(setLoading(true));
       try {
         const response = await getAllGDDAPI();
 
@@ -26,7 +29,14 @@ export default function ExistingGDDsList() {
           setGddList(response.gdd);
         }
       } catch (error) {
-        console.log(error);
+        dispatch(
+          showModal({
+            activeModal: ActiveModal.Info,
+            text: "Something went wrong",
+          })
+        );
+      } finally {
+        dispatch(setLoading(false));
       }
     };
 
@@ -50,7 +60,7 @@ export default function ExistingGDDsList() {
 
   function handleEditButtonClick(id: string) {
     dispatch(setSelectedGDD(id));
-    navigate("/gdd/info");
+    navigate("/gdd/editGdd");
   }
 
   return (

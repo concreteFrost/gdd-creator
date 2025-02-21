@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@store/store";
-import { GameMechanic, GroupedMechanics } from "@_types/gddTypes";
+import { GroupedMechanics } from "@_types/gddTypes";
 import MechanicsTable from "../Mechanics/MechanicsTable";
 import {
   groupdMechanics,

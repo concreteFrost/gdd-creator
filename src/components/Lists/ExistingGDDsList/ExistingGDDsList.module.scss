@@ -5,11 +5,12 @@
 
 .list_wrapper {
   @include generic_form(600px);
+  margin-top: 35vh !important;
 
   ul {
     @include form_list($list-gap: 20px, $padding: 0px, $bg: rgb(216, 216, 216));
 
-    max-height: 500px;
+    max-height: 200px;
     overflow-y: auto;
     .edit_button {
       @include button($btn-primary-color);

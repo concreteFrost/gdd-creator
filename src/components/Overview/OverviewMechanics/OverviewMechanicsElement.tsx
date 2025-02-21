@@ -4,7 +4,6 @@ import * as overviewStyles from "./OverviewMechanics.module.scss";
 import "@styles/overrides/quill_override.scss";
 import { formatQuillOutput } from "@utils/quillToText";
 import { MechanicFormElements } from "@components/Forms/MechanicsForm/localisation/mechanicsFormTranslator";
-import { v4 as uuid } from "uuid";
 
 interface MechanicsDescriptionProps {
   group: GroupedMechanics;

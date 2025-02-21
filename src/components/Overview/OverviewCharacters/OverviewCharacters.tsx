@@ -12,10 +12,10 @@ export default function OverviewCharacters() {
   const { characters } = useSelector(
     (state: RootState) => state.charactersSlice
   );
+  const currentLang = useCurrentLanguage();
 
   if (characters.length === 0) return;
 
-  const currentLang = useCurrentLanguage();
   const headerName = sidebarTranslator[currentLang].characters;
   const t = characterFormTranslator[currentLang];
 

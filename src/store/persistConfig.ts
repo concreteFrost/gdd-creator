@@ -10,6 +10,7 @@ import locationsSlice from "./slices/locationsSlice";
 import charactersSlice from "./slices/characterSlices";
 import localisationSlice from "./slices/localisationSlice";
 import authSlice from "./slices/authSlice";
+import loaderSlice from "./slices/loaderSlice";
 
 const persistConfig = {
   key: "root",
@@ -27,6 +28,7 @@ const appReducer = combineReducers({
   locationsSlice,
   charactersSlice,
   localisationSlice,
+  loaderSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, appReducer);

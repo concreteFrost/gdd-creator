@@ -1,4 +1,4 @@
-import React, { FormEvent, useActionState, useState } from "react";
+import React, { FormEvent, useActionState, useEffect, useState } from "react";
 import { GamePlatform, GameView, GDD } from "@_types/gddTypes";
 import * as form_style from "./GDDForm.module.scss";
 import * as button_styles from "@components/Buttons/Button.module.scss";
@@ -11,6 +11,8 @@ import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { gddFormTranslator } from "./localisation/gddFormTranslator";
 import { createGDDAPI } from "@services/gddAPI";
 import { setSelectedGDD } from "@store/slices/authSlice";
+import { setLoading } from "@store/slices/loaderSlice";
+
 interface Props {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
@@ -39,6 +41,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
     }
 
     try {
+      dispatch(setLoading(true));
       const gddResponse = await createGDDAPI(title, genre, view, platform);
 
       if (gddResponse.success) {
@@ -48,6 +51,8 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
       }
     } catch (error) {
       console.log("error", error);
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 
@@ -78,7 +83,7 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
 
         <div className={form_style.form_group}>
           <label htmlFor="genre">{loc.genre}</label>
-          <input type="text" id="genre" name="genre" />
+          <input type="text" id="genre" name="genre" required />
         </div>
 
         <div className={form_style.form_group}>
@@ -123,7 +128,6 @@ function NewGDDForm({ isVisible, setVisible }: Props) {
           </button>
         </div>
       </form>
-      {isPending ? "hold on..." : ""}
     </Modal>
   );
 }

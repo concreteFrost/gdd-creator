@@ -14,13 +14,13 @@ import { mechanicsFormTranslator } from "@components/Forms/MechanicsForm/localis
 export default function OverviewMechanics() {
   const { mechanics } = useSelector((state: RootState) => state.mechanicsSlice);
   const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
+  const currentLang = useCurrentLanguage();
 
-  if (mechanics.length <= 0) {
+  if (mechanics.length <= 0 || types.length <= 0) {
     console.log("no mechanics were found");
     return null;
   }
 
-  const currentLang = useCurrentLanguage();
   const headerName = sidebarTranslator[currentLang].mechanics;
   const t = mechanicsFormTranslator[currentLang];
 

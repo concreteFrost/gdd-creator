@@ -5,9 +5,11 @@ import NotFoundPage from "@pages/NotFound";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import ModalManager from "@components/Modal/ModalManager";
 import SetLocalisation from "@components/Localisation/SetLocalisation";
-import LoginPage from "@pages/Login";
-import Register from "@pages/Register";
+import LoginPage from "@pages/Auth/Login";
+import Register from "@pages/Auth/Register";
 import ProtectedRoute from "@components/ProtectedRoute/ProtectedRoute";
+import { TailSpin } from "react-loader-spinner";
+import Spinner from "@components/Loader/Spinner";
 
 export default function App() {
   return (
@@ -32,6 +34,7 @@ export default function App() {
       </Router>
       <SetLocalisation></SetLocalisation>
       <ModalManager></ModalManager>
+      <Spinner></Spinner>
     </div>
   );
 }

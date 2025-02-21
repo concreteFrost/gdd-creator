@@ -29,14 +29,13 @@ import { getAllCharactersAPI } from "@services/charactersAPI";
 import { addCharacter } from "@store/slices/characterSlices";
 import { getAllLocationsAPI } from "@services/locationsAPI";
 import { addLocation } from "@store/slices/locationsSlice";
+import { setLoading } from "@store/slices/loaderSlice";
 
 function GDDView() {
   const { selectedGDD } = useSelector((state: RootState) => state.authSlice);
-  const [isLoading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const fetchAll = async () => {
-    setLoading(true);
     if (!selectedGDD) {
       dispatch(
         showModal({
@@ -49,6 +48,7 @@ function GDDView() {
 
     try {
       // Запускаем запросы параллельно
+      dispatch(setLoading(true));
       const [
         gddResponse,
         gameplayResponse,
@@ -66,8 +66,9 @@ function GDDView() {
       ]);
 
       if (gddResponse.success) dispatch(createGDD(gddResponse.gdd));
-      if (gameplayResponse.success)
+      if (gameplayResponse.success) {
         dispatch(editGameplay(gameplayResponse.gameplay));
+      }
 
       if (mechanicsResponse.success) {
         const allMechanics = mechanicsResponse.mechanics;
@@ -102,15 +103,13 @@ function GDDView() {
         })
       );
     } finally {
-      setLoading(false);
+      dispatch(setLoading(false));
     }
   };
 
   useLayoutEffect(() => {
     if (selectedGDD) fetchAll();
   }, [selectedGDD]);
-
-  if (isLoading) return <p>Loading</p>;
 
   return (
     <div className={gddStyle.container}>

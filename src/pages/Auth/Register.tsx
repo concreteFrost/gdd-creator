@@ -4,6 +4,10 @@ import { login } from "@store/slices/authSlice";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import * as style from "./Login.module.scss";
+import { authTranslator } from "./authLocalisation";
+import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import GDDHeader from "@components/Headers/GDDHeader";
 
 const Register = () => {
   const [email, setEmail] = useState<string | null>(null);
@@ -16,6 +20,9 @@ const Register = () => {
   const navigate = useNavigate();
 
   useClearOnTime({ setText: setErrorMsaage, text: errorMessage });
+
+  const lang = useCurrentLanguage();
+  const t = authTranslator[lang];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,61 +54,73 @@ const Register = () => {
   };
 
   return (
-    <div
-      style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}
-    >
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
+    <div>
+      <GDDHeader></GDDHeader>
+      <form onSubmit={handleSubmit} className={style.login_container}>
+        <h2>{t.regFormTitle}</h2>
+        <div className={style.form_group}>
+          <label htmlFor="username">{t.username}:</label>
           <input
             type="text"
             id="username"
             value={username ? username : ""}
             onChange={(e) => setUsername(e.target.value)}
             required
-            style={{ margin: "10px 0", padding: "8px", width: "100%" }}
           />
         </div>
-        <div>
-          <label htmlFor="email">Email:</label>
+        <div className={style.form_group}>
+          <label htmlFor="email">{t.email}:</label>
           <input
             type="email"
             id="email"
             value={email ? email : ""}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ margin: "10px 0", padding: "8px", width: "100%" }}
           />
         </div>
-        <div>
-          <label htmlFor="password">Password:</label>
+        <div className={style.form_group}>
+          <label htmlFor="password">{t.pass}:</label>
           <input
             type="password"
             id="password"
             value={password ? password : ""}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ margin: "10px 0", padding: "8px", width: "100%" }}
           />
         </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password:</label>
+        <div className={style.form_group}>
+          <label htmlFor="confirmPassword">{t.confirmPass}:</label>
           <input
             type="password"
             id="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            style={{ margin: "10px 0", padding: "8px", width: "100%" }}
           />
         </div>
-        <button type="submit" style={{ padding: "10px 20px" }}>
-          Register
-        </button>
-      </form>
 
-      <span style={{ marginTop: "20px", color: "red" }}>{errorMessage}</span>
+        <div className={style.button_group}>
+          <button type="submit" className={style.login_btn}>
+            {t.regFormTitle}
+          </button>
+          <button
+            type="button"
+            className={style.register_btn}
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            {t.loginFormTitle}
+          </button>
+        </div>
+
+        {/**ERROR MSG */}
+        {errorMessage.length > 0 ? (
+          <div className={`${style.form_group} ${style.error}`}>
+            {`${errorMessage}`}
+          </div>
+        ) : null}
+      </form>
     </div>
   );
 };
