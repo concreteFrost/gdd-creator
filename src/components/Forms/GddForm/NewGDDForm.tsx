@@ -1,12 +1,11 @@
-import React, { FormEvent, useActionState, useEffect, useState } from "react";
-import { GamePlatform, GameView, GDD } from "@_types/gddTypes";
+import { useActionState, useState } from "react";
+import { GamePlatform, GameView } from "@_types/gddTypes";
 import * as form_style from "./GDDForm.module.scss";
 import * as button_styles from "@components/Buttons/Button.module.scss";
 import { useDispatch } from "react-redux";
 import useClearOnTime from "@hooks/useClearOnTime";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
-import { initialState } from "@store/slices/gddSlice";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { gddFormTranslator } from "./localisation/gddFormTranslator";
 import { createGDDAPI } from "@services/gddAPI";

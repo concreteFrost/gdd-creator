@@ -1,0 +1,82 @@
+@use "@styles/variables.scss" as *;
+@use "@styles/mixins/button_mixins.scss" as *;
+@use "@styles/mixins/form_mixins.scss" as *;
+@use "sass:color";
+
+.wrapper {
+  position: fixed;
+  top: 25px;
+  right: 100px;
+  .profile_icon_wrapper {
+    position: fixed;
+    top: 30px;
+    right: 50px;
+
+    .icon {
+      font-size: 2.5rem;
+      color: $btn-primary-color;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        color: color.scale($btn-primary-color, $lightness: -20%);
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.profile_content_wrapper {
+  @include generic_form(300px);
+
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    justify-items: center;
+    justify-self: center;
+  }
+
+  .delete_account_btn {
+    border: none;
+    text-decoration: underline;
+    background-color: transparent;
+    color: $error-color;
+    cursor: pointer;
+
+    &:hover {
+      color: color.scale($error-color, $lightness: -50%);
+    }
+  }
+
+  .reset_password_btn {
+    @extend .delete_account_btn;
+
+    color: gray;
+
+    &:hover {
+      color: color.scale(gray, $lightness: -50%);
+    }
+  }
+}
+
+.reset_password_form {
+  margin-bottom: 20px;
+
+  button {
+    @include button($btn-dark-color);
+    padding: 5px 10px;
+  }
+}

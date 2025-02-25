@@ -8,6 +8,7 @@ import * as style from "./Login.module.scss";
 import { authTranslator } from "./authLocalisation";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import GDDHeader from "@components/Headers/GDDHeader";
+import { setLoading } from "@store/slices/loaderSlice";
 
 const Register = () => {
   const [email, setEmail] = useState<string | null>(null);
@@ -37,6 +38,7 @@ const Register = () => {
       return;
     }
 
+    dispatch(setLoading(true));
     try {
       const res = await registerAPI(username!, email!, password!);
       dispatch(
@@ -49,6 +51,8 @@ const Register = () => {
       navigate("/");
     } catch (error: any) {
       setErrorMsaage(`*${error}`);
+    } finally {
+      dispatch(setLoading(false));
     }
     // Здесь можно добавить логику отправки данных на сервер
   };

@@ -15,9 +15,8 @@
   transition: background-color 0.3s ease;
   background-color: $bg_color;
 
-
   &:hover {
-   background-color: color.scale($bg_color, $lightness: -20%);
+    background-color: color.scale($bg_color, $lightness: -20%);
   }
 
   transition: background-color 0.1s ease-in-out;

@@ -44,3 +44,24 @@ export const getUserData = async (): Promise<{ id: string; email: string }> => {
     throw error.response.data.message;
   }
 };
+
+export const updatePasswordAPI = async (
+  old_password: string,
+  new_password: string
+): Promise<{
+  success: boolean;
+  message: string;
+}> => {
+  try {
+    const toSubmit = {
+      old_password,
+      new_password,
+    };
+    const response: AxiosResponse<{ success: boolean; message: string }> =
+      await axiosClient.put("/auth/update_password", toSubmit);
+
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data.message;
+  }
+};

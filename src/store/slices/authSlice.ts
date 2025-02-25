@@ -20,6 +20,7 @@ const authSlice = createSlice({
   reducers: {
     login: (state, action: PayloadAction<Omit<AuthState, "selectedGDD">>) => {
       state.username = action.payload.username;
+      state.email = action.payload.email;
       state.token = action.payload.token;
     },
     logout: () => {

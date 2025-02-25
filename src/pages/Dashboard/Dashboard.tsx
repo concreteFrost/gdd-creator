@@ -4,6 +4,7 @@ import NewGDDForm from "@components/Forms/GddForm/NewGDDForm";
 import ExistingGDDsList from "@components/Lists/ExistingGDDsList/ExistingGDDsList";
 import { dashboardTranslator } from "./localisation/dashboardLocalisation";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import Profile from "@components/Profile/Profile";
 
 export default function Dashboard() {
   const [isFormVisible, setFormVisible] = useState<boolean>(false);
@@ -35,6 +36,8 @@ export default function Dashboard() {
         isVisible={isFormVisible}
         setVisible={setFormVisible}
       ></NewGDDForm>
+
+      <Profile></Profile>
     </div>
   );
 }

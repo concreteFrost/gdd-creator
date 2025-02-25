@@ -30,6 +30,7 @@ import { addCharacter } from "@store/slices/characterSlices";
 import { getAllLocationsAPI } from "@services/locationsAPI";
 import { addLocation } from "@store/slices/locationsSlice";
 import { setLoading } from "@store/slices/loaderSlice";
+import Profile from "@components/Profile/Profile";
 
 function GDDView() {
   const { selectedGDD } = useSelector((state: RootState) => state.authSlice);
@@ -128,6 +129,7 @@ function GDDView() {
           />
         </Routes>
       </div>
+      <Profile></Profile>
     </div>
   );
 }
