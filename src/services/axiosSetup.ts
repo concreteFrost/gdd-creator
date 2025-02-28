@@ -1,6 +1,8 @@
 import axios from "axios";
 import store from "@store/store";
 
+//"https://gdd-creator-server-production.up.railway.app/api" deployed server
+// "http://localhost:8801"
 const axiosClient: any = axios.create({
   baseURL: "https://gdd-creator-server-production.up.railway.app/api",
   timeout: 10000,

@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import axiosClient from "./axiosSetup"; // Импортируем настроенный axiosClient
-import { AuthResponse } from "./types/apiTypes";
+import { AuthResponse, BaseResponse } from "./types/apiTypes";
 
 // Функция для логина
 export const loginAPI = async (
@@ -58,8 +58,58 @@ export const updatePasswordAPI = async (
       new_password,
     };
     const response: AxiosResponse<{ success: boolean; message: string }> =
-      await axiosClient.put("/auth/update_password", toSubmit);
+      await axiosClient.put("/auth/update-password", toSubmit);
 
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data.message;
+  }
+};
+
+export const forgotPasswordAPI = async (
+  email: string
+): Promise<BaseResponse> => {
+  console.log(email);
+  try {
+    const resonse: AxiosResponse<BaseResponse> = await axiosClient.post(
+      "/auth/forgot-password",
+      { email: email }
+    );
+
+    return resonse.data;
+  } catch (error: any) {
+    throw error.response.data.message;
+  }
+};
+
+export const validateResetPasswordTokenAPI = async (
+  token: string
+): Promise<BaseResponse> => {
+  try {
+    const resonse: AxiosResponse<BaseResponse> = await axiosClient.post(
+      "/auth/validate-token",
+      { token: token }
+    );
+
+    return resonse.data;
+  } catch (error: any) {
+    throw error.response.data.message;
+  }
+};
+
+export const resetPasswordAPI = async (
+  password: string,
+  token: string
+): Promise<BaseResponse> => {
+  try {
+    const toSubmit = {
+      token: token,
+      password: password,
+    };
+    const response: AxiosResponse<BaseResponse> = await axiosClient.post(
+      "/auth/reset-password",
+      toSubmit
+    );
     return response.data;
   } catch (error: any) {
     throw error.response.data.message;

@@ -11,6 +11,7 @@ import CharacterForm from "./CharacterForm";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { characterFormTranslator } from "./localisation/characterFormTranslator";
 import { updateCharacterAPI } from "@services/charactersAPI";
+import { setLoading } from "@store/slices/loaderSlice";
 
 export default function EditCharacterForm() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ export default function EditCharacterForm() {
       return false;
     }
 
+    dispatch(setLoading(true));
     try {
       const dataToSend = new FormData();
       dataToSend.append("id", selectedCharacter.id);
@@ -76,6 +78,8 @@ export default function EditCharacterForm() {
       }
     } catch (error) {
       console.log("errrr", error);
+    } finally {
+      dispatch(setLoading(false));
     }
 
     return true;

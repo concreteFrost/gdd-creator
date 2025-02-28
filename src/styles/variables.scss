@@ -13,7 +13,7 @@ $button-hover: #016de0;
 $error-color: #e74c3c;
 
 // Variables for sidebar
-$sidebar-bg-color: #242038; // Matches the dark text variable
+$sidebar-bg-color: #312b4b; // Matches the dark text variable
 $sidebar-text-color: #f8f9fa; // Light text for dark background
 $sidebar-hover-bg: #725ac1; // Matches the primary button color
 $sidebar-border-color: #cac4ce; // Matches the neutral color
@@ -24,15 +24,14 @@ $list-even: #bebcc7;
 $list-odd: #ebebeb;
 
 // screen size breakpoints
-$screen-xs: 480px;   // Extra small (phones)
-$screen-sm: 768px;   // Small (tablets)
-$screen-md: 1024px;  // Medium (landscape tablets)
-$screen-lg: 1440px;  // Large (laptops/desktops)
-$screen-xl: 1920px;  // Extra large (large desktops)
+$screen-xs: 480px; // Extra small (phones)
+$screen-sm: 768px; // Small (tablets)
+$screen-md: 1024px; // Medium (landscape tablets)
+$screen-lg: 1440px; // Large (laptops/desktops)
+$screen-xl: 1920px; // Extra large (large desktops)
 
 //overview variables
 $gameplay-border: #eae9f4;
 $locations-border: #e9eef4;
-$mechanics-border:#e9f3f4;
-$character-border:#eae9f4;
-
+$mechanics-border: #e9f3f4;
+$character-border: #eae9f4;

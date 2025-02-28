@@ -47,6 +47,7 @@ const characterSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(closeGDD, () => {
+      console.log("deleting characters");
       return initialState;
     });
   },

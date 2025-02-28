@@ -1,6 +1,7 @@
 import { GamePlatform, GameView, GDD } from "@_types/gddTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { logout } from "./authSlice";
 
 interface GDDState {
   gdd: GDD;

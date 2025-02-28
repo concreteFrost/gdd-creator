@@ -9,6 +9,7 @@ import { authTranslator } from "./authLocalisation";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import GDDHeader from "@components/Headers/GDDHeader";
 import { setLoading } from "@store/slices/loaderSlice";
+import isStrongPassword from "@utils/passwordVerification";
 
 const Register = () => {
   const [email, setEmail] = useState<string | null>(null);
@@ -29,16 +30,21 @@ const Register = () => {
     e.preventDefault();
 
     if (!username && !password && !email) {
-      console.log("all fields are required");
+      setErrorMsaage(t.regMessages.emptyFields);
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setErrorMsaage(t.regMessages.passwordMismatch);
       return;
     }
 
+    if (!isStrongPassword(password)) {
+      setErrorMsaage(t.regMessages.weakPassword);
+    }
+
     dispatch(setLoading(true));
+
     try {
       const res = await registerAPI(username!, email!, password!);
       dispatch(
@@ -54,7 +60,6 @@ const Register = () => {
     } finally {
       dispatch(setLoading(false));
     }
-    // Здесь можно добавить логику отправки данных на сервер
   };
 
   return (
@@ -121,7 +126,7 @@ const Register = () => {
         {/**ERROR MSG */}
         {errorMessage.length > 0 ? (
           <div className={`${style.form_group} ${style.error}`}>
-            {`${errorMessage}`}
+            {`*${errorMessage}`}
           </div>
         ) : null}
       </form>

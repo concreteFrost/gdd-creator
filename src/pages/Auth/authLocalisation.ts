@@ -5,6 +5,16 @@ interface AuthElements {
   confirmPass: string;
   loginFormTitle: string;
   regFormTitle: string;
+
+  regMessages: {
+    passwordMismatch: string;
+    emptyFields: string;
+    weakPassword: string;
+  };
+
+  loginMessages: {
+    emptyEmail: string;
+  };
 }
 
 interface AuthTranslator {
@@ -20,6 +30,16 @@ export const authTranslator: AuthTranslator = {
     confirmPass: "Confirm Password",
     loginFormTitle: "LOGIN",
     regFormTitle: "REGISTER",
+
+    loginMessages: {
+      emptyEmail: "email cant be blank",
+    },
+
+    regMessages: {
+      passwordMismatch: "passwords do not match!",
+      emptyFields: "all fields are required",
+      weakPassword: "your password is too weak",
+    },
   },
   ru: {
     username: "Имя",
@@ -28,5 +48,15 @@ export const authTranslator: AuthTranslator = {
     confirmPass: "Подтвердить пароль",
     loginFormTitle: "ЛОГИН",
     regFormTitle: "РЕГИСТРАЦИЯ",
+
+    loginMessages: {
+      emptyEmail: "email поле не заполнено",
+    },
+
+    regMessages: {
+      passwordMismatch: "пароли не совпадают",
+      emptyFields: "не все поля заполнены",
+      weakPassword: "пароль слишком слабый",
+    },
   },
 };

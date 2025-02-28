@@ -10,6 +10,7 @@ import Register from "@pages/Auth/Register";
 import ProtectedRoute from "@components/ProtectedRoute/ProtectedRoute";
 import { TailSpin } from "react-loader-spinner";
 import Spinner from "@components/Loader/Spinner";
+import PasswordReset from "@pages/PasswordReset/PasswordReset";
 
 export default function App() {
   return (
@@ -26,10 +27,8 @@ export default function App() {
             path="/gdd/*"
             element={<ProtectedRoute component={<GDDView />} />}
           />
-          <Route
-            path="*"
-            element={<ProtectedRoute component={<NotFoundPage />} />}
-          />
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="reset-password" element={<PasswordReset />}></Route>
         </Routes>
       </Router>
       <SetLocalisation></SetLocalisation>

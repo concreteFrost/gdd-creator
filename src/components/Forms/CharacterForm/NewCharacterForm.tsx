@@ -9,6 +9,7 @@ import { ActiveModal } from "@store/slices/modalSlice";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { characterFormTranslator } from "./localisation/characterFormTranslator";
 import { createCharacterAPI } from "@services/charactersAPI";
+import { setLoading } from "@store/slices/loaderSlice";
 
 const initialFormData: NewCharacter = {
   id: "",
@@ -39,6 +40,8 @@ export default function NewCharacterForm() {
       return false;
     }
 
+    dispatch(setLoading(true));
+
     try {
       const dataToSend = new FormData();
       dataToSend.append("name", formData.name);
@@ -61,6 +64,8 @@ export default function NewCharacterForm() {
       }
     } catch (error: any) {
       console.log(error);
+    } finally {
+      dispatch(setLoading(false));
     }
 
     return true;

@@ -11,6 +11,7 @@ import LocationForm from "./LocationForm";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { locationsFormTranslator } from "./localisation/locationFormTranslator";
 import { updateLocationAPI } from "@services/locationsAPI";
+import { setLoading } from "@store/slices/loaderSlice";
 
 const initialFormData: NewGameLocation = {
   id: "",
@@ -69,6 +70,8 @@ export default function EditLocationForm() {
       dataToSend.append("location", formData.imageInstance); // Только если файл есть
     }
 
+    dispatch(setLoading(true));
+
     try {
       const res = await updateLocationAPI(dataToSend);
 
@@ -80,6 +83,8 @@ export default function EditLocationForm() {
       }
     } catch (error: any) {
       dispatch(showModal({ activeModal: ActiveModal.Info, text: error }));
+    } finally {
+      dispatch(setLoading(false));
     }
 
     return true;

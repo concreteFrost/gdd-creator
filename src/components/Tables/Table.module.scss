@@ -4,4 +4,28 @@
 // Миксин для фона ячеек таблицы
 .table {
   @include table_generic;
+
+  .section_header {
+    padding-left: 10px;
+    margin-bottom: 30px;
+  }
+
+  .actions_row {
+    display: flex;
+    width: auto;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 5px;
+  }
+}
+
+.table_wrapper {
+  position: relative;
+}
+
+.section_toggle_button {
+  position: absolute;
+  top: -5px;
+  left: 250px;
+  padding: 7px;
 }

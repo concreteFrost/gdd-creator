@@ -10,6 +10,7 @@ import { Ref } from "react";
 import isStrongPassword from "@utils/passwordVerification";
 import { updatePasswordAPI } from "@services/auth";
 import { ActiveModal, showModal } from "@store/slices/modalSlice";
+import { closeGDD } from "@store/slices/gddSlice";
 
 interface ProfileFormProps {
   modalRef: Ref<HTMLDivElement>;
@@ -75,8 +76,9 @@ export default function ProfileForm({ modalRef }: ProfileFormProps) {
   }
 
   function handleLogout() {
-    navigate("/login");
     dispatch(logout());
+    dispatch(closeGDD());
+    navigate("/login");
   }
 
   return (

@@ -11,6 +11,7 @@ import { ActiveModal } from "@store/slices/modalSlice";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { mechanicsFormTranslator } from "./localisation/mechanicsFormTranslator";
 import { createMechanicAPI } from "@services/mechanicsAPI";
+import { setLoading } from "@store/slices/loaderSlice";
 
 const initialState = {
   name: "",
@@ -30,6 +31,7 @@ function NewMechanicForm() {
   async function handleFormSubmit(): Promise<boolean> {
     if (formData.name.length <= 0) return false;
 
+    dispatch(setLoading(true));
     try {
       const res = await createMechanicAPI({ ...formData, gdd_id: gddId });
 
@@ -37,7 +39,14 @@ function NewMechanicForm() {
         dispatch(addMechanic(res.mechanic));
       }
     } catch (error) {
-      console.log(error);
+      dispatch(
+        showModal({
+          activeModal: ActiveModal.Info,
+          text: "something went wrong",
+        })
+      );
+    } finally {
+      dispatch(setLoading(false));
     }
 
     dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.success }));

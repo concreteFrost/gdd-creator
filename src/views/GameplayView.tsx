@@ -12,6 +12,7 @@ import * as style from "./styles/GameplayView.module.scss";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { gamplayFormTranslator } from "@components/Forms/GameplayForm/localisation/gameplayFormTranslator";
 import { updateGameplayAPI } from "@services/gameplayAPI";
+import { setLoading } from "@store/slices/loaderSlice";
 
 const initialFormData: GamePlay = {
   id: "",
@@ -37,6 +38,8 @@ function GameplayView() {
   async function handleFormSubmit() {
     const { id, ...data } = formData;
 
+    dispatch(setLoading(true));
+
     try {
       const res = await updateGameplayAPI(data, gddId);
 
@@ -52,9 +55,11 @@ function GameplayView() {
       dispatch(
         showModal({
           activeModal: ActiveModal.Info,
-          text: "Something went wrong",
+          text: "something went wrong",
         })
       );
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 

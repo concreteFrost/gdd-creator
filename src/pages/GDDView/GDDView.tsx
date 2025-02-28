@@ -2,17 +2,17 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import * as gddStyle from "./GDDView.module.scss";
 import { Route, Routes } from "react-router-dom";
 import GeneralInfo from "@views/Overview";
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@store/store";
-import { ActiveModal, ModalState, showModal } from "@store/slices/modalSlice";
+import { ActiveModal, showModal } from "@store/slices/modalSlice";
 import MechanicsView from "@views/MechanicsView";
 import GameplayView from "@views/GameplayView";
 import LocationsView from "@views/LocationsView";
 import CharactersView from "@views/CharactersView";
 import EditGddForm from "@components/Forms/GddForm/EditGDDForm";
 import { getGameplayAPI } from "@services/gameplayAPI";
-import { createGameplay, editGameplay } from "@store/slices/gameplaySlice";
+import { editGameplay } from "@store/slices/gameplaySlice";
 import { getGDDAPI } from "@services/gddAPI";
 import { createGDD } from "@store/slices/gddSlice";
 import { getAllMechanicsAPI } from "@services/mechanicsAPI";
@@ -47,9 +47,11 @@ function GDDView() {
       return;
     }
 
+    dispatch(setLoading(true));
+
     try {
       // Запускаем запросы параллельно
-      dispatch(setLoading(true));
+
       const [
         gddResponse,
         gameplayResponse,
@@ -92,7 +94,6 @@ function GDDView() {
 
       if (allLocationsResponse.success) {
         const allLocations = allLocationsResponse.locations;
-        console.log(allLocations);
         if (allLocations.length > 0)
           allLocations.forEach((l: GameLocation) => dispatch(addLocation(l)));
       }

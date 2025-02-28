@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { GameMechanic } from "@_types/gddTypes";
-import { FormEvent, useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import "react-quill-new/dist/quill.snow.css";
 import MechanicsForm from "./MechanicsForm";
 import { useState } from "react";
@@ -11,8 +11,8 @@ import { ActiveModal } from "@store/slices/modalSlice";
 import { useParams } from "react-router-dom";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { mechanicsFormTranslator } from "./localisation/mechanicsFormTranslator";
-import { updateGDDAPI } from "@services/gddAPI";
 import { updateMechanicAPI } from "@services/mechanicsAPI";
+import { setLoading } from "@store/slices/loaderSlice";
 
 const initialState: GameMechanic = {
   id: "",
@@ -48,6 +48,7 @@ function EditMechanicForm() {
   async function handleFormSubmit(): Promise<boolean> {
     if (formData.name.length <= 0) return false;
 
+    dispatch(setLoading(true));
     try {
       const res = await updateMechanicAPI({
         ...formData,
@@ -62,6 +63,8 @@ function EditMechanicForm() {
       }
     } catch (error: any) {
       dispatch(showModal({ activeModal: ActiveModal.Info, text: error }));
+    } finally {
+      dispatch(setLoading(false));
     }
 
     return true;

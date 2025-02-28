@@ -23,4 +23,14 @@
     @include button_mixins.button($form-background);
     color: $btn-primary-color;
   }
+
+  .forgot_password {
+    display: flex;
+    justify-content: center;
+    button {
+      @include button_mixins.button($form-background);
+      color: $btn-primary-color;
+      font-size: 0.8rem;
+    }
+  }
 }
