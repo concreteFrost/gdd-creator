@@ -11,12 +11,14 @@ import isStrongPassword from "@utils/passwordVerification";
 import { updatePasswordAPI } from "@services/auth";
 import { ActiveModal, showModal } from "@store/slices/modalSlice";
 import { closeGDD } from "@store/slices/gddSlice";
+import withConfirmationModal from "@components/_hoc/withConfirmationModal";
 
 interface ProfileFormProps {
   modalRef: Ref<HTMLDivElement>;
+  showConfirmationModal?: (text: string, callback: () => void) => void;
 }
 
-export default function ProfileForm({ modalRef }: ProfileFormProps) {
+function ProfileForm({ modalRef, showConfirmationModal }: ProfileFormProps) {
   const { username, email } = useSelector(
     (state: RootState) => state.authSlice
   );
@@ -81,6 +83,15 @@ export default function ProfileForm({ modalRef }: ProfileFormProps) {
     navigate("/login");
   }
 
+  async function handleDeleteAccountClick() {
+    if (!showConfirmationModal) return;
+
+    showConfirmationModal(
+      "You are about to delete your account!\n Are you sure ?",
+      () => console.log("account deleted")
+    );
+  }
+
   return (
     <div ref={modalRef} className={s.profile_content_wrapper}>
       <div className={s.form_group}>
@@ -128,10 +139,16 @@ export default function ProfileForm({ modalRef }: ProfileFormProps) {
 
       <div className={s.footer}>
         <CreateButton title="LOGOUT" action={handleLogout}></CreateButton>
-        <button role="button" className={s.delete_account_btn}>
+        <button
+          role="button"
+          className={s.delete_account_btn}
+          onClick={handleDeleteAccountClick}
+        >
           delete account
         </button>
       </div>
     </div>
   );
 }
+
+export default withConfirmationModal(ProfileForm);

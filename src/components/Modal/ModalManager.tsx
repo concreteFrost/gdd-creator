@@ -1,11 +1,10 @@
 import { ActiveModal } from "@store/slices/modalSlice";
 import { RootState } from "@store/store";
-import React from "react";
 import { useSelector } from "react-redux";
 import InfoModal from "./InfoModal";
 import RedirectModal from "./RedirectModal";
 import withModalWindow from "@components/_hoc/withModalWindow";
-import MechanicsTypeModal from "./MechanicsTypeModal";
+import ConfirmationModal from "./ConfirmationModal";
 
 function ModalManager() {
   const { activeModal } = useSelector((state: RootState) => state.modalSlice);
@@ -17,6 +16,8 @@ function ModalManager() {
       return <InfoModal></InfoModal>;
     case ActiveModal.Redirect:
       return <RedirectModal></RedirectModal>;
+    // case ActiveModal.Confirmation:
+    //   return <ConfirmationModal></ConfirmationModal>;
   }
 }
 

@@ -11,13 +11,19 @@ import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { gddListTranslator } from "./localisation/gddListTranslator";
 
 import { setLoading } from "@store/slices/loaderSlice";
+import withConfirmationModal from "@components/_hoc/withConfirmationModal";
 
-export default function ExistingGDDsList() {
+interface ExistingGDDListProps {
+  showConfirmationModal?: (text: string, callback: () => void) => void;
+}
+
+function ExistingGDDsList({ showConfirmationModal }: ExistingGDDListProps) {
+  const currentLang = useCurrentLanguage();
+  const loc = gddListTranslator[currentLang];
+
   const [gddList, setGddList] = useState<Array<GDD>>([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentLang = useCurrentLanguage();
-  const loc = gddListTranslator[currentLang];
 
   useEffect(() => {
     const fetchGDDList = async () => {
@@ -46,21 +52,26 @@ export default function ExistingGDDsList() {
   const handleDeleteGDD = async (id: string) => {
     try {
       const response = await deleteGDDAPI(id);
-
-      console.log(response);
       if (response.success) {
         const filtered = gddList.filter((g: GDD) => g.id !== id);
         setGddList(filtered);
       }
     } catch (error: any) {
       dispatch(showModal({ activeModal: ActiveModal.Info, text: error }));
-      console.log(error);
     }
   };
 
   function handleEditButtonClick(id: string) {
     dispatch(setSelectedGDD(id));
     navigate("/gdd/editGdd");
+  }
+
+  function handleDeleteButtonClick(gdd: GDD) {
+    if (!showConfirmationModal) return;
+
+    showConfirmationModal(loc.onDeleteMessage(gdd.title), () =>
+      handleDeleteGDD(gdd.id)
+    );
   }
 
   return (
@@ -78,7 +89,7 @@ export default function ExistingGDDsList() {
                 >
                   {icons.edit}
                 </button>
-                <button onClick={() => handleDeleteGDD(gdd.id)}>
+                <button onClick={() => handleDeleteButtonClick(gdd)}>
                   {icons.delete}
                 </button>
               </div>
@@ -91,3 +102,5 @@ export default function ExistingGDDsList() {
     </div>
   );
 }
+
+export default withConfirmationModal(ExistingGDDsList);

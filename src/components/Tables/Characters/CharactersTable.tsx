@@ -8,8 +8,17 @@ import { useHandleEmptyList } from "@hooks/useHandleEmptyList";
 import TableWithImages from "../TableWithImages";
 import { deleteCharacterAPI } from "@services/charactersAPI";
 import { ActiveModal, showModal } from "@store/slices/modalSlice";
+import { Character, GameLocation } from "@_types/gddTypes";
+import withConfirmationModal from "@components/_hoc/withConfirmationModal";
+import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import { tableTranslator } from "../localisation/tableTranslator";
 
-export default function CharactersTable() {
+interface CharacterTableProps {
+  showConfirmationModal?: (text: string, callback: () => void) => void;
+}
+function CharactersTable({ showConfirmationModal }: CharacterTableProps) {
+  const currentLang = useCurrentLanguage();
+  const loc = tableTranslator[currentLang];
   const characters = useSelector(
     (state: RootState) => state.charactersSlice.characters
   );
@@ -43,6 +52,14 @@ export default function CharactersTable() {
     }
   }
 
+  async function handleDeleteButtonClick(character: Character | GameLocation) {
+    if (!showConfirmationModal) return;
+
+    showConfirmationModal(loc.onDeleteMessage(character.name), () =>
+      handleDeleteCharacter(character.id)
+    );
+  }
+
   function handleDup(item: any) {
     dispatch(duplicateCharacter(item));
   }
@@ -51,7 +68,10 @@ export default function CharactersTable() {
     <TableWithImages
       handleDup={handleDup}
       data={sortedCharacters}
-      handleDeteleItem={handleDeleteCharacter}
+      handleDeteleItem={handleDeleteButtonClick}
+      loc={loc}
     ></TableWithImages>
   );
 }
+
+export default withConfirmationModal(CharactersTable);

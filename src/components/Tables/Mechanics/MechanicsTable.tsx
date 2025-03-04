@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import * as table_style from "../Table.module.scss";
 import * as button_style from "@components/Buttons/Button.module.scss";
 import { GameMechanic, GroupedMechanics } from "@_types/gddTypes";
@@ -9,21 +9,22 @@ import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
 import { tableTranslator } from "../localisation/tableTranslator";
 import { icons } from "@assets/icons";
 import { createMechanicAPI, deleteMechanicAPI } from "@services/mechanicsAPI";
-import { showModal } from "@store/slices/modalSlice";
 import { ActiveModal } from "@store/slices/modalSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@store/store";
 import { setLoading } from "@store/slices/loaderSlice";
+import { showModal } from "@store/slices/modalSlice";
+import withConfirmationModal from "@components/_hoc/withConfirmationModal";
 
 interface MechanicsTableProps {
   group: GroupedMechanics;
+  showConfirmationModal?: (text: string, callback: () => void) => void;
 }
 
-function MechanicsTable({ group }: MechanicsTableProps) {
-  if (group.mechanics.length === 0) return null;
-
+function MechanicsTable({ group, showConfirmationModal }: MechanicsTableProps) {
   const currentLang = useCurrentLanguage();
   const loc = tableTranslator[currentLang];
+
   const { id: gddId } = useSelector((state: RootState) => state.gddSlice.gdd);
 
   const navigate = useNavigate();
@@ -43,8 +44,21 @@ function MechanicsTable({ group }: MechanicsTableProps) {
         showModal({ activeModal: ActiveModal.Info, text: res.data.message })
       );
     } catch (error: any) {
-      dispatch(showModal({ activeModal: ActiveModal.Info, text: error }));
+      dispatch(
+        showModal({
+          activeModal: ActiveModal.Info,
+          text: error,
+        })
+      );
     }
+  }
+
+  async function handleDeleteButtonClick(mechanic: GameMechanic) {
+    if (!showConfirmationModal) return;
+
+    showConfirmationModal(loc.onDeleteMessage(mechanic.name), () =>
+      handleMechanicDelete(mechanic.id)
+    );
   }
 
   async function handleCreateDuplicate(mechanic: GameMechanic) {
@@ -61,6 +75,9 @@ function MechanicsTable({ group }: MechanicsTableProps) {
       dispatch(setLoading(false));
     }
   }
+
+  if (group.mechanics.length === 0) return null;
+
   return (
     <div className={table_style.table_wrapper}>
       <h3 className={table_style.section_header}>
@@ -100,7 +117,7 @@ function MechanicsTable({ group }: MechanicsTableProps) {
                   <button
                     className={button_style.delete_btn}
                     onClick={() => {
-                      handleMechanicDelete(mechanic.id);
+                      handleDeleteButtonClick(mechanic);
                     }}
                   >
                     {icons.delete}
@@ -115,4 +132,4 @@ function MechanicsTable({ group }: MechanicsTableProps) {
   );
 }
 
-export default memo(MechanicsTable);
+export default withConfirmationModal(MechanicsTable);

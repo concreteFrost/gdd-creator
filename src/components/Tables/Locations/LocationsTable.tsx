@@ -9,8 +9,19 @@ import TableWithImages from "../TableWithImages";
 import { deleteLocationAPI } from "@services/locationsAPI";
 import { showModal } from "@store/slices/modalSlice";
 import { ActiveModal } from "@store/slices/modalSlice";
+import { GameLocation, Character } from "@_types/gddTypes";
+import withConfirmationModal from "@components/_hoc/withConfirmationModal";
+import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
+import { tableTranslator } from "../localisation/tableTranslator";
 
-export default function LocationsTable() {
+interface LocationsTableProps {
+  showConfirmationModal?: (text: string, callback: () => void) => void;
+}
+
+function LocationsTable({ showConfirmationModal }: LocationsTableProps) {
+  const currentLang = useCurrentLanguage();
+  const loc = tableTranslator[currentLang];
+
   const locations = useSelector(
     (state: RootState) => state.locationsSlice.locations
   );
@@ -39,6 +50,14 @@ export default function LocationsTable() {
     }
   }
 
+  async function handleDeleteButtonClick(location: Character | GameLocation) {
+    if (!showConfirmationModal) return;
+
+    showConfirmationModal(loc.onDeleteMessage(location.name), () =>
+      handleLocationDelete(location.id)
+    );
+  }
+
   function handleDup(item: any) {
     dispatch(duplicateLocation(item));
   }
@@ -46,8 +65,11 @@ export default function LocationsTable() {
   return (
     <TableWithImages
       data={sortedLocations}
-      handleDeteleItem={handleLocationDelete}
+      handleDeteleItem={handleDeleteButtonClick}
       handleDup={handleDup}
+      loc={loc}
     ></TableWithImages>
   );
 }
+
+export default withConfirmationModal(LocationsTable);

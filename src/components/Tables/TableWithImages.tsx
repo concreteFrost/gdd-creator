@@ -4,20 +4,27 @@ import * as table_style from "./Table.module.scss";
 import * as button_style from "@components/Buttons/Button.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useCurrentLanguage } from "@hooks/useCurrentLanguage";
-import { tableTranslator } from "./localisation/tableTranslator";
+import {
+  tableTranslator,
+  TableWithImagesLabels,
+} from "./localisation/tableTranslator";
 import { icons } from "@assets/icons";
 
 interface TableProps {
   data: (Character | GameLocation)[];
-  handleDeteleItem: (itemId: string) => Promise<void>;
+  handleDeteleItem: (item: Character | GameLocation) => Promise<void>;
   handleDup: (item: Character | GameLocation) => void;
+  loc: TableWithImagesLabels;
 }
 
-function TableWithImages({ data, handleDeteleItem, handleDup }: TableProps) {
+function TableWithImages({
+  data,
+  handleDeteleItem,
+  handleDup,
+  loc,
+}: TableProps) {
   const navigate: any = useNavigate();
 
-  const currentLang = useCurrentLanguage();
-  const loc = tableTranslator[currentLang];
   return (
     <table className={table_style.table}>
       <thead>
@@ -73,7 +80,7 @@ function TableWithImages({ data, handleDeteleItem, handleDup }: TableProps) {
               <button
                 className={button_style.delete_btn}
                 onClick={() => {
-                  handleDeteleItem(item.id);
+                  handleDeteleItem(item);
                 }}
               >
                 {icons.delete}
