@@ -25,6 +25,8 @@ function TableWithImages({
 }: TableProps) {
   const navigate: any = useNavigate();
 
+  console.log(data);
+
   return (
     <table className={table_style.table}>
       <thead>

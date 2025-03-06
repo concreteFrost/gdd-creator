@@ -56,7 +56,7 @@ const Register = () => {
       );
       navigate("/");
     } catch (error: any) {
-      setErrorMsaage(`*${error}`);
+      setErrorMsaage(`${error}`);
     } finally {
       dispatch(setLoading(false));
     }

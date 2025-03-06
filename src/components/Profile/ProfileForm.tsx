@@ -1,24 +1,30 @@
-import React, { useActionState, useState } from "react";
+import { useActionState, useState } from "react";
 import CreateButton from "@components/Buttons/CreateButton/CreateButton";
 import * as s from "./Profile.module.scss";
 import useClearOnTime from "@hooks/useClearOnTime";
-import { useActionData, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@store/slices/authSlice";
 import { RootState } from "@store/store";
 import { Ref } from "react";
 import isStrongPassword from "@utils/passwordVerification";
-import { updatePasswordAPI } from "@services/auth";
+import { deleteAccountAPI, updatePasswordAPI } from "@services/auth";
 import { ActiveModal, showModal } from "@store/slices/modalSlice";
 import { closeGDD } from "@store/slices/gddSlice";
 import withConfirmationModal from "@components/_hoc/withConfirmationModal";
+import { setLoading } from "@store/slices/loaderSlice";
 
 interface ProfileFormProps {
   modalRef: Ref<HTMLDivElement>;
   showConfirmationModal?: (text: string, callback: () => void) => void;
+  setProfileVisible: (isVisible: boolean) => void;
 }
 
-function ProfileForm({ modalRef, showConfirmationModal }: ProfileFormProps) {
+function ProfileForm({
+  modalRef,
+  showConfirmationModal,
+  setProfileVisible,
+}: ProfileFormProps) {
   const { username, email } = useSelector(
     (state: RootState) => state.authSlice
   );
@@ -77,6 +83,33 @@ function ProfileForm({ modalRef, showConfirmationModal }: ProfileFormProps) {
     }
   }
 
+  async function handleAccountDeletion() {
+    dispatch(setLoading(true));
+    try {
+      const res = await deleteAccountAPI();
+
+      if (res.success) {
+        handleLogout();
+      } else {
+        dispatch(
+          showModal({
+            activeModal: ActiveModal.Info,
+            text: "Something went wrong",
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(
+        showModal({
+          activeModal: ActiveModal.Info,
+          text: "Something went wrong",
+        })
+      );
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+
   function handleLogout() {
     dispatch(logout());
     dispatch(closeGDD());
@@ -88,12 +121,20 @@ function ProfileForm({ modalRef, showConfirmationModal }: ProfileFormProps) {
 
     showConfirmationModal(
       "You are about to delete your account!\n Are you sure ?",
-      () => console.log("account deleted")
+      () => handleAccountDeletion()
     );
   }
 
   return (
     <div ref={modalRef} className={s.profile_content_wrapper}>
+      <span>
+        <button
+          className={s.close_btn}
+          onClick={() => setProfileVisible(false)}
+        >
+          x
+        </button>
+      </span>
       <div className={s.form_group}>
         <label htmlFor="">Name:</label>
         <input type="text" readOnly value={username} />

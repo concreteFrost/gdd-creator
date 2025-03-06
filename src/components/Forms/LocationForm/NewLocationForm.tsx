@@ -57,7 +57,9 @@ export default function NewLocationForm() {
 
       if (res.success) {
         dispatch(addLocation(res.location));
-        dispatch(showModal({ activeModal: ActiveModal.Info, text: loc.save }));
+        dispatch(
+          showModal({ activeModal: ActiveModal.Info, text: loc.successMessage })
+        );
         setFormData(initialFormData);
       }
 

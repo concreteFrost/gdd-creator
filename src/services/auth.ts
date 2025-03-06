@@ -115,3 +115,14 @@ export const resetPasswordAPI = async (
     throw error.response.data.message;
   }
 };
+
+export const deleteAccountAPI = async (): Promise<BaseResponse> => {
+  try {
+    const response: AxiosResponse<BaseResponse> = await axiosClient.delete(
+      "/auth/delete-user"
+    );
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data.message;
+  }
+};

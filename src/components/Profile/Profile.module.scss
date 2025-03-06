@@ -70,6 +70,17 @@
       color: color.scale(gray, $lightness: -50%);
     }
   }
+
+  span {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+
+    .close_btn {
+      @include button($btn-primary-color);
+      padding: 4px 8px;
+    }
+  }
 }
 
 .reset_password_form {

@@ -88,6 +88,7 @@ function GDDView() {
 
       if (allCharactersResponse.success) {
         const allCharacters = allCharactersResponse.characters;
+        console.log(allCharacters);
         if (allCharacters.length > 0)
           allCharacters.forEach((c: Character) => dispatch(addCharacter(c)));
       }
