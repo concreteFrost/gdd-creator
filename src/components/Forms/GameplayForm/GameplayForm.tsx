@@ -167,7 +167,7 @@ function GameplayForm({
             className={button_styles.create_btn}
             data-testid="test-submit-form"
           >
-            {t.save}
+            {t.saveBtn}
           </button>
         </div>
       </form>

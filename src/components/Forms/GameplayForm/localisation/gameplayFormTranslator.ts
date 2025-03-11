@@ -8,6 +8,7 @@ export interface GameplayFormTranslator {
   pacing: string;
   player_experience: string;
   save: string;
+  saveBtn: string;
 }
 
 export const gamplayFormTranslator = {
@@ -20,10 +21,11 @@ export const gamplayFormTranslator = {
     difficulty: "Difficulty",
     pacing: "Pacing",
     player_experience: "Player Experience",
-    save: "Save",
+    save: "Saved",
+    saveBtn: "Save",
   },
   ru: {
-    story: "Сюжет",
+    story: "Описание",
     objectives: "Цели",
     objectivesHint: "нажмите Enter, чтобы добавить",
     progression: "Прогрессия",
@@ -31,6 +33,7 @@ export const gamplayFormTranslator = {
     difficulty: "Сложность",
     pacing: "Темп игры",
     player_experience: "Опыт игрока",
-    save: "Сохранить",
+    save: "Сохранено",
+    saveBtn: "Сохранить",
   },
 };

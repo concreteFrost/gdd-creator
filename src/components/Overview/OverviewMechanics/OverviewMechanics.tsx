@@ -16,7 +16,7 @@ export default function OverviewMechanics() {
   const { types } = useSelector((state: RootState) => state.mechanicsTypeSlice);
   const currentLang = useCurrentLanguage();
 
-  if (mechanics.length <= 0 || types.length <= 0) {
+  if (mechanics.length <= 0) {
     console.log("no mechanics were found");
     return null;
   }
