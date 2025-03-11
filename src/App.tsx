@@ -8,7 +8,6 @@ import SetLocalisation from "@components/Localisation/SetLocalisation";
 import LoginPage from "@pages/Auth/Login";
 import Register from "@pages/Auth/Register";
 import ProtectedRoute from "@components/ProtectedRoute/ProtectedRoute";
-import { TailSpin } from "react-loader-spinner";
 import Spinner from "@components/Loader/Spinner";
 import PasswordReset from "@pages/PasswordReset/PasswordReset";
 
